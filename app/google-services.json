@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "330175559508",
+    "project_id": "e2tech",
+    "storage_bucket": "e2tech.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:330175559508:android:e196f0646faf5a9655fac1",
+        "android_client_info": {
+          "package_name": "com.example.e2tech"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "330175559508-89q9oadueih8k3efddaga2m7e21km8r6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.e2tech",
+            "certificate_hash": "44bdb04af9e1d456e48df9efc469957c6d8a51a8"
+          }
+        },
+        {
+          "client_id": "330175559508-57ld262dnloqvjmv1kk7mfsa4pjpfp7p.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBpUbM99t1Y7VwOrpED_Q4Z9T3kNXnEyAI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "330175559508-57ld262dnloqvjmv1kk7mfsa4pjpfp7p.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
