@@ -151,9 +151,9 @@ public class RegisterActivity extends AppCompatActivity {
                                             if (task.isSuccessful()) {
                                                 Toast.makeText(RegisterActivity.this, "Hi " + user.getDisplayName(), Toast.LENGTH_LONG).show();
                                                 progressBar.setVisibility(View.GONE);
-                                                Intent mainIntent = new Intent(RegisterActivity.this, MainActivity.class);
-                                                mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                                startActivity(mainIntent);
+                                                Intent loginIntent = new Intent(RegisterActivity.this, LoginActivity.class);
+                                                loginIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                                startActivity(loginIntent);
                                                 finish();
                                             } else {
                                                 Toast.makeText(RegisterActivity.this, "Error" + task.getException(), Toast.LENGTH_LONG).show();

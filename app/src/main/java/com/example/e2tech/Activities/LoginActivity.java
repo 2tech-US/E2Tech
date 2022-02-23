@@ -2,7 +2,6 @@ package com.example.e2tech.Activities;
 
 
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,16 +27,13 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-
-import java.util.HashMap;
 
 public class LoginActivity extends AppCompatActivity {
 
     private EditText email, password, name;
     private Button mlogin;
-    private TextView newdnewaccount, reocverpass;
+    private TextView tvRegister, tvForgetPassword;
+    private ProgressBar progressBar;
     FirebaseUser currentUser;
     private FirebaseAuth mAuth;
 
@@ -52,8 +49,10 @@ public class LoginActivity extends AppCompatActivity {
         // initialising the layout items
         email = findViewById(R.id.login_email);
         password = findViewById(R.id.login_password);
-        newdnewaccount = findViewById(R.id.needs_new_account);
-        reocverpass = findViewById(R.id.forgetp);
+        tvRegister = findViewById(R.id.needs_new_account);
+        tvForgetPassword = findViewById(R.id.forget_password);
+        progressBar = findViewById(R.id.login_progressbar);
+
         mAuth = FirebaseAuth.getInstance();
         mlogin = findViewById(R.id.login_button);
         mAuth = FirebaseAuth.getInstance();
@@ -81,20 +80,23 @@ public class LoginActivity extends AppCompatActivity {
         });
 
         // If new account then move to Registration Activity
-        newdnewaccount.setOnClickListener(new View.OnClickListener() {
+        tvRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
             }
         });
 
-        // Recover Your Password using email
-        reocverpass.setOnClickListener(new View.OnClickListener() {
+        // Reset Your Password using email
+        tvForgetPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showRecoverPasswordDialog();
+//                showRecoverPasswordDialog();
+                Intent intent = new Intent(LoginActivity.this, ForgetPassActivity.class);
+                startActivity(intent);
             }
         });
+
     }
 
     private void showRecoverPasswordDialog() {
@@ -102,7 +104,7 @@ public class LoginActivity extends AppCompatActivity {
         builder.setTitle("Recover Password");
         LinearLayout linearLayout = new LinearLayout(this);
         final EditText emailet = new EditText(this);//write your registered email
-        emailet.setText("Email");
+        emailet.setHint("Email");
         emailet.setMinEms(16);
         emailet.setInputType(InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
         linearLayout.addView(emailet);
@@ -146,7 +148,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void loginUser(String emaill, String pass) {
 
-
+        progressBar.setVisibility(View.VISIBLE);
         // sign in with email and password after authenticating
         mAuth.signInWithEmailAndPassword(emaill, pass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
@@ -155,23 +157,26 @@ public class LoginActivity extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     FirebaseUser user = mAuth.getCurrentUser();
                     if (user.isEmailVerified()) {
+                        progressBar.setVisibility(View.GONE);
                         Toast.makeText(LoginActivity.this, "Registered User " + user.getDisplayName(), Toast.LENGTH_LONG).show();
                         Intent mainIntent = new Intent(LoginActivity.this, MainActivity.class);
                         mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(mainIntent);
                         finish();
                     } else {
+                        progressBar.setVisibility(View.GONE);
                         user.sendEmailVerification();
                         Toast.makeText(LoginActivity.this, "Check your email to verify your account", Toast.LENGTH_LONG).show();
                     }
                 } else {
+                    progressBar.setVisibility(View.GONE);
                     Toast.makeText(LoginActivity.this, "Login Failed", Toast.LENGTH_LONG).show();
                 }
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-
+                progressBar.setVisibility(View.GONE);
                 Toast.makeText(LoginActivity.this, "Error Occured", Toast.LENGTH_LONG).show();
             }
         });

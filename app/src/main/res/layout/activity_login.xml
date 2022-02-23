@@ -17,12 +17,12 @@
             android:layout_height="wrap_content">
 
             <TextView
-                android:id="@+id/welcom"
+                android:id="@+id/welcome"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="120dp"
                 android:layout_marginTop="50dp"
-                android:text="Welcome!"
+                android:text="Welcome to 2Tech!"
+                android:textAlignment="center"
                 android:textSize="30sp"
                 android:textStyle="italic|bold" />
 
@@ -30,7 +30,7 @@
                 android:id="@+id/email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/welcom"
+                android:layout_below="@id/welcome"
                 android:layout_marginStart="35dp"
                 android:layout_marginTop="120dp"
                 android:text="Email" />
@@ -71,7 +71,7 @@
                 android:padding="8dp" />
 
             <TextView
-                android:id="@+id/forgetp"
+                android:id="@+id/forget_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/login_password"
@@ -87,7 +87,7 @@
                 android:id="@+id/login_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/forgetp"
+                android:layout_below="@+id/forget_password"
                 android:layout_marginLeft="30dp"
                 android:layout_marginTop="15dp"
                 android:layout_marginRight="30dp"
@@ -112,6 +112,13 @@
 
                 android:textSize="17sp"
                 android:textStyle="bold" />
+
+            <ProgressBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/login_progressbar"
+                android:visibility="gone"
+                android:layout_centerInParent="true"/>
         </RelativeLayout>
 
     </ScrollView>
