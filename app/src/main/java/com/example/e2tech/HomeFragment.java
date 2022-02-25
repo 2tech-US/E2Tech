@@ -3,17 +3,36 @@ package com.example.e2tech;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.e2tech.Activities.LoginActivity;
+import com.example.e2tech.Adapters.BannerSliderAdapter;
+import com.example.e2tech.Adapters.CategoryAdapter;
+import com.example.e2tech.Models.BannerModel;
+import com.example.e2tech.Models.CategoryModel;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FirebaseStorage;
+import com.smarteist.autoimageslider.SliderView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -24,8 +43,19 @@ public class HomeFragment extends Fragment {
 
     FirebaseAuth mAuth;
     FirebaseUser currentUser;
+    FirebaseFirestore db;
     Button btnLogout;
     TextView tvUsername;
+
+    SliderView bannerSliderView;
+    List<BannerModel> bannerList;
+    BannerSliderAdapter bannerSliderAdapter;
+
+    RecyclerView categoryRecyclerView;
+    CategoryAdapter categoryAdapter;
+    List<CategoryModel> categoryModelList;
+
+
     public HomeFragment() {
         // Required empty public constructor
     }
@@ -57,6 +87,7 @@ public class HomeFragment extends Fragment {
         // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.fragment_home, container, false);
         mAuth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
         FirebaseUser currentUser = mAuth.getCurrentUser();
         String email = currentUser.getEmail();
 
@@ -75,6 +106,61 @@ public class HomeFragment extends Fragment {
                 getActivity().finishAffinity();
             }
         });
+
+        bannerList = new ArrayList<>();
+        bannerSliderView = root.findViewById(R.id.imageBannerSlider);
+
+//        bannerList.add(new BannerModel(R.drawable.home_games_slide_2));
+//        bannerList.add(new BannerModel(R.drawable.home_tec_slide_4));
+//        bannerList.add(new BannerModel(R.drawable.home_tecnologia_slide_6));
+
+        bannerSliderAdapter = new BannerSliderAdapter(getActivity(), bannerList);
+        bannerSliderView.setSliderAdapter(bannerSliderAdapter);
+
+        db.collection("Banners")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot documentSnapshot: task.getResult()) {
+                                BannerModel bannerModel = documentSnapshot.toObject(BannerModel.class);
+                                bannerList.add(bannerModel);
+                                bannerSliderAdapter.notifyDataSetChanged();
+                            }
+                        } else {
+                            Toast.makeText(getActivity(), "Error" + task.getException(), Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
+
+        categoryModelList = new ArrayList<>();
+        categoryRecyclerView = root.findViewById(R.id.home_category_recycler);
+        categoryRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), RecyclerView.HORIZONTAL, false));
+        categoryAdapter = new CategoryAdapter(getActivity(), categoryModelList);
+        categoryRecyclerView.setAdapter(categoryAdapter);
+
+        db.collection("Categories")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot documentSnapshot: task.getResult()) {
+                                CategoryModel categoryModel = documentSnapshot.toObject(CategoryModel.class);
+                                String id = documentSnapshot.getId();
+                                categoryModel.setId(id);
+
+                                Log.v("CATEGORY", "\n\n" + categoryModel.getName());
+
+                                categoryModelList.add(categoryModel);
+                                categoryAdapter.notifyDataSetChanged();
+                            }
+                        } else {
+                            Toast.makeText(getActivity(), "Error" + task.getException(), Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
 
 
 
