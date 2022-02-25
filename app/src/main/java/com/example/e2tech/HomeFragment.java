@@ -5,7 +5,10 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +18,9 @@ import android.widget.Toast;
 
 import com.example.e2tech.Activities.LoginActivity;
 import com.example.e2tech.Adapters.BannerSliderAdapter;
+import com.example.e2tech.Adapters.CategoryAdapter;
 import com.example.e2tech.Models.BannerModel;
+import com.example.e2tech.Models.CategoryModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -45,6 +50,11 @@ public class HomeFragment extends Fragment {
     SliderView bannerSliderView;
     List<BannerModel> bannerList;
     BannerSliderAdapter bannerSliderAdapter;
+
+    RecyclerView categoryRecyclerView;
+    CategoryAdapter categoryAdapter;
+    List<CategoryModel> categoryModelList;
+
 
     public HomeFragment() {
         // Required empty public constructor
@@ -123,6 +133,35 @@ public class HomeFragment extends Fragment {
                         }
                     }
                 });
+
+        categoryModelList = new ArrayList<>();
+        categoryRecyclerView = root.findViewById(R.id.home_category_recycler);
+        categoryRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), RecyclerView.HORIZONTAL, false));
+        categoryAdapter = new CategoryAdapter(getActivity(), categoryModelList);
+        categoryRecyclerView.setAdapter(categoryAdapter);
+
+        db.collection("Categories")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot documentSnapshot: task.getResult()) {
+                                CategoryModel categoryModel = documentSnapshot.toObject(CategoryModel.class);
+                                String id = documentSnapshot.getId();
+                                categoryModel.setId(id);
+
+                                Log.v("CATEGORY", "\n\n" + categoryModel.getName());
+
+                                categoryModelList.add(categoryModel);
+                                categoryAdapter.notifyDataSetChanged();
+                            }
+                        } else {
+                            Toast.makeText(getActivity(), "Error" + task.getException(), Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
+
 
 
         return root;

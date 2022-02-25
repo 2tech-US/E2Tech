@@ -15,4 +15,14 @@
     <string name="title_activity_splash_screen">SplashScreen</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="categories">Categories</string>
+    <string name="see_all">See all</string>
+    <string name="laptop">Laptop</string>
+    <string name="cell_phone">Cell Phone</string>
+    <string name="tablet">Tablet</string>
+    <string name="audio">Audio</string>
+    <string name="monitor">Monitor</string>
+    <string name="storage">Storage</string>
+    <string name="computer_component">Computer Component</string>
+    <string name="wifi_networking">Wifi Networking</string>
 </resources>
