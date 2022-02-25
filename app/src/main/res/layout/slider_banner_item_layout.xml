@@ -7,8 +7,9 @@
 
     <ImageView
         android:id="@+id/img_banner"
+        android:src="@drawable/home_tecnologia_slide_6"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="200dp"
         android:scaleType="centerCrop"/>
 
 </LinearLayout>

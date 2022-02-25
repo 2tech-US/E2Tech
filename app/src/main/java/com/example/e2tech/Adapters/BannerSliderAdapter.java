@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.e2tech.Models.BannerModel;
 import com.example.e2tech.R;
 import com.smarteist.autoimageslider.SliderViewAdapter;
@@ -31,7 +32,9 @@ public class BannerSliderAdapter extends SliderViewAdapter<BannerSliderAdapter.S
 
     @Override
     public void onBindViewHolder(SliderAdapterVH viewHolder, int position) {
-        viewHolder.bannerImgView.setImageResource(bannerList.get(position).getImgId());
+        //viewHolder.bannerImgView.setImageResource(bannerList.get(position).getImgId());
+        Glide.with(context).load(bannerList.get(position).getImg_url()).into(viewHolder.bannerImgView);
+
     }
 
 
