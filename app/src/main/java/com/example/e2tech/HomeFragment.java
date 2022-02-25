@@ -12,8 +12,14 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.e2tech.Activities.LoginActivity;
+import com.example.e2tech.Adapters.BannerSliderAdapter;
+import com.example.e2tech.Models.BannerModel;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.smarteist.autoimageslider.SliderView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -26,6 +32,11 @@ public class HomeFragment extends Fragment {
     FirebaseUser currentUser;
     Button btnLogout;
     TextView tvUsername;
+
+    SliderView bannerSliderView;
+    List<BannerModel> bannerList;
+    BannerSliderAdapter bannerSliderAdapter;
+
     public HomeFragment() {
         // Required empty public constructor
     }
@@ -76,7 +87,15 @@ public class HomeFragment extends Fragment {
             }
         });
 
+        bannerList = new ArrayList<>();
+        bannerSliderView = root.findViewById(R.id.imageBannerSlider);
 
+        bannerList.add(new BannerModel(R.drawable.home_games_slide_2));
+        bannerList.add(new BannerModel(R.drawable.home_tec_slide_4));
+        bannerList.add(new BannerModel(R.drawable.home_tecnologia_slide_6));
+
+        bannerSliderAdapter = new BannerSliderAdapter(getActivity(), bannerList);
+        bannerSliderView.setSliderAdapter(bannerSliderAdapter);
 
         return root;
     }
