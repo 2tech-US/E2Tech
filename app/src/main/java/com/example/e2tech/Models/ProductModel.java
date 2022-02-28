@@ -3,41 +3,63 @@ package com.example.e2tech.Models;
 public class ProductModel {
 
     String name;
+    int price;
     String description;
-    String rating;
-    String discount;
+    double rating;
+    double discount;
     String type;
     String img_url;
     String id;
+    String company;
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public ProductModel(String name, String description, String rating, String discount, String type, String img_url, String id) {
+    public ProductModel(String name, int price, String description, double rating, double discount, String type, String img_url, String id, String company) {
         this.name = name;
+        this.price = price;
         this.description = description;
         this.rating = rating;
         this.discount = discount;
         this.type = type;
         this.img_url = img_url;
         this.id = id;
+        this.company = company;
+    }
+
+    public ProductModel(String name, int price, String description, double rating, double discount, String type, String img_url, String company) {
+        this.name = name;
+        this.price = price;
+        this.description = description;
+        this.rating = rating;
+        this.discount = discount;
+        this.type = type;
+        this.img_url = img_url;
+        this.company = company;
+    }
+
+    public ProductModel(String name, int price, String description, String type, String img_url) {
+        this.name = name;
+        this.price = price;
+        this.description = description;
+        this.type = type;
+        this.img_url = img_url;
+    }
+
+    public ProductModel(String name, int price, String description, double rating, String img_url, String company) {
+        this.name = name;
+        this.price = price;
+        this.description = description;
+        this.rating = rating;
+        this.img_url = img_url;
+        this.company = company;
+    }
+
+    public ProductModel(String name, int price, String type, String img_url) {
+        this.name = name;
+        this.price = price;
+        this.type = type;
+        this.img_url = img_url;
     }
 
     public ProductModel() {
-    }
-
-    public ProductModel(String name, String description, String rating, String discount, String type, String img_url) {
-        this.name = name;
-        this.description = description;
-        this.rating = rating;
-        this.discount = discount;
-        this.type = type;
-        this.img_url = img_url;
     }
 
     public String getName() {
@@ -48,6 +70,14 @@ public class ProductModel {
         this.name = name;
     }
 
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
+    }
+
     public String getDescription() {
         return description;
     }
@@ -56,19 +86,19 @@ public class ProductModel {
         this.description = description;
     }
 
-    public String getRating() {
+    public double getRating() {
         return rating;
     }
 
-    public void setRating(String rating) {
+    public void setRating(double rating) {
         this.rating = rating;
     }
 
-    public String getDiscount() {
+    public double getDiscount() {
         return discount;
     }
 
-    public void setDiscount(String discount) {
+    public void setDiscount(double discount) {
         this.discount = discount;
     }
 
@@ -86,5 +116,21 @@ public class ProductModel {
 
     public void setImg_url(String img_url) {
         this.img_url = img_url;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getCompany() {
+        return company;
+    }
+
+    public void setCompany(String company) {
+        this.company = company;
     }
 }
