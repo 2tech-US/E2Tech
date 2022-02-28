@@ -1,16 +1,90 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/card_4"
-    tools:context=".MeFragment">
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="me" />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-</FrameLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="77dp"
+                    android:layout_height="54dp"
+                    android:layout_marginTop="10dp"
+                    android:src="@drawable/user" />
+                <TextView
+                    android:id="@+id/txtMeUsername"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:textSize="25sp"
+                    android:text="Ten khach hang"/>
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btnInfor"
+                android:layout_width="match_parent"
+                android:layout_height="65dp"
+                android:layout_marginTop="40dp"
+                android:text="Thong tin ca nhan"
+                app:icon="@drawable/outline_account_circle_24"/>
+
+            <Button
+                android:id="@+id/btnCart"
+                android:layout_width="match_parent"
+                android:layout_height="65dp"
+                android:layout_marginTop="10dp"
+                android:text="Gio Hang"
+                app:icon="@drawable/outline_shopping_cart_24" />
+
+            <Button
+                android:id="@+id/btnHistory"
+                android:layout_width="match_parent"
+                android:layout_height="65dp"
+                android:layout_marginTop="10dp"
+                android:text="Lich su mua hang"
+                app:icon="@drawable/ic_baseline_history_24" />
+
+            <Button
+                android:id="@+id/btnFavorite"
+                android:layout_width="match_parent"
+                android:layout_height="65dp"
+                android:layout_marginTop="10dp"
+                android:text="San pham yeu thich"
+                app:icon="@drawable/outline_favorite_24" />
+
+            <Button
+                android:id="@+id/btnAddProduct"
+                android:layout_width="match_parent"
+                android:layout_height="65dp"
+                android:layout_marginTop="10dp"
+                android:text="Them san pham (Admin)"
+                app:icon="@drawable/ic_baseline_add_circle_24" />
+
+            <Button
+                android:id="@+id/btnOrderManage"
+                android:layout_width="match_parent"
+                android:layout_height="65dp"
+                android:layout_marginTop="10dp"
+                android:text="Quan ly don hang (Admin)"
+                app:icon="@drawable/ic_baseline_star_border_24" />
+
+        </LinearLayout>
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

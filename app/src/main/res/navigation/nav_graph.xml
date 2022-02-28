@@ -34,7 +34,11 @@
         android:id="@+id/meFragment"
         android:name="com.example.e2tech.MeFragment"
         android:label="fragment_me"
-        tools:layout="@layout/fragment_me" />
+        tools:layout="@layout/fragment_me" >
+        <action
+            android:id="@+id/action_meFragment_to_fragment_infor"
+            app:destination="@id/fragment_infor" />
+    </fragment>
     <fragment
         android:id="@+id/detailFragment"
         android:name="com.example.e2tech.DetailFragment"
@@ -51,5 +55,13 @@
             android:name="id"
             app:argType="string" />
     </action>
+    <fragment
+        android:id="@+id/fragment_infor"
+        android:name="com.example.e2tech.Fragment_infor"
+        android:label="Fragment_infor" >
+        <action
+            android:id="@+id/action_fragment_infor_to_meFragment"
+            app:destination="@id/meFragment" />
+    </fragment>
 
 </navigation>

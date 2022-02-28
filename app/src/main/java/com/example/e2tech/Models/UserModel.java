@@ -2,7 +2,7 @@ package com.example.e2tech.Models;
 
 public class UserModel {
 
-    String username, password, email, address, img_url, id;
+    String username, password, email, address, age, phone, gender, img_url, id;
 
     public UserModel() {
 
@@ -33,6 +33,16 @@ public class UserModel {
         this.address = address;
         this.img_url = img_url;
         this.id = id;
+    }
+
+    public UserModel(String username, String password, String email, String address, String age, String phone, String gender) {
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.address = address;
+        this.age = age;
+        this.phone = phone;
+        this.gender = gender;
     }
 
     public String getUsername() {
