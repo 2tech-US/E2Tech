@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -19,8 +20,10 @@ import android.widget.Toast;
 import com.example.e2tech.Activities.LoginActivity;
 import com.example.e2tech.Adapters.BannerSliderAdapter;
 import com.example.e2tech.Adapters.CategoryAdapter;
+import com.example.e2tech.Adapters.PopularAdapter;
 import com.example.e2tech.Models.BannerModel;
 import com.example.e2tech.Models.CategoryModel;
+import com.example.e2tech.Models.ProductModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -54,6 +57,10 @@ public class HomeFragment extends Fragment {
     RecyclerView categoryRecyclerView;
     CategoryAdapter categoryAdapter;
     List<CategoryModel> categoryModelList;
+
+    RecyclerView popularRecyclerView;
+    PopularAdapter popularAdapter;
+    ArrayList<ProductModel> productList;
 
 
     public HomeFragment() {
@@ -162,6 +169,32 @@ public class HomeFragment extends Fragment {
                     }
                 });
 
+        productList = new ArrayList<>();
+        popularRecyclerView = root.findViewById(R.id.home_popular_recycler);
+        popularRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
+
+        popularAdapter = new PopularAdapter(getActivity(), productList);
+        popularRecyclerView.setAdapter(popularAdapter);
+
+        db.collection("PopularProducts")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot documentSnapshot: task.getResult()) {
+                                ProductModel productModel = documentSnapshot.toObject(ProductModel.class);
+                                String id = documentSnapshot.getId();
+                                productModel.setId(id);
+                                productList.add(productModel);
+                                popularAdapter.notifyDataSetChanged();
+                            }
+                        } else {
+                            Toast.makeText(getActivity(), "Error" + task.getException(), Toast.LENGTH_SHORT).show();
+                            Log.e("FIREBASE","ERRROR" + task.getException());
+                        }
+                    }
+                });
 
 
         return root;

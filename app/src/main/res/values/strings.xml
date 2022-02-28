@@ -25,4 +25,5 @@
     <string name="storage">Storage</string>
     <string name="computer_component">Computer Component</string>
     <string name="wifi_networking">Wifi Networking</string>
+    <string name="popular">Popular Products</string>
 </resources>
