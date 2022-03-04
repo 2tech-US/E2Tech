@@ -5,15 +5,17 @@ public class CartModel {
     int productPrice;
     int totalQuantity;
     int totalPrice;
+    String productImageURL;
 
     public CartModel() {
     }
 
-    public CartModel(String productName, int productPrice, int totalQuantity, int totalPrice) {
+    public CartModel(String productName, int productPrice, int totalQuantity, int totalPrice, String productImageURL) {
         this.productName = productName;
         this.productPrice = productPrice;
         this.totalQuantity = totalQuantity;
         this.totalPrice = totalPrice;
+        this.productImageURL = productImageURL;
     }
 
     public String getProductName() {
@@ -46,5 +48,13 @@ public class CartModel {
 
     public void setTotalPrice(int totalPrice) {
         this.totalPrice = totalPrice;
+    }
+
+    public String getProductImageURL() {
+        return productImageURL;
+    }
+
+    public void setProductImageURL(String productImageURL) {
+        this.productImageURL = productImageURL;
     }
 }
