@@ -1,7 +1,6 @@
 package com.example.e2tech.Adapters;
 
 import android.content.Context;
-import android.hardware.lights.LightsManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,8 +34,8 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
         holder.name.setText(cartModelList.get(position).getProductName());
-        holder.price.setText(cartModelList.get(position).getProductPrice());
-        holder.quantity.setText(cartModelList.get(position).getQuantity());
+        holder.price.setText(String.valueOf(cartModelList.get(position).getProductPrice()));
+        holder.quantity.setText(String.valueOf(cartModelList.get(position).getTotalQuantity()));
         holder.totalPrice.setText(String.valueOf(cartModelList.get(position).getTotalPrice()));
 
     }

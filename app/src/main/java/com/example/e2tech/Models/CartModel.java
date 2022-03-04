@@ -2,17 +2,17 @@ package com.example.e2tech.Models;
 
 public class CartModel {
     String productName;
-    String productPrice;
-    String quantity;
+    int productPrice;
+    int totalQuantity;
     int totalPrice;
 
     public CartModel() {
     }
 
-    public CartModel(String productName, String productPrice, String quantity, int totalPrice) {
+    public CartModel(String productName, int productPrice, int totalQuantity, int totalPrice) {
         this.productName = productName;
         this.productPrice = productPrice;
-        this.quantity = quantity;
+        this.totalQuantity = totalQuantity;
         this.totalPrice = totalPrice;
     }
 
@@ -24,20 +24,20 @@ public class CartModel {
         this.productName = productName;
     }
 
-    public String getProductPrice() {
+    public int getProductPrice() {
         return productPrice;
     }
 
-    public void setProductPrice(String productPrice) {
+    public void setProductPrice(int productPrice) {
         this.productPrice = productPrice;
     }
 
-    public String getQuantity() {
-        return quantity;
+    public int getTotalQuantity() {
+        return totalQuantity;
     }
 
-    public void setQuantity(String quantity) {
-        this.quantity = quantity;
+    public void setTotalQuantity(int totalQuantity) {
+        this.totalQuantity = totalQuantity;
     }
 
     public int getTotalPrice() {
