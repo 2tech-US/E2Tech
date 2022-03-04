@@ -15,6 +15,7 @@
         <entry key="..\:/Data/KHTN/Nam_3/hoc_ky_2/MobileAndroid/project/E2Tech/app/src/main/res/drawable/ic_baseline_home_24.xml" value="0.2703125" />
         <entry key="..\:/Data/KHTN/Nam_3/hoc_ky_2/MobileAndroid/project/E2Tech/app/src/main/res/drawable/ic_baseline_search_24.xml" value="0.1" />
         <entry key="..\:/Data/KHTN/Nam_3/hoc_ky_2/MobileAndroid/project/E2Tech/app/src/main/res/drawable/ic_launcher_background.xml" value="0.2703125" />
+        <entry key="..\:/Data/KHTN/Nam_3/hoc_ky_2/MobileAndroid/project/E2Tech/app/src/main/res/drawable/outline_background_blue.xml" value="0.1962962962962963" />
         <entry key="..\:/Data/KHTN/Nam_3/hoc_ky_2/MobileAndroid/project/E2Tech/app/src/main/res/drawable/search_gb.xml" value="0.1" />
         <entry key="..\:/Data/KHTN/Nam_3/hoc_ky_2/MobileAndroid/project/E2Tech/app/src/main/res/layout/activity_forget_pass.xml" value="0.1" />
         <entry key="..\:/Data/KHTN/Nam_3/hoc_ky_2/MobileAndroid/project/E2Tech/app/src/main/res/layout/activity_login.xml" value="0.25" />
@@ -27,9 +28,12 @@
         <entry key="..\:/Data/KHTN/Nam_3/hoc_ky_2/MobileAndroid/project/E2Tech/app/src/main/res/layout/fragment_detail.xml" value="0.1" />
         <entry key="..\:/Data/KHTN/Nam_3/hoc_ky_2/MobileAndroid/project/E2Tech/app/src/main/res/layout/fragment_home.xml" value="0.2" />
         <entry key="..\:/Data/KHTN/Nam_3/hoc_ky_2/MobileAndroid/project/E2Tech/app/src/main/res/layout/fragment_me.xml" value="0.1" />
+        <entry key="..\:/Data/KHTN/Nam_3/hoc_ky_2/MobileAndroid/project/E2Tech/app/src/main/res/layout/fragment_search.xml" value="0.21739130434782608" />
         <entry key="..\:/Data/KHTN/Nam_3/hoc_ky_2/MobileAndroid/project/E2Tech/app/src/main/res/layout/popular_item_home.xml" value="0.1" />
+        <entry key="..\:/Data/KHTN/Nam_3/hoc_ky_2/MobileAndroid/project/E2Tech/app/src/main/res/layout/search_item.xml" value="0.21739130434782608" />
         <entry key="..\:/Data/KHTN/Nam_3/hoc_ky_2/MobileAndroid/project/E2Tech/app/src/main/res/layout/slider_banner_item_layout.xml" value="0.25" />
         <entry key="..\:/Data/KHTN/Nam_3/hoc_ky_2/MobileAndroid/project/E2Tech/app/src/main/res/menu/bottom_nav_menu.xml" value="0.1" />
+        <entry key="..\:/Data/KHTN/Nam_3/hoc_ky_2/MobileAndroid/project/E2Tech/app/src/main/res/menu/toolbar_top_menu.xml" value="0.25416666666666665" />
       </map>
     </option>
   </component>

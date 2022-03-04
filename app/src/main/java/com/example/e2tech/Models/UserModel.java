@@ -13,7 +13,7 @@ public class UserModel {
         this.password = password;
     }
 
-    public UserModel(String username, String password, String email) {
+    public UserModel(String username, String email, String password) {
         this.username = username;
         this.password = password;
         this.email = email;

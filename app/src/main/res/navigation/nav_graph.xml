@@ -51,5 +51,10 @@
             android:name="id"
             app:argType="string" />
     </action>
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.example.e2tech.SearchFragment"
+        android:label="fragment_search"
+        tools:layout="@layout/fragment_search" /><action android:id="@+id/action_global_searchFragment" app:destination="@id/searchFragment"/>
 
 </navigation>
