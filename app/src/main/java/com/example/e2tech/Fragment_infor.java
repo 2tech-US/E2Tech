@@ -27,6 +27,7 @@ import com.google.firebase.database.ValueEventListener;
 
 public class Fragment_infor extends Fragment {
     ImageButton btnBack;
+    Button btnUpdate;
     private FirebaseUser user;
     private DatabaseReference reference;
     private String userID;
@@ -36,6 +37,7 @@ public class Fragment_infor extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_infor, container, false);
         btnBack = (ImageButton) view.findViewById(R.id.btnBack);
+        btnUpdate = (Button) view.findViewById(R.id.btnUpdateInfor);
 
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,6 +71,14 @@ public class Fragment_infor extends Fragment {
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 Toast.makeText(getContext(), "Something wrong happened!", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        btnUpdate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment);
+                navController.navigate(R.id.action_fragment_infor_to_fragment_update);
             }
         });
         return view;

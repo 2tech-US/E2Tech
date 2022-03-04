@@ -162,13 +162,14 @@
             android:layout_margin="10dp"/>
 
         <Button
+            android:id="@+id/btnUpdateInfor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Udate Information"
             android:textSize="15sp"
             android:layout_marginRight="10dp"
             android:layout_marginLeft="10dp"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="20dp"
             android:layout_marginTop="30dp"/>
 
 

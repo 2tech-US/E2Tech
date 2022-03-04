@@ -23,16 +23,19 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <ImageView
-                    android:layout_width="77dp"
-                    android:layout_height="54dp"
-                    android:layout_marginTop="10dp"
-                    android:src="@drawable/user" />
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/profile_image"
+                    android:layout_width="90dp"
+                    android:layout_height="90dp"
+                    android:layout_margin="10dp"
+                    android:src="@drawable/profile_pic"
+                    app:civ_border_color="@color/primary"
+                    app:civ_border_width="2dp"/>
                 <TextView
                     android:id="@+id/txtMeUsername"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="40dp"
                     android:textSize="25sp"
                     android:text="Ten khach hang"/>
             </LinearLayout>
@@ -41,7 +44,7 @@
                 android:id="@+id/btnInfor"
                 android:layout_width="match_parent"
                 android:layout_height="65dp"
-                android:layout_marginTop="40dp"
+                android:layout_marginTop="30dp"
                 android:text="Thong tin ca nhan"
                 app:icon="@drawable/outline_account_circle_24"/>
 

@@ -72,6 +72,11 @@ public class RegisterActivity extends AppCompatActivity {
                 String unameStr = name.getText().toString().trim();
                 String passStr = password.getText().toString().trim();
                 String pass2Str = password2.getText().toString().trim();
+                String address = "";
+                String age = "";
+                String gender = "";
+                String phone = "";
+                String imgUrl = "";
 
                 Log.v("REGIS", "row 72");
 
