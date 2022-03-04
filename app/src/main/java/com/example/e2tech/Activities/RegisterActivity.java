@@ -120,7 +120,7 @@ public class RegisterActivity extends AppCompatActivity {
                     password.setFocusable(true);
                 } else {
                     Log.v("REGIS", "Before REGISTER");
-                    registerUser(emailStr, passStr, unameStr);
+                    registerUser(emailStr, passStr, unameStr, address, age, gender, phone, imgUrl);
                     Log.v("REGIS", "After REGISTER");
 
                 }
@@ -134,7 +134,8 @@ public class RegisterActivity extends AppCompatActivity {
         });
     }
 
-    private void registerUser(String emaill, final String pass, final String uname) {
+    private void registerUser(String emaill, final String pass, final String uname, final String address,
+                              final String age, final String gender, final String phone, final String imgUrl) {
         progressBar.setVisibility(View.VISIBLE);
         mAuth.createUserWithEmailAndPassword(emaill, pass)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -142,11 +143,10 @@ public class RegisterActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             FirebaseUser user = mAuth.getCurrentUser();
-//                            String email = user.getEmail();
                             String uid = user.getUid();
                             Log.v("USER", "\nUSER ID: " + uid);
 
-                            UserModel newUser = new UserModel(uname, emaill, pass);
+                            UserModel newUser = new UserModel(uname, emaill, pass, address, age, phone, gender, imgUrl);
                             newUser.setId(uid);
 
                             database.getReference().child("Users").child(uid).setValue(newUser)

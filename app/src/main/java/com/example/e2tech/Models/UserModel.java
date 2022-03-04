@@ -35,7 +35,7 @@ public class UserModel {
         this.id = id;
     }
 
-    public UserModel(String username, String password, String email, String address, String age, String phone, String gender) {
+    public UserModel(String username, String email, String password, String address, String age, String phone, String gender, String img_url) {
         this.username = username;
         this.password = password;
         this.email = email;
@@ -43,6 +43,7 @@ public class UserModel {
         this.age = age;
         this.phone = phone;
         this.gender = gender;
+        this.img_url = img_url;
     }
 
     public String getUsername() {
@@ -76,6 +77,24 @@ public class UserModel {
     public void setAddress(String address) {
         this.address = address;
     }
+
+    public String getAge() {
+        return age;
+    }
+
+    public void setAge(String age) { this.age = age; }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) { this.phone = phone; }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) { this.gender = gender; }
 
     public String getImg_url() {
         return img_url;
