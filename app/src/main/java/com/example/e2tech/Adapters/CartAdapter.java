@@ -1,12 +1,14 @@
 package com.example.e2tech.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.e2tech.Models.CartModel;
@@ -18,6 +20,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
 
     Context context;
     List<CartModel> cartModelList;
+    int totalPrice = 0;
 
     public CartAdapter(Context context, List<CartModel> cartModelList) {
         this.context = context;
@@ -38,6 +41,10 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
         holder.quantity.setText(String.valueOf(cartModelList.get(position).getTotalQuantity()));
         holder.totalPrice.setText(String.valueOf(cartModelList.get(position).getTotalPrice()));
 
+        totalPrice += cartModelList.get(position).getTotalPrice();
+        Intent intent = new Intent("MyTotalAmount");
+        intent.putExtra("totalAmount", totalPrice);
+        LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
     }
 
     @Override

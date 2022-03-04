@@ -1,15 +1,21 @@
 package com.example.e2tech;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.example.e2tech.Adapters.CartAdapter;
 import com.example.e2tech.Models.CartModel;
@@ -33,7 +39,7 @@ public class CartFragment extends Fragment {
 
     FirebaseFirestore db;
     FirebaseAuth auth;
-
+    TextView overToTalAmount;
     RecyclerView recyclerView;
     CartAdapter cartAdapter;
     List<CartModel> cartModelList;
@@ -89,6 +95,11 @@ public class CartFragment extends Fragment {
         recyclerView = root.findViewById(R.id.recycleview);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
+        overToTalAmount = root.findViewById(R.id.textView);
+
+        LocalBroadcastManager.getInstance(getActivity())
+                .registerReceiver(mMessageReceiver,new IntentFilter("MyTotalAmount"));
+
         cartModelList = new ArrayList<>();
         cartAdapter = new CartAdapter(getActivity(), cartModelList);
         recyclerView.setAdapter(cartAdapter);
@@ -97,8 +108,8 @@ public class CartFragment extends Fragment {
                 .collection("CurrentUser").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if(task.isSuccessful()) {
-                    for(DocumentSnapshot documentSnapshot : task.getResult().getDocuments()) {
+                if (task.isSuccessful()) {
+                    for (DocumentSnapshot documentSnapshot : task.getResult().getDocuments()) {
                         CartModel cartModel = documentSnapshot.toObject(CartModel.class);
                         cartModelList.add(cartModel);
                         cartAdapter.notifyDataSetChanged();
@@ -110,4 +121,12 @@ public class CartFragment extends Fragment {
 
         return root;
     }
+
+    public BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            int totalBill = intent.getIntExtra("totalAmount", 0);
+            overToTalAmount.setText("Total Bill : " + totalBill + " VND");
+        }
+    };
 }
