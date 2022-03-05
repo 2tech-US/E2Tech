@@ -1,28 +1,53 @@
 package com.example.e2tech;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
+import android.transition.Transition;
+import android.transition.TransitionInflater;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.ViewCompat;
+import androidx.fragment.app.Fragment;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
+import com.example.e2tech.Models.ProductModel;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 
 /**
- * A simple {@link Fragment} subclass.
- * Use the {@link DetailFragment#newInstance} factory method to
- * create an instance of this fragment.
+ * a
  */
 public class DetailFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    FirebaseAuth mAuth = FirebaseAuth.getInstance();
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+
+    ImageView ivProductImage;
+    TextView tvProductName;
+    TextView tvProductPrice;
+    TextView tvProductAvailable;
+    TextView tvProductDescription;
+
+    ProductModel product;
+
 
     public DetailFragment() {
         // Required empty public constructor
@@ -31,17 +56,12 @@ public class DetailFragment extends Fragment {
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment DetailFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static DetailFragment newInstance(String param1, String param2) {
+    public static DetailFragment newInstance() {
         DetailFragment fragment = new DetailFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+
         fragment.setArguments(args);
         return fragment;
     }
@@ -49,16 +69,128 @@ public class DetailFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+
+//        Transition transition = TransitionInflater.from(requireContext())
+//                .inflateTransition(R.transition.product_share_transition);
+//        setSharedElementEnterTransition(transition);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_detail, container, false);
+        View root = inflater.inflate(R.layout.fragment_detail, container, false);
+
+        fetchView(root);
+
+        String id = getArguments().getString("id");
+        String collection = getArguments().getString("collection");
+        String url_image = getArguments().getString("img_url");
+
+        Glide.with(this)
+                .load(url_image)
+                .listener(new RequestListener<Drawable>() {
+                    @Override
+                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                        startPostponedEnterTransition();
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                        startPostponedEnterTransition();
+                        return false;
+                    }
+                })
+                .into(ivProductImage);
+
+        getFromDatabase(collection, id);
+
+
+
+
+        Transition transition = TransitionInflater.from(requireContext())
+                .inflateTransition(R.transition.product_share_transition);
+        setSharedElementEnterTransition(transition);
+
+        if(savedInstanceState == null) {
+            postponeEnterTransition();
+        }
+        ViewCompat.setTransitionName(ivProductImage,getArguments().getString("img_url"));
+
+        return root;
     }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        postponeEnterTransition();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        String id = getArguments().getString("id");
+        String collection = getArguments().getString("collection");
+
+        Log.v("PRODUCT_TEST",id);
+        Log.v("PRODUCT_TEST",collection);
+
+        DocumentReference docRef = db.collection(collection).document(id);
+
+        docRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException error) {
+                if (documentSnapshot.exists()) {
+                    product = documentSnapshot.toObject(ProductModel.class);
+                    assert product != null;
+                    fetchViewByData(product);
+                } else if (error != null) {
+                    Log.w("Product", "Got an exception:", error);
+                }
+            }
+        });
+
+    }
+
+    private void fetchView(View root) {
+        tvProductName = root.findViewById(R.id.tv_product_name);
+        tvProductAvailable = root.findViewById(R.id.tv_product_available);
+        tvProductPrice = root.findViewById(R.id.tv_product_price);
+        tvProductDescription = root.findViewById(R.id.tv_product_description);
+        ivProductImage = root.findViewById(R.id.iv_product_image);
+    }
+
+
+    private void getFromDatabase(String collection, String id) {
+        DocumentReference docRef = db.collection(collection).document(id);
+
+        docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                if (documentSnapshot.exists()) {
+                    product = documentSnapshot.toObject(ProductModel.class);
+                    assert product != null;
+                    fetchViewByData(product);
+                } else {
+                    Log.e("FIRESTORE", "Document don't exist or something wrong happen");
+                }
+            }
+        });
+    }
+
+
+    private void fetchViewByData(ProductModel product) {
+        tvProductName.setText(product.getName());
+        tvProductAvailable.setText(product.getCompany());
+        tvProductPrice.setText(Integer.toString(product.getPrice()));
+        tvProductDescription.setText(R.string.lorem_product_description);
+
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(product.getName());
+
+
+//        Glide.with(this).load(product.getImg_url()).into(ivProductImage);
+    }
+
 }

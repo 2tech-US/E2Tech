@@ -74,14 +74,15 @@
             android:textSize="20sp"/>
 
         <TextView
+            android:id="@+id/tv_see_all_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/see_all"
-            android:textSize="20sp"
-            android:gravity="end"
             android:drawableEnd="@drawable/ic_baseline_arrow_forward_ios_24"
-            android:drawableTint="@color/teal_700"/>
+            android:drawableTint="@color/teal_700"
+            android:gravity="end"
+            android:text="@string/see_all"
+            android:textSize="20sp" />
 
     </LinearLayout>
 
