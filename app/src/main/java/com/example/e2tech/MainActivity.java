@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
     BottomNavigationView bottomNavigationView;
     NavController navController;
     Toolbar toolbar;
-    SearchView searchView;
+//    SearchView searchView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(bottomNavigationView, navController);
 
         // setup default action bar (maybe change with Toolbar)
-        NavigationUI.setupActionBarWithNavController(this, navController);
+        //NavigationUI.setupActionBarWithNavController(this, navController);
 
         navController.addOnDestinationChangedListener(new NavController.OnDestinationChangedListener() {
             @Override
@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
                 if (navDestination.getId() == R.id.detailFragment || navDestination.getId() == R.id.fragment_infor
                         || navDestination.getId() == R.id.fragment_update) {
                     bottomNavigationView.setVisibility(View.GONE);
-                    getSupportActionBar().show();
+                    getSupportActionBar().hide();
                 } else {
                     bottomNavigationView.setVisibility(View.VISIBLE);
                     getSupportActionBar().hide();
