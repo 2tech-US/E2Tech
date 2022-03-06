@@ -43,15 +43,22 @@
         <entry key="app/src/main/res/drawable/ic_baseline_search_24.xml" value="0.2158974358974359" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.2158974358974359" />
         <entry key="app/src/main/res/drawable/layout_border.xml" value="0.2158974358974359" />
+        <entry key="app/src/main/res/drawable/rounded_conner.xml" value="0.1515" />
         <entry key="app/src/main/res/layout/activity_forget_pass.xml" value="0.203125" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.203125" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.18703703703703703" />
         <entry key="app/src/main/res/layout/activity_register.xml" value="0.10615745604894158" />
         <entry key="app/src/main/res/layout/activity_splash_screen.xml" value="0.203125" />
+        <entry key="app/src/main/res/layout/cart_item.xml" value="0.335" />
+        <entry key="app/src/main/res/layout/category_item_home.xml" value="0.13697916666666668" />
+        <entry key="app/src/main/res/layout/fragment_cart.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/fragment_category.xml" value="0.13697916666666668" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.18703703703703703" />
         <entry key="app/src/main/res/layout/fragment_infor.xml" value="0.203125" />
         <entry key="app/src/main/res/layout/fragment_me.xml" value="0.203125" />
         <entry key="app/src/main/res/layout/fragment_update.xml" value="0.203125" />
+        <entry key="app/src/main/res/layout/popular_item_home.xml" value="0.13697916666666668" />
+        <entry key="app/src/main/res/layout/search_item.xml" value="0.335" />
         <entry key="app/src/main/res/layout/slider_banner_item_layout.xml" value="0.203125" />
       </map>
     </option>
