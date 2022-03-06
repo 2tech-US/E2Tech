@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.core.widget.NestedScrollView xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <LinearLayout
@@ -15,14 +15,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
-
-            <ImageButton
-                android:id="@+id/btnBack"
-                android:layout_width="wrap_content"
-                android:layout_height="50dp"
-                android:layout_marginLeft="10dp"
-                android:background="#FFFFFF"
-                android:src="@drawable/ic_baseline_arrow_back_ios_24" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -37,6 +29,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Account"
+            android:textStyle="bold"
             android:textSize="20sp"
             android:layout_margin="10dp"/>
 
@@ -64,7 +57,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="52dp"
-                android:text="lmduc"
                 android:textSize="20sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -87,7 +79,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="27dp"
                 android:layout_marginTop="16dp"
-                android:text="lmduc@gmail.com"
                 android:textSize="20sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.967"
@@ -102,54 +93,60 @@
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:text="Personal information"
+            android:textStyle="bold"
             android:textSize="20sp"/>
 
-        <EditText
-            android:id="@+id/edtName"
+        <TextView
+            android:id="@+id/tvName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Minh Duc"
-            android:gravity="center_horizontal"
+            android:layout_margin="10dp"
             android:drawableLeft="@drawable/ic_baseline_account_box_24"
-            android:textSize="20sp"
-            android:layout_margin="10dp"/>
+            android:gravity="center_horizontal"
+            android:hint="Your Name"
+            android:background="@drawable/custom_textview"
+            android:textSize="20sp" />
 
-        <EditText
-            android:id="@+id/edtAge"
+        <TextView
+            android:id="@+id/tvAge"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="20"
+            android:hint="Your age"
             android:gravity="center_horizontal"
+            android:background="@drawable/custom_textview"
             android:drawableLeft="@drawable/ic_baseline_age_24"
             android:textSize="20sp"
             android:inputType="numberDecimal"
             android:layout_margin="10dp"/>
 
-        <EditText
-            android:id="@+id/edtGender"
+        <TextView
+            android:id="@+id/tvGender"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Male"
+            android:background="@drawable/custom_textview"
+            android:hint="Your Gender"
             android:gravity="center_horizontal"
             android:drawableLeft="@drawable/ic_baseline_gender_24"
             android:textSize="20sp"
             android:layout_margin="10dp"/>
 
-        <EditText
-            android:id="@+id/edtAddress"
+        <TextView
+            android:id="@+id/tvAddress"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="102 Wall Street"
+            android:background="@drawable/custom_textview"
+            android:hint="Your Address"
             android:gravity="center_horizontal"
             android:drawableLeft="@drawable/ic_baseline_address_24"
             android:textSize="20sp"
             android:layout_margin="10dp"/>
 
-        <EditText
-            android:id="@+id/edtPhone"
+        <TextView
+            android:id="@+id/tvPhone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="0123456789"
+            android:background="@drawable/custom_textview"
+            android:hint="Your Phone Number"
             android:gravity="center_horizontal"
             android:drawableLeft="@drawable/ic_baseline_phone_24"
             android:textSize="20sp"
@@ -157,15 +154,17 @@
             android:layout_margin="10dp"/>
 
         <Button
-            android:id="@+id/btnSave"
+            android:id="@+id/btnUpdateInfor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="30dp"
+            android:text="Udate Information"
+            android:textSize="15sp"
             android:layout_marginRight="10dp"
-            android:layout_marginBottom="10dp"
-            android:text="Save"
-            android:textSize="15sp" />
+            android:layout_marginLeft="10dp"
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="30dp"/>
+
+
     </LinearLayout>
 
-</ScrollView>
+</androidx.core.widget.NestedScrollView>

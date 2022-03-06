@@ -62,8 +62,14 @@ public class HomeFragment extends Fragment {
     PopularAdapter popularAdapter;
     ArrayList<ProductModel> productList;
 
+
     TextView tvSeeAll;
     NavController navController;
+
+    RecyclerView favoriteRecyclerView;
+    PopularAdapter favoriteAdapter;
+    ArrayList<ProductModel> favoriteList;
+
 
     public HomeFragment() {
         // Required empty public constructor
@@ -207,6 +213,33 @@ public class HomeFragment extends Fragment {
                     }
                 });
 
+        favoriteList = new ArrayList<>();
+        favoriteRecyclerView = root.findViewById(R.id.home_favorite_recycler);
+        favoriteRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), RecyclerView.HORIZONTAL, false));
+
+        favoriteAdapter = new PopularAdapter(getActivity(), productList);
+        favoriteRecyclerView.setAdapter(favoriteAdapter);
+
+
+        db.collection("PopularProducts")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot documentSnapshot: task.getResult()) {
+                                ProductModel productModel = documentSnapshot.toObject(ProductModel.class);
+                                String id = documentSnapshot.getId();
+                                productModel.setId(id);
+                                favoriteList.add(productModel);
+                                favoriteAdapter.notifyDataSetChanged();
+                            }
+                        } else {
+                            Toast.makeText(getActivity(), "Error" + task.getException(), Toast.LENGTH_SHORT).show();
+                            Log.e("FIREBASE","ERRROR" + task.getException());
+                        }
+                    }
+                });
 
         return root;
     }

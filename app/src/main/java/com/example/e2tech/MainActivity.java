@@ -3,13 +3,21 @@ package com.example.e2tech;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+
 import androidx.lifecycle.ViewModelProvider;
+import androidx.appcompat.widget.SearchView;
+import androidx.appcompat.widget.Toolbar;
 import androidx.navigation.NavController;
 import androidx.navigation.NavDestination;
+import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
 
+import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.example.e2tech.ViewModels.ProductViewModel;
@@ -20,6 +28,10 @@ public class MainActivity extends AppCompatActivity {
     BottomNavigationView bottomNavigationView;
     NavController navController;
 
+
+
+    Toolbar toolbar;
+//    SearchView searchView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,27 +46,61 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(bottomNavigationView, navController);
 
         // setup default action bar (maybe change with Toolbar)
-        NavigationUI.setupActionBarWithNavController(this, navController);
+        //NavigationUI.setupActionBarWithNavController(this, navController);
 
         navController.addOnDestinationChangedListener(new NavController.OnDestinationChangedListener() {
             @Override
             public void onDestinationChanged(@NonNull NavController navController, @NonNull NavDestination navDestination, @Nullable Bundle bundle) {
-                if (navDestination.getId() == R.id.detailFragment) {
+                if (navDestination.getId() == R.id.detailFragment || navDestination.getId() == R.id.fragment_infor
+                        || navDestination.getId() == R.id.fragment_update) {
                     bottomNavigationView.setVisibility(View.GONE);
-                    getSupportActionBar().show();
+                    getSupportActionBar().hide();
                 } else {
                     bottomNavigationView.setVisibility(View.VISIBLE);
                     getSupportActionBar().hide();
-
                 }
+            }
+        });
+
+
+        // setup toolbar
+        toolbar = findViewById(R.id.topToolBar);
+        NavigationUI.setupWithNavController(toolbar, navController);
+
+        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+
+                if (item.getItemId() == R.id.app_bar_search) {
+                    navController.navigate(SearchFragmentDirections.actionGlobalSearchFragment());
+                }
+
+                return false;
             }
         });
 
 /*        productViewModel = new ViewModelProvider(this).get(ProductViewModel.class);
         productViewModel.getProducts().observe(this,productModels -> {});*/
 
+
+//        searchView = findViewById(R.id.searchBar);
+//        searchView.setOnSearchClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                navController.navigate(SearchFragmentDirections.actionGlobalSearchFragment());
+//            }
+//        });
+
+
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
+        getMenuInflater().inflate(R.menu.toolbar_top_menu, menu);
+        return true;
+
+    }
 
     @Override
     public boolean onSupportNavigateUp() {

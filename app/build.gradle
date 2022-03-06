@@ -79,4 +79,8 @@ dependencies {
     implementation 'com.github.smarteist:autoimageslider:1.4.0'
     implementation 'com.github.smarteist:autoimageslider:1.4.0-appcompat'
 
+    implementation 'com.theartofdev.edmodo:android-image-cropper:2.4.+'
+    implementation 'de.hdodenhof:circleimageview:3.0.0'
+    implementation 'com.squareup.picasso:picasso:2.71828'
+
 }

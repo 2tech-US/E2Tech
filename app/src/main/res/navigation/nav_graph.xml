@@ -66,11 +66,32 @@
             app:argType="string" />
     </action>
     <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.example.e2tech.SearchFragment"
+        android:label="fragment_search"
+        tools:layout="@layout/fragment_search" />
+    <action android:id="@+id/action_global_searchFragment" app:destination="@id/searchFragment"/>
+
+    <fragment
         android:id="@+id/fragment_infor"
         android:name="com.example.e2tech.Fragment_infor"
         android:label="Fragment_infor" >
         <action
             android:id="@+id/action_fragment_infor_to_meFragment"
+            app:destination="@id/meFragment" />
+        <action
+            android:id="@+id/action_fragment_infor_to_fragment_update"
+            app:destination="@id/fragment_update" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragment_update"
+        android:name="com.example.e2tech.Fragment_update"
+        android:label="Fragment_update" >
+        <action
+            android:id="@+id/action_fragment_update_to_fragment_infor"
+            app:destination="@id/fragment_infor" />
+        <action
+            android:id="@+id/action_fragment_update_to_meFragment"
             app:destination="@id/meFragment" />
     </fragment>
     <fragment
@@ -84,5 +105,6 @@
             android:id="@+id/action_shopFragment_to_categoryFragment"
             app:destination="@id/categoryFragment" />
     </fragment>
+
 
 </navigation>

@@ -26,7 +26,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 public class Fragment_infor extends Fragment {
-    ImageButton btnBack;
+    Button btnUpdate;
     private FirebaseUser user;
     private DatabaseReference reference;
     private String userID;
@@ -35,15 +35,7 @@ public class Fragment_infor extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_infor, container, false);
-        btnBack = (ImageButton) view.findViewById(R.id.btnBack);
-
-        btnBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment);
-                navController.navigate(R.id.action_fragment_infor_to_meFragment);
-            }
-        });
+        btnUpdate = (Button) view.findViewById(R.id.btnUpdateInfor);
 
         user = FirebaseAuth.getInstance().getCurrentUser();
         reference = FirebaseDatabase.getInstance("https://e2tech-default-rtdb.asia-southeast1.firebasedatabase.app").getReference("Users");
@@ -51,6 +43,11 @@ public class Fragment_infor extends Fragment {
 
         final TextView txtUsername = (TextView) view.findViewById(R.id.txtUsername);
         final TextView txtEmail = (TextView) view.findViewById(R.id.txtEmail);
+        final TextView tvName = (TextView) view.findViewById(R.id.tvName);
+        final TextView tvAge = (TextView) view.findViewById(R.id.tvAge);
+        final TextView tvGender = (TextView) view.findViewById(R.id.tvGender);
+        final TextView tvAddress = (TextView) view.findViewById(R.id.tvAddress);
+        final TextView tvPhone = (TextView) view.findViewById(R.id.tvPhone);
 
         reference.child(userID).addValueEventListener(new ValueEventListener() {
             @Override
@@ -60,15 +57,32 @@ public class Fragment_infor extends Fragment {
                 if(userProfile != null) {
                     String username = userProfile.getUsername();
                     String email = user.getEmail();
+                    String address = userProfile.getAddress();
+                    String age = userProfile.getAge();
+                    String phone = userProfile.getPhone();
+                    String gender = userProfile.getGender();
 
                     txtUsername.setText(username);
                     txtEmail.setText(email);
+                    tvName.setText(username);
+                    tvAddress.setText(address);
+                    tvAge.setText(age);
+                    tvPhone.setText(phone);
+                    tvGender.setText(gender);
                 }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 Toast.makeText(getContext(), "Something wrong happened!", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        btnUpdate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment);
+                navController.navigate(R.id.action_fragment_infor_to_fragment_update);
             }
         });
         return view;
