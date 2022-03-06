@@ -114,7 +114,7 @@ public class ShopFragment extends Fragment {
         assert getArguments() != null;
         String category = getArguments().getString("collection");
         Log.v("GET",category);
-        db.collection(category)
+        db.collection("Products").whereEqualTo("type",category)
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
