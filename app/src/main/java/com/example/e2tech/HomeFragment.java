@@ -178,7 +178,7 @@ public class HomeFragment extends Fragment {
                     }
                 });
 
-        tvSeeAll = root.findViewById(R.id.tv_see_all_text);
+        tvSeeAll = root.findViewById(R.id.home_see_all_category);
         tvSeeAll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
