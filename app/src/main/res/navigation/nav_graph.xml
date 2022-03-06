@@ -69,6 +69,13 @@
     <fragment
         android:id="@+id/fragment_update"
         android:name="com.example.e2tech.Fragment_update"
-        android:label="Fragment_update" />
+        android:label="Fragment_update" >
+        <action
+            android:id="@+id/action_fragment_update_to_fragment_infor"
+            app:destination="@id/fragment_infor" />
+        <action
+            android:id="@+id/action_fragment_update_to_meFragment"
+            app:destination="@id/meFragment" />
+    </fragment>
 
 </navigation>

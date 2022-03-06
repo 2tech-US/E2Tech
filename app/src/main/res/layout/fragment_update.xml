@@ -22,6 +22,7 @@
             app:civ_border_width="2dp"/>
 
         <TextView
+            android:id="@+id/update_avatar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Change Profile picture"
@@ -42,11 +43,28 @@
             android:id="@+id/update_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Your email..."
+            android:hint="Your email..."
             android:background="@drawable/custom_textview"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:inputType="textEmailAddress"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Password"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_margin="10dp"/>
+
+        <EditText
+            android:id="@+id/password_confirmUpdate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/custom_textview"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:inputType="textPassword"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -60,7 +78,7 @@
             android:id="@+id/update_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Your name..."
+            android:hint="Your name..."
             android:background="@drawable/custom_textview"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"/>
@@ -77,7 +95,7 @@
             android:id="@+id/update_age"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Your age..."
+            android:hint="Your age..."
             android:background="@drawable/custom_textview"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
@@ -95,7 +113,7 @@
             android:id="@+id/update_phone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Your phone number..."
+            android:hint="Your phone number..."
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:background="@drawable/custom_textview"
@@ -113,7 +131,7 @@
             android:id="@+id/update_address"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Your address..."
+            android:hint="Your address..."
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:background="@drawable/custom_textview" />
@@ -139,7 +157,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="60dp"
                 android:layout_weight="1"
-                android:text="Male" />
+                android:text="Male"
+                android:checked="true"/>
 
             <RadioButton
                 android:id="@+id/radioButtonFemale"
