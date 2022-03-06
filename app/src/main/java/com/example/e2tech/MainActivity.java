@@ -3,6 +3,8 @@ package com.example.e2tech;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+
+import androidx.lifecycle.ViewModelProvider;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.navigation.NavController;
@@ -18,14 +20,19 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.example.e2tech.ViewModels.ProductViewModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
 
     BottomNavigationView bottomNavigationView;
     NavController navController;
+
+
+
     Toolbar toolbar;
 //    SearchView searchView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,6 +78,9 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
+
+/*        productViewModel = new ViewModelProvider(this).get(ProductViewModel.class);
+        productViewModel.getProducts().observe(this,productModels -> {});*/
 
 
 //        searchView = findViewById(R.id.searchBar);

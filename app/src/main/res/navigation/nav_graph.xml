@@ -19,12 +19,19 @@
         <action
             android:id="@+id/action_homeFragment_to_meFragment"
             app:destination="@id/meFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_detailFragment"
+            app:destination="@id/detailFragment" />
     </fragment>
     <fragment
         android:id="@+id/categoryFragment"
         android:name="com.example.e2tech.CategoryFragment"
         android:label="fragment_category"
-        tools:layout="@layout/fragment_category" />
+        tools:layout="@layout/fragment_category" >
+        <action
+            android:id="@+id/action_categoryFragment_to_shopFragment"
+            app:destination="@id/shopFragment" />
+    </fragment>
     <fragment
         android:id="@+id/cartFragment"
         android:name="com.example.e2tech.CartFragment"
@@ -47,10 +54,13 @@
         <argument
             android:name="id"
             app:argType="string" />
+        <argument
+            android:name="category"
+            app:argType="string" />
     </fragment>
     <action
         android:id="@+id/action_global_detailFragment"
-        app:destination="@id/detailFragment">
+        app:destination="@id/homeFragment">
         <argument
             android:name="id"
             app:argType="string" />
@@ -83,6 +93,17 @@
         <action
             android:id="@+id/action_fragment_update_to_meFragment"
             app:destination="@id/meFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/shopFragment"
+        android:name="com.example.e2tech.ShopFragment"
+        android:label="ShopFragment" >
+        <action
+            android:id="@+id/action_shopFragment_to_detailFragment"
+            app:destination="@id/detailFragment" />
+        <action
+            android:id="@+id/action_shopFragment_to_categoryFragment"
+            app:destination="@id/categoryFragment" />
     </fragment>
 
 

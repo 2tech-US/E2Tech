@@ -2,13 +2,6 @@ package com.example.e2tech;
 
 import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +9,14 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.fragment.NavHostFragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.e2tech.Activities.LoginActivity;
 import com.example.e2tech.Adapters.BannerSliderAdapter;
@@ -31,7 +32,6 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.google.firebase.storage.FirebaseStorage;
 import com.smarteist.autoimageslider.SliderView;
 
 import java.util.ArrayList;
@@ -62,9 +62,14 @@ public class HomeFragment extends Fragment {
     PopularAdapter popularAdapter;
     ArrayList<ProductModel> productList;
 
+
+    TextView tvSeeAll;
+    NavController navController;
+
     RecyclerView favoriteRecyclerView;
     PopularAdapter favoriteAdapter;
     ArrayList<ProductModel> favoriteList;
+
 
     public HomeFragment() {
         // Required empty public constructor
@@ -87,8 +92,6 @@ public class HomeFragment extends Fragment {
         }
 
 
-
-
     }
 
     @Override
@@ -96,6 +99,9 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.fragment_home, container, false);
+
+        navController = NavHostFragment.findNavController(this);
+
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
         FirebaseUser currentUser = mAuth.getCurrentUser();
@@ -147,7 +153,7 @@ public class HomeFragment extends Fragment {
         categoryModelList = new ArrayList<>();
         categoryRecyclerView = root.findViewById(R.id.home_category_recycler);
         categoryRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), RecyclerView.HORIZONTAL, false));
-        categoryAdapter = new CategoryAdapter(getActivity(), categoryModelList);
+        categoryAdapter = new CategoryAdapter(getActivity(), categoryModelList,R.layout.category_item_home);
         categoryRecyclerView.setAdapter(categoryAdapter);
 
         db.collection("Categories")
@@ -172,6 +178,14 @@ public class HomeFragment extends Fragment {
                     }
                 });
 
+        tvSeeAll = root.findViewById(R.id.tv_see_all_text);
+        tvSeeAll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                navController.navigate(R.id.action_homeFragment_to_categoryFragment);
+            }
+        });
+
         productList = new ArrayList<>();
         popularRecyclerView = root.findViewById(R.id.home_popular_recycler);
         popularRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
@@ -194,7 +208,7 @@ public class HomeFragment extends Fragment {
                             }
                         } else {
                             Toast.makeText(getActivity(), "Error" + task.getException(), Toast.LENGTH_SHORT).show();
-                            Log.e("FIREBASE","ERRROR" + task.getException());
+                            Log.e("FIREBASE","ERROR" + task.getException());
                         }
                     }
                 });

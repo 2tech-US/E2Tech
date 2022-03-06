@@ -1,6 +1,9 @@
 package com.example.e2tech.Models;
 
-public class ProductModel {
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.ViewModel;
+
+public class ProductModel extends ViewModel {
 
     String name;
     int price;
@@ -11,6 +14,7 @@ public class ProductModel {
     String img_url;
     String id;
     String company;
+
 
     public ProductModel(String name, int price, String description, double rating, double discount, String type, String img_url, String id, String company) {
         this.name = name;
