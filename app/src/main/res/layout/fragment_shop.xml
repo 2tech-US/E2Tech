@@ -14,18 +14,6 @@
         android:orientation="vertical">
 
 
-        <SearchView
-            android:id="@+id/sv_shop_search_item"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
-            android:layout_marginTop="16dp"
-            android:background="@drawable/search_background"
-            android:ems="10"
-            android:minHeight="48dp"
-            android:paddingHorizontal="16dp"
-            android:textColorHint="#757575" />
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -44,7 +32,7 @@
                 android:id="@+id/tv_shop_see_all_text"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="end"
+                android:gravity="end"
                 android:layout_weight="1"
                 android:text="@string/see_all"
                 android:textSize="20sp"
