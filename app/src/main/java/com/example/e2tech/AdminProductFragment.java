@@ -2,11 +2,29 @@ package com.example.e2tech;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.Toast;
+
+import com.example.e2tech.Adapters.AdminCategoryAdapter;
+import com.example.e2tech.Adapters.CategoryAdapter;
+import com.example.e2tech.Models.CategoryModel;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -15,50 +33,66 @@ import android.view.ViewGroup;
  */
 public class AdminProductFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    FirebaseFirestore db;
+    Button btnAddCategory;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    ArrayList<CategoryModel> categories;
+    RecyclerView recyclerView;
+    AdminCategoryAdapter adminCategoryAdapter;
+
+
 
     public AdminProductFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment AdminProductFragment.
-     */
-    // TODO: Rename and change types and number of parameters
     public static AdminProductFragment newInstance(String param1, String param2) {
         AdminProductFragment fragment = new AdminProductFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_admin_product, container, false);
+        View root = inflater.inflate(R.layout.fragment_admin_product, container, false);
+
+        categories = new ArrayList<>();
+        db = FirebaseFirestore.getInstance();
+
+
+        recyclerView = root.findViewById(R.id.admin_category_recyclerview_in_cate_screen);
+        recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
+        adminCategoryAdapter = new AdminCategoryAdapter(getActivity(), categories,R.layout.admin_category_item);
+        recyclerView.setAdapter(adminCategoryAdapter);
+
+        db.collection("Categories")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot documentSnapshot: task.getResult()) {
+                                CategoryModel categoryModel = documentSnapshot.toObject(CategoryModel.class);
+                                String id = documentSnapshot.getId();
+                                categoryModel.setId(id);
+                                categories.add(categoryModel);
+                                adminCategoryAdapter.notifyDataSetChanged();
+                            }
+                        } else {
+                            Toast.makeText(getActivity(), "Error" + task.getException(), Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
+
+
+
+        return root;
     }
 }

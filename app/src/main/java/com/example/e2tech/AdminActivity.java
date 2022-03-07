@@ -35,7 +35,7 @@ public class AdminActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(bottomNavigationView, navController);
 
         // setup default action bar (maybe change with Toolbar)
-        //NavigationUI.setupActionBarWithNavController(this, navController);
+        NavigationUI.setupActionBarWithNavController(this, navController);
 
         navController.addOnDestinationChangedListener(new NavController.OnDestinationChangedListener() {
             @Override
@@ -51,16 +51,30 @@ public class AdminActivity extends AppCompatActivity {
             }
         });
 
+//        navController.addOnDestinationChangedListener(
+//                new NavController.OnDestinationChangedListener() {
+//                    @Override
+//                    public void onDestinationChanged(
+//                            @NonNull NavController controller,
+//                            @NonNull NavDestination destination,
+//                            @Nullable Bundle arguments
+//                    ) {
+//                        boolean showAppBar = false;
+//                        if (arguments != null) {
+//                            showAppBar = arguments.getBoolean("ShowAppBar", false);
+//                        }
+//                        if(showAppBar) {
+//                            appBar.setVisibility(View.VISIBLE);
+//                        } else {
+//                            appBar.setVisibility(View.GONE);
+//                        }
+//                    }
+//                }
+//        );
+
 
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        super.onCreateOptionsMenu(menu);
-        //getMenuInflater().inflate(R.menu.toolbar_top_menu, menu);
-        return true;
-
-    }
 
     @Override
     public boolean onSupportNavigateUp() {
