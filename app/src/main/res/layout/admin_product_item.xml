@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    android:padding="8dp"
+    >
+
+
+    <ImageView
+        android:id="@+id/img_admin_product_item_list_screen"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_alignParentTop="true"
+        android:scaleType="fitCenter"
+        android:padding="5dp"
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <TextView
+        android:id="@+id/tv_admin_product_name_list_screen"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_toRightOf="@id/img_admin_product_item_list_screen"
+        android:text="Product name"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tv_admin_product_price_list_screen"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_admin_product_name_list_screen"
+        android:layout_marginHorizontal="10dp"
+        android:layout_toRightOf="@id/img_admin_product_item_list_screen"
+        android:text="price" />
+
+    <TextView
+        android:id="@+id/tv_admin_product_discount_list_screen"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="discount"
+        android:layout_toRightOf="@id/tv_admin_product_price_list_screen"
+        android:layout_below="@id/tv_admin_product_name_list_screen"
+        android:layout_marginHorizontal="10dp"/>
+
+    <TextView
+        android:id="@+id/tv_admin_product_sold_list_screen"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:text="Sold: "
+        android:layout_below="@id/tv_admin_product_price_list_screen"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_toRightOf="@id/img_admin_product_item_list_screen"/>
+
+    <TextView
+        android:id="@+id/tv_admin_product_remain_list_screen"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Remain: "
+        android:layout_toRightOf="@id/tv_admin_product_sold_list_screen"
+        android:layout_below="@id/tv_admin_product_price_list_screen"
+        android:layout_marginTop="5dp"
+        android:layout_marginHorizontal="10dp"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/black"
+        android:layout_marginTop="5dp"
+        android:layout_alignParentBottom="true"/>
+</RelativeLayout>
