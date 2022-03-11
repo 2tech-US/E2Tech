@@ -1,6 +1,9 @@
 package com.example.e2tech.Adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -36,10 +40,20 @@ public class AdminProductAdapter extends RecyclerView.Adapter<AdminProductAdapte
     }
 
     @Override
-    public void onBindViewHolder(@NonNull AdminProductAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull AdminProductAdapter.ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         holder.tvName.setText(productList.get(position).getName());
         holder.tvPrice.setText(Integer.toString(productList.get(position).getPrice()));
         Glide.with(context).load(productList.get(position).getImg_url()).into(holder.imgProduct);
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Bundle productBundle = new Bundle();
+
+                productBundle.putSerializable("product", productList.get(position));
+                Log.v("PREPARE", productList.get(position).getName());
+                Navigation.findNavController(view).navigate(R.id.adminProductDetail, productBundle);
+            }
+        });
     }
 
     @Override
@@ -54,6 +68,7 @@ public class AdminProductAdapter extends RecyclerView.Adapter<AdminProductAdapte
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+
             imgProduct = itemView.findViewById(R.id.img_admin_product_item_list_screen);
             tvName = itemView.findViewById(R.id.tv_admin_product_name_list_screen);
             tvPrice = itemView.findViewById(R.id.tv_admin_product_price_list_screen);
