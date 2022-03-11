@@ -16,6 +16,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.fragment.NavHostFragment;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DataSource;
@@ -25,6 +27,7 @@ import com.bumptech.glide.request.target.Target;
 import com.example.e2tech.Models.ProductModel;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
@@ -36,9 +39,12 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
  */
 public class DetailFragment extends Fragment {
 
-    FirebaseAuth mAuth = FirebaseAuth.getInstance();
-    FirebaseFirestore db = FirebaseFirestore.getInstance();
+    FirebaseAuth mAuth;
+    FirebaseUser currentUser;
+    FirebaseFirestore db;
 
+    ImageView ivFavorite;
+    ImageView ivComment;
 
     ImageView ivProductImage;
     TextView tvProductName;
@@ -47,6 +53,8 @@ public class DetailFragment extends Fragment {
     TextView tvProductDescription;
 
     ProductModel product;
+
+    NavController navController;
 
 
     public DetailFragment() {
@@ -81,6 +89,13 @@ public class DetailFragment extends Fragment {
         // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.fragment_detail, container, false);
 
+        navController = NavHostFragment.findNavController(this);
+
+        mAuth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        String email = currentUser != null ? currentUser.getEmail() : null;
+
         fetchView(root);
 
         String id = getArguments().getString("id");
@@ -104,9 +119,18 @@ public class DetailFragment extends Fragment {
                 })
                 .into(ivProductImage);
 
-        getFromDatabase(collection, id);
+        FetchDataFromDatabase(collection, id);
 
 
+        ivComment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Bundle bundle = new Bundle();
+                bundle.putString("productId", product.getId());
+                bundle.putString("userEmail",email);
+                navController.navigate(R.id.commentDialogFragment,bundle);
+            }
+        });
 
 
         Transition transition = TransitionInflater.from(requireContext())
@@ -134,8 +158,8 @@ public class DetailFragment extends Fragment {
         String id = getArguments().getString("id");
         String collection = getArguments().getString("collection");
 
-        Log.v("PRODUCT_TEST",id);
-        Log.v("PRODUCT_TEST",collection);
+        Log.v("PRODUCT-ID",id);
+        Log.v("PRODUCT-COLLECTION",collection);
 
         DocumentReference docRef = db.collection(collection).document(id);
 
@@ -145,6 +169,7 @@ public class DetailFragment extends Fragment {
                 if (documentSnapshot.exists()) {
                     product = documentSnapshot.toObject(ProductModel.class);
                     assert product != null;
+                    String id = documentSnapshot.getId();
                     fetchViewByData(product);
                 } else if (error != null) {
                     Log.w("Product", "Got an exception:", error);
@@ -160,10 +185,13 @@ public class DetailFragment extends Fragment {
         tvProductPrice = root.findViewById(R.id.tv_product_price);
         tvProductDescription = root.findViewById(R.id.tv_product_description);
         ivProductImage = root.findViewById(R.id.iv_product_image);
+        ivFavorite = root.findViewById((R.id.iv_product_favorite));
+        ivComment = root.findViewById((R.id.iv_product_comment));
+
     }
 
 
-    private void getFromDatabase(String collection, String id) {
+    private void FetchDataFromDatabase(String collection, String id) {
         DocumentReference docRef = db.collection(collection).document(id);
 
         docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
@@ -172,6 +200,8 @@ public class DetailFragment extends Fragment {
                 if (documentSnapshot.exists()) {
                     product = documentSnapshot.toObject(ProductModel.class);
                     assert product != null;
+                    String id = documentSnapshot.getId();
+                    product.setId(id);
                     fetchViewByData(product);
                 } else {
                     Log.e("FIRESTORE", "Document don't exist or something wrong happen");
