@@ -19,6 +19,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.e2tech.AdminActivity;
 import com.example.e2tech.MainActivity;
 import com.example.e2tech.R;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -31,7 +32,7 @@ import com.google.firebase.auth.FirebaseUser;
 public class LoginActivity extends AppCompatActivity {
 
     private EditText email, password, name;
-    private Button mlogin;
+    private Button mlogin, btnLoginAdmin;
     private TextView tvRegister, tvForgetPassword;
     private ProgressBar progressBar;
     FirebaseUser currentUser;
@@ -55,6 +56,7 @@ public class LoginActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         mlogin = findViewById(R.id.login_button);
+        btnLoginAdmin = findViewById(R.id.btn_admin_login);
         mAuth = FirebaseAuth.getInstance();
 
         // checking if user is null or not
@@ -96,6 +98,17 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        btnLoginAdmin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent mainIntent = new Intent(LoginActivity.this, AdminActivity.class);
+                mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(mainIntent);
+                finish();
+            }
+        });
+
 
     }
 
