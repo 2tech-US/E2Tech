@@ -46,6 +46,16 @@ public class UserModel {
         this.img_url = img_url;
     }
 
+    public UserModel(String username, String email, String address, String age, String phone, String gender, String img_url) {
+        this.username = username;
+        this.email = email;
+        this.address = address;
+        this.age = age;
+        this.phone = phone;
+        this.gender = gender;
+        this.img_url = img_url;
+    }
+
     public String getUsername() {
         return username;
     }

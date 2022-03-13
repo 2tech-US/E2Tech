@@ -25,6 +25,7 @@ import com.example.e2tech.Adapters.PopularAdapter;
 import com.example.e2tech.Models.BannerModel;
 import com.example.e2tech.Models.CategoryModel;
 import com.example.e2tech.Models.ProductModel;
+import com.facebook.login.LoginManager;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -116,6 +117,8 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 FirebaseAuth.getInstance().signOut();
+                LoginManager.getInstance().logOut();
+
                 Intent intent = new Intent(getContext(), LoginActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
