@@ -29,6 +29,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -96,6 +97,7 @@ public class CartFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         overToTalAmount = root.findViewById(R.id.textView);
+        overToTalAmount.bringToFront();
 
         LocalBroadcastManager.getInstance(getActivity())
                 .registerReceiver(mMessageReceiver,new IntentFilter("MyTotalAmount"));
@@ -104,7 +106,7 @@ public class CartFragment extends Fragment {
         cartAdapter = new CartAdapter(getActivity(), cartModelList);
         recyclerView.setAdapter(cartAdapter);
 
-        db.collection("AddToCart").document("KcrSZ7GFyc0xoBlEUyyv")
+        db.collection("AddToCart").document(Objects.requireNonNull(auth.getCurrentUser()).getUid())
                 .collection("CurrentUser").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
