@@ -98,6 +98,11 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
                         }
                     });
 
+                    totalPrice -= cartModelList.get(position).getProductPrice();
+                    Intent intent = new Intent("MyTotalAmount");
+                    intent.putExtra("totalAmount", totalPrice);
+                    LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+
                     cartModelList.remove(position);
                     notifyItemRemoved(position);
                     notifyItemChanged(position);
