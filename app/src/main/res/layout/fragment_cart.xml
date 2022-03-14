@@ -25,6 +25,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/rounded_corner"
             android:padding="10dp"
+            android:layout_margin="5sp"
             android:text="Total price: 0 VND"
             android:textAlignment="center"
             android:textColor="#113F67"

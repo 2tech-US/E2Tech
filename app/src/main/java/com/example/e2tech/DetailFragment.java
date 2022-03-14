@@ -167,15 +167,14 @@ public class DetailFragment extends Fragment {
     }
 
     private void addToCart() {
+        String productId = getArguments().getString("id");
         final HashMap<String, Object> cart = new HashMap<>();
-        cart.put("productId", product.getId());
+        cart.put("productId", productId);
         cart.put("productName", product.getName());
         cart.put("productPrice", product.getPrice());
         cart.put("productImageURL", product.getImg_url());
         cart.put("totalQuantity", 1);
-        cart.put("totalPrice", product.getPrice());
 
-        String productId = getArguments().getString("id");
 
         CollectionReference cartRef = db.collection("AddToCart").document(Objects.requireNonNull(mAuth.getCurrentUser()).getUid())
                 .collection("CurrentUser");
@@ -197,11 +196,10 @@ public class DetailFragment extends Fragment {
                         for (QueryDocumentSnapshot document : task.getResult()) {
                             String id = document.getId();
                             int quantity = Integer.parseInt(document.get("totalQuantity").toString());
-                            int totalPrice = Integer.parseInt(document.get("totalPrice").toString());
                             int price = Integer.parseInt(document.get("productPrice").toString());
                             int newQuantity = quantity + 1;
-                            int newTotalPrice = totalPrice + price;
-                            cartRef.document(id).update("totalQuantity", newQuantity, "totalPrice", newTotalPrice);
+                            cartRef.document(id).update("totalQuantity", newQuantity);
+                            Toast.makeText(getContext(), "Updated to cart", Toast.LENGTH_SHORT).show();
                         }
                     }
                 }
