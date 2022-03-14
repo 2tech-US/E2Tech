@@ -28,17 +28,24 @@ import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.example.e2tech.Models.ProductModel;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.HashMap;
 import java.util.Objects;
+import java.util.Queue;
 
 /**
  * a
@@ -168,13 +175,48 @@ public class DetailFragment extends Fragment {
         cart.put("totalQuantity", 1);
         cart.put("totalPrice", product.getPrice());
 
-        db.collection("AddToCart").document(Objects.requireNonNull(mAuth.getCurrentUser()).getUid()).
-                collection("CurrentUser").add(cart).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+        String productId = getArguments().getString("id");
+
+        CollectionReference cartRef = db.collection("AddToCart").document(Objects.requireNonNull(mAuth.getCurrentUser()).getUid())
+                .collection("CurrentUser");
+        Query query = cartRef.whereEqualTo("productId", productId);
+        query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
-            public void onSuccess(DocumentReference documentReference) {
-                Toast.makeText(getContext(), "Added to cart", Toast.LENGTH_SHORT).show();
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                // check product exist in cart
+                if (task.isSuccessful()) {
+                    if (task.getResult().isEmpty()) {
+                        cartRef.add(cart).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                            @Override
+                            public void onSuccess(DocumentReference documentReference) {
+                                Toast.makeText(getContext(), "Added to cart", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    } else {
+                        // update quantity
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            String id = document.getId();
+                            int quantity = Integer.parseInt(document.get("totalQuantity").toString());
+                            int totalPrice = Integer.parseInt(document.get("totalPrice").toString());
+                            int price = Integer.parseInt(document.get("productPrice").toString());
+                            int newQuantity = quantity + 1;
+                            int newTotalPrice = totalPrice + price;
+                            cartRef.document(id).update("totalQuantity", newQuantity, "totalPrice", newTotalPrice);
+                        }
+                    }
+                }
             }
         });
+
+//        db.collection("AddToCart").document(Objects.requireNonNull(mAuth.getCurrentUser()).getUid()).
+//                collection("CurrentUser").add(cart).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+//            @Override
+//            public void onSuccess(DocumentReference documentReference) {
+//                Toast.makeText(getContext(), "Added to cart", Toast.LENGTH_SHORT).show();
+//            }
+//        });
+
+
     }
 
     @Override
