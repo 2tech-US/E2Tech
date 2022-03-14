@@ -3,7 +3,9 @@ package com.example.e2tech.Models;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class ProductModel extends ViewModel {
+import java.io.Serializable;
+
+public class ProductModel extends ViewModel implements Serializable {
 
     String name;
     int price;
@@ -14,10 +16,34 @@ public class ProductModel extends ViewModel {
     String img_url;
     String id;
     String company;
+
+    int remain;
+
+    public int getRemain() {
+        return remain;
+    }
+
+    public void setRemain(int remain) {
+        this.remain = remain;
+    }
+
     
     int numberOfReview;
     int numberOfPoint;
 
+
+    public ProductModel(String name, int price, String description, double rating, double discount, String type, String img_url, String id, String company, int remain) {
+        this.name = name;
+        this.price = price;
+        this.description = description;
+        this.rating = rating;
+        this.discount = discount;
+        this.type = type;
+        this.img_url = img_url;
+        this.id = id;
+        this.company = company;
+        this.remain = remain;
+    }
 
     public ProductModel(String name, int price, String description, double rating, double discount, String type, String img_url, String id, String company) {
         this.name = name;

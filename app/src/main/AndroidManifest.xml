@@ -12,6 +12,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.E2Tech">
         <activity
+            android:name=".AdminActivity"
+            android:exported="true">
+        </activity>
+        <activity
             android:name=".Activities.FacebookAuthActivity"
             android:exported="false" />
         <activity
@@ -35,6 +39,7 @@
         <activity
             android:name=".MainActivity"
             android:exported="true" />
+
         <activity
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
