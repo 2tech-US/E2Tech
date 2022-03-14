@@ -1,7 +1,13 @@
 package com.example.e2tech;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContract;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
@@ -18,12 +24,21 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.example.e2tech.Activities.RegisterActivity;
 import com.example.e2tech.Models.ProductModel;
+import com.example.e2tech.databinding.FragmentAdminProductDetailBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.StorageMetadata;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.UploadTask;
+import com.google.gson.Gson;
 
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -37,8 +52,14 @@ public class AdminProductDetail extends Fragment implements View.OnClickListener
     ImageView imgProduct;
     EditText edtName, edtPrice, edtRemain, edtDescription, edtDiscount;
 
-    Button btnUpdate, btnDelete;
+    Button btnUpdate, btnDelete, btnUpdateImage, btnSelectImage;
     FirebaseFirestore db;
+    StorageReference storageReference;
+    FirebaseStorage storage;
+
+    Uri imgUri;
+
+    FragmentAdminProductDetailBinding binding;
 
     public AdminProductDetail() {
         // Required empty public constructor
@@ -62,6 +83,11 @@ public class AdminProductDetail extends Fragment implements View.OnClickListener
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        binding = FragmentAdminProductDetailBinding.inflate(getLayoutInflater());
+
+
+
         // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.fragment_admin_product_detail, container, false);
 
@@ -84,9 +110,99 @@ public class AdminProductDetail extends Fragment implements View.OnClickListener
         btnUpdate.setOnClickListener(this);
         btnDelete.setOnClickListener(this);
 
+        ActivityResultLauncher<String> launcher = registerForActivityResult(new ActivityResultContracts.GetContent(), new ActivityResultCallback<Uri>() {
+            @Override
+            public void onActivityResult(Uri result) {
+//                binding.imgAdminProductDetail.setImageURI(result);
+                imgProduct.setImageURI(result);
+                imgUri = result;
+            }
+        });
+
+
+
+        storage = FirebaseStorage.getInstance();
         db = FirebaseFirestore.getInstance();
+        storageReference = storage.getReference();
+
+        btnSelectImage = root.findViewById(R.id.btn_admin_select_image_product);
+        btnSelectImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                launcher.launch("image/*");
+            }
+        });
+
+        btnUpdateImage = root.findViewById(R.id.btn_admin_update_image_product);
+        btnUpdateImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (imgUri != null) {
+                    updateImage();
+                } else {
+                    Toast.makeText(getActivity(), "You must select image first", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+
+
 
         return root;
+    }
+
+    private void selectImage() {
+//        Intent intent = new Intent();
+//        intent.setType("image/*");
+//        intent.setAction(Intent.ACTION_GET_CONTENT);
+//        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
+
+
+
+    }
+
+    private void updateImage() {
+//        // Create a reference to "mountains.jpg"
+//        StorageReference mountainsRef = storageReference.child("user.png");
+//
+//        // Create a reference to 'images/mountains.jpg'
+//        StorageReference mountainImagesRef = storageReference.child("images/user.png");
+//
+//        // While the file names are the same, the references point to different files
+//        mountainsRef.getName().equals(mountainImagesRef.getName());    // true
+
+        StorageReference reference = storage.getReference().child("Products/" + product.getName() + UUID.randomUUID().toString());
+
+        reference.putFile(imgUri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                if (task.isSuccessful()) {
+
+                    reference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+                            final Uri downloadUrl = uri;
+
+                            HashMap map = new HashMap();
+                            map.put("img_url", downloadUrl.toString());
+
+
+                            db.collection("PopularProducts").document(product.getId()).update(map).addOnCompleteListener(new OnCompleteListener() {
+                                @Override
+                                public void onComplete(@NonNull Task task) {
+                                    if (task.isComplete()) {
+                                        Toast.makeText(getActivity(), "Updated", Toast.LENGTH_LONG).show();
+                                    } else {
+                                        Toast.makeText(getActivity(), "Error" + task.getException(), Toast.LENGTH_LONG).show();
+
+                                    }
+                                }
+                            });
+
+                        }});
+                }
+            }
+        });
+
     }
 
 

@@ -102,10 +102,18 @@ public class LoginActivity extends AppCompatActivity {
         btnLoginAdmin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent mainIntent = new Intent(LoginActivity.this, AdminActivity.class);
-                mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(mainIntent);
-                finish();
+                String emaill = email.getText().toString().trim();
+                String pass = password.getText().toString().trim();
+
+                // if format of email doesn't matches return null
+                if (!Patterns.EMAIL_ADDRESS.matcher(emaill).matches() || !emaill.equals("thientoancubi@gmail.com")) {
+                    email.setError("Invalid Email");
+                    email.setFocusable(true);
+
+                } else {
+                    loginAdmin(emaill, pass);
+                }
+
             }
         });
 
@@ -173,6 +181,42 @@ public class LoginActivity extends AppCompatActivity {
                         progressBar.setVisibility(View.GONE);
                         Toast.makeText(LoginActivity.this, "Registered User " + user.getDisplayName(), Toast.LENGTH_LONG).show();
                         Intent mainIntent = new Intent(LoginActivity.this, MainActivity.class);
+                        mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(mainIntent);
+                        finish();
+                    } else {
+                        progressBar.setVisibility(View.GONE);
+                        user.sendEmailVerification();
+                        Toast.makeText(LoginActivity.this, "Check your email to verify your account", Toast.LENGTH_LONG).show();
+                    }
+                } else {
+                    progressBar.setVisibility(View.GONE);
+                    Toast.makeText(LoginActivity.this, "Login Failed", Toast.LENGTH_LONG).show();
+                }
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                progressBar.setVisibility(View.GONE);
+                Toast.makeText(LoginActivity.this, "Error Occured", Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    private void loginAdmin(String emaill, String pass) {
+
+        progressBar.setVisibility(View.VISIBLE);
+        // sign in with email and password after authenticating
+        mAuth.signInWithEmailAndPassword(emaill, pass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+
+                if (task.isSuccessful()) {
+                    FirebaseUser user = mAuth.getCurrentUser();
+                    if (user.isEmailVerified()) {
+                        progressBar.setVisibility(View.GONE);
+                        Toast.makeText(LoginActivity.this, "Registered User " + user.getDisplayName(), Toast.LENGTH_LONG).show();
+                        Intent mainIntent = new Intent(LoginActivity.this, AdminActivity.class);
                         mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(mainIntent);
                         finish();
