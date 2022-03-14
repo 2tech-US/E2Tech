@@ -65,8 +65,9 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
             @Override
             public void onClick(View v) {
                 if (cartModelList.get(position).getTotalQuantity() > 1) {
-                    holder.quantity.setText(String.valueOf(cartModelList.get(position).getTotalQuantity() - 1));
-                    holder.totalPrice.setText(String.valueOf(cartModelList.get(position).getProductPrice() * (cartModelList.get(position).getTotalQuantity() - 1)));
+                    cartModelList.get(position).setTotalQuantity(cartModelList.get(position).getTotalQuantity() - 1);
+                    holder.quantity.setText(String.valueOf(cartModelList.get(position).getTotalQuantity()));
+                    holder.totalPrice.setText(String.valueOf(cartModelList.get(position).getProductPrice() * (cartModelList.get(position).getTotalQuantity())));
 
                     CollectionReference cartRef = db.collection("AddToCart").document(Objects.requireNonNull(mAuth.getCurrentUser()).getUid())
                             .collection("CurrentUser");
@@ -75,7 +76,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
                         for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
                             db.collection("AddToCart").document(mAuth.getCurrentUser().getUid())
                                     .collection("CurrentUser").document(documentSnapshot.getId())
-                                    .update("totalQuantity", cartModelList.get(position).getTotalQuantity() - 1);
+                                    .update("totalQuantity", cartModelList.get(position).getTotalQuantity());
                         }
                     });
 
@@ -83,8 +84,8 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
                     Intent intent = new Intent("MyTotalAmount");
                     intent.putExtra("totalAmount", totalPrice);
                     LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
-                    // refresh view
-                    notifyDataSetChanged();
+                    // fetch value from firebase and update the value
+
                 } else {
                     //
                 }
@@ -93,8 +94,9 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
         holder.addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                holder.quantity.setText(String.valueOf(cartModelList.get(position).getTotalQuantity() + 1));
-                holder.totalPrice.setText(String.valueOf(cartModelList.get(position).getProductPrice() * (cartModelList.get(position).getTotalQuantity() + 1)));
+                cartModelList.get(position).setTotalQuantity(cartModelList.get(position).getTotalQuantity() + 1);
+                holder.quantity.setText(String.valueOf(cartModelList.get(position).getTotalQuantity()));
+                holder.totalPrice.setText(String.valueOf(cartModelList.get(position).getProductPrice() * (cartModelList.get(position).getTotalQuantity())));
 
                 CollectionReference cartRef = db.collection("AddToCart").document(Objects.requireNonNull(mAuth.getCurrentUser()).getUid())
                         .collection("CurrentUser");
@@ -103,7 +105,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
                     for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
                         db.collection("AddToCart").document(mAuth.getCurrentUser().getUid())
                                 .collection("CurrentUser").document(documentSnapshot.getId())
-                                .update("totalQuantity", cartModelList.get(position).getTotalQuantity() + 1);
+                                .update("totalQuantity", cartModelList.get(position).getTotalQuantity());
                     }
                 });
 
