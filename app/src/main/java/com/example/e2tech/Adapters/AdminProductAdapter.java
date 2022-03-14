@@ -43,6 +43,7 @@ public class AdminProductAdapter extends RecyclerView.Adapter<AdminProductAdapte
     public void onBindViewHolder(@NonNull AdminProductAdapter.ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         holder.tvName.setText(productList.get(position).getName());
         holder.tvPrice.setText(Integer.toString(productList.get(position).getPrice()));
+        holder.tvRemain.setText("Remain: " + Integer.toString(productList.get(position).getRemain()));
         Glide.with(context).load(productList.get(position).getImg_url()).into(holder.imgProduct);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

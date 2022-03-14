@@ -4,6 +4,8 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -12,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,7 +39,7 @@ public class AdminProductListFragment extends Fragment {
     ArrayList<ProductModel> productList;
     RecyclerView recyclerView;
     AdminProductAdapter adminProductAdapter;
-
+    Button btnAddProduct;
     FirebaseFirestore db;
 
 
@@ -70,9 +73,17 @@ public class AdminProductListFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         adminProductAdapter = new AdminProductAdapter(getActivity(), productList);
         recyclerView.setAdapter(adminProductAdapter);
-        Log.v("CATEGORY", category);
+//        Log.v("CATEGORY", category);
 
-        db.collection("PopularProducts")
+        btnAddProduct = root.findViewById(R.id.btn_admin_add_product);
+        btnAddProduct.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Navigation.findNavController(view).navigate(R.id.adminAddProductFragment);
+            }
+        });
+
+        db.collection("Products")
                 .whereEqualTo("type", category)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
