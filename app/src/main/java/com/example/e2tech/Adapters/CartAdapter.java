@@ -87,7 +87,20 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
                     // fetch value from firebase and update the value
 
                 } else {
-                    //
+                    CollectionReference cartRef = db.collection("AddToCart").document(Objects.requireNonNull(mAuth.getCurrentUser()).getUid())
+                            .collection("CurrentUser");
+                    Query query = cartRef.whereEqualTo("productId", cartModelList.get(position).getProductId());
+                    query.get().addOnSuccessListener(queryDocumentSnapshots -> {
+                        for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                            db.collection("AddToCart").document(mAuth.getCurrentUser().getUid())
+                                    .collection("CurrentUser").document(documentSnapshot.getId())
+                                    .delete();
+                        }
+                    });
+
+                    cartModelList.remove(position);
+                    notifyItemRemoved(position);
+                    notifyItemChanged(position);
                 }
             }
         });
