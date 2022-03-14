@@ -5,44 +5,24 @@ import com.google.type.DateTime;
 import java.util.Date;
 
 public class CommentModel {
-    String commentId;
-    String userId;
-    String productId;
+    String userEmail;
     DateTime createdAt;
-    Float rating;
-    String title;
+    int rating;
     String content;
 
-    public CommentModel(String userId, DateTime createdAt, Float rating, String title, String content) {
-        this.userId = userId;
+    public CommentModel(String userEmail, DateTime createdAt, int rating, String content) {
+        this.userEmail = userEmail;
         this.createdAt = createdAt;
         this.rating = rating;
-        this.title = title;
         this.content = content;
     }
 
-    public String getCommentId() {
-        return commentId;
+    public String getUserEmail() {
+        return userEmail;
     }
 
-    public void setCommentId(String commentId) {
-        this.commentId = commentId;
-    }
-
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
-
-    public String getProductId() {
-        return productId;
-    }
-
-    public void setProductId(String productId) {
-        this.productId = productId;
+    public void setUserEmail(String userEmail) {
+        this.userEmail = userEmail;
     }
 
     public DateTime getCreatedAt() {
@@ -53,20 +33,12 @@ public class CommentModel {
         this.createdAt = createdAt;
     }
 
-    public Float getRating() {
+    public int getRating() {
         return rating;
     }
 
-    public void setRating(Float rating) {
+    public void setRating(int rating) {
         this.rating = rating;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
     }
 
     public String getContent() {

@@ -16,6 +16,7 @@ public class ProductModel extends ViewModel implements Serializable {
     String img_url;
     String id;
     String company;
+
     int remain;
 
     public int getRemain() {
@@ -25,6 +26,11 @@ public class ProductModel extends ViewModel implements Serializable {
     public void setRemain(int remain) {
         this.remain = remain;
     }
+
+    
+    int numberOfReview;
+    int numberOfPoint;
+
 
     public ProductModel(String name, int price, String description, double rating, double discount, String type, String img_url, String id, String company, int remain) {
         this.name = name;

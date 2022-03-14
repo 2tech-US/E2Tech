@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_white_corner_16"
+    android:orientation="vertical"
+    android:padding="12dp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_yellow_corner_only_top_20"
+        android:gravity="center"
+        android:padding="12dp"
+        android:text="Send Your Review"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Rating This Product"
+        android:textSize="20sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="5dp"
+        android:gravity="center"
+        android:layout_marginBottom="12dp"
+        >
+        <ImageView
+            android:id="@+id/iv_comment_rating_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ic_baseline_star_24_grey"
+            android:layout_marginHorizontal="5dp"
+            />
+        <ImageView
+            android:id="@+id/iv_comment_rating_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ic_baseline_star_24_grey"
+            android:layout_marginHorizontal="5dp"
+            />
+        <ImageView
+            android:id="@+id/iv_comment_rating_3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ic_baseline_star_24_grey"
+            android:layout_marginHorizontal="5dp"
+            />
+        <ImageView
+            android:id="@+id/iv_comment_rating_4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ic_baseline_star_24_grey"
+            android:layout_marginHorizontal="5dp"
+
+            />
+        <ImageView
+            android:id="@+id/iv_comment_rating_5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ic_baseline_star_24_grey"
+            android:layout_marginHorizontal="5dp"
+            />
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Write Your Comment About This Product"
+        android:gravity="center"
+        android:textSize="16sp"/>
+
+    <EditText
+        android:id="@+id/et_comment_review"
+        android:layout_width="match_parent"
+        android:layout_height="127dp"
+        android:layout_marginBottom="10dp"
+        android:background="@color/grey"
+        android:gravity="fill_horizontal"
+        android:hint="This product change my life ..."
+        android:inputType="textMultiLine"
+        android:maxLines="25"
+        android:padding="10dp"
+        android:textSize="16sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        
+        <Button
+            android:id="@+id/btn_comment_cancel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="CANCEL"
+            android:background="@drawable/bg_grey_corner_10"
+            />
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.05"/>
+        <Button
+            android:id="@+id/btn_comment_send"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="SEND"
+            android:background="@drawable/bg_yellow_corner_10"
+            />
+        
+        
+    </LinearLayout>
+
+
+</LinearLayout>

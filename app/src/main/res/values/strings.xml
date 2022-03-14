@@ -32,4 +32,11 @@
     <string name="description_text">Description</string>
     <string name="lorem_product_description">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s</string>
     <string name="favorite">Favorite</string>
+
+    <!--    Facebook Auth-->
+
+    <string name="facebook_app_id">381497956796716</string>
+    <string name="fb_login_protocol_scheme">fb1234</string>
+    <string name="facebook_client_token">56789</string>
+
 </resources>

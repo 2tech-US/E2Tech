@@ -48,7 +48,10 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
                     Navigation.findNavController(view).navigate(R.id.shopFragment, bundle,
                             null, null);
                 } else {
-                    Toast.makeText(context, (String) holder.tvCateNameHome.getText(), Toast.LENGTH_SHORT).show();
+                    Bundle bundle = new Bundle();
+                    bundle.putString("collection", holder.tvCateNameHome.getText().toString());
+                    Navigation.findNavController(view).navigate(R.id.shopFragment, bundle,
+                            null,null);
                 }
             }
         });

@@ -44,7 +44,7 @@
                 android:id="@+id/btnInfor"
                 android:layout_width="match_parent"
                 android:layout_height="65dp"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="20dp"
                 android:text="Thong tin ca nhan"
                 app:icon="@drawable/outline_account_circle_24"/>
 
@@ -85,6 +85,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="65dp"
                 android:layout_marginTop="10dp"
+                android:layout_marginBottom="20dp"
                 android:text="Quan ly don hang (Admin)"
                 app:icon="@drawable/ic_baseline_star_border_24" />
 

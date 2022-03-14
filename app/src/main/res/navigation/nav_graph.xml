@@ -57,6 +57,9 @@
         <argument
             android:name="category"
             app:argType="string" />
+        <action
+            android:id="@+id/action_detailFragment_to_commentDialogFragment"
+            app:destination="@id/commentDialogFragment" />
     </fragment>
     <action
         android:id="@+id/action_global_detailFragment"
@@ -105,6 +108,10 @@
             android:id="@+id/action_shopFragment_to_categoryFragment"
             app:destination="@id/categoryFragment" />
     </fragment>
+    <dialog
+        android:id="@+id/commentDialogFragment"
+        android:name="com.example.e2tech.CommentDialogFragment"
+        android:label="CommentDialogFragment" />
 
 
 </navigation>

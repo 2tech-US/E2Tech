@@ -26,7 +26,7 @@ import com.example.e2tech.R;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
-public class PopularAdapter extends RecyclerView.Adapter<PopularAdapter.ViewHolder>  {
+public class PopularAdapter extends RecyclerView.Adapter<PopularAdapter.ViewHolder> {
 
     ArrayList<ProductModel> productList;
     Context context;
@@ -45,15 +45,19 @@ public class PopularAdapter extends RecyclerView.Adapter<PopularAdapter.ViewHold
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                int position = holder.getAdapterPosition();
                 Bundle bundle = new Bundle();
-                bundle.putString("id", holder.id);
+                bundle.putString("id", productList.get(position).getId());
                 bundle.putString("collection", "PopularProducts");
-                bundle.putString("img_url",holder.img_url);
+                bundle.putString("img_url", productList.get(position).getImg_url());
 
-                holder.setTransitionId();
-                FragmentNavigator.Extras extras = new FragmentNavigator.Extras.Builder()
-                        .addSharedElement(holder.imgProduct, holder.id)
-                        .build();
+
+                // animation zoom in
+
+//                ViewCompat.setTransitionName(this.imgProduct,productList.get(position).getImg_url());
+//                FragmentNavigator.Extras extras = new FragmentNavigator.Extras.Builder()
+//                        .addSharedElement(holder.imgProduct, holder.id)
+//                        .build();
 
 
 //                Navigation.findNavController(view).navigate(R.id.detailFragment, bundle,
@@ -70,11 +74,6 @@ public class PopularAdapter extends RecyclerView.Adapter<PopularAdapter.ViewHold
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.tvName.setText(productList.get(position).getName());
         holder.tvPrice.setText(Integer.toString(productList.get(position).getPrice()));
-
-        holder.id = productList.get(position).getId();
-        holder.category = productList.get(position).getType();
-        holder.img_url = productList.get(position).getImg_url();
-
         Glide.with(context).load(productList.get(position).getImg_url()).into(holder.imgProduct);
     }
 
@@ -89,19 +88,11 @@ public class PopularAdapter extends RecyclerView.Adapter<PopularAdapter.ViewHold
         TextView tvPrice;
         ImageView imgProduct;
 
-        //      below attribute just for reference
-        String category;
-        String id;
-        String img_url;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             tvName = itemView.findViewById(R.id.pop_name);
             tvPrice = itemView.findViewById(R.id.pop_price);
             imgProduct = itemView.findViewById(R.id.pop_img);
-        }
-
-        public void setTransitionId() {
-            ViewCompat.setTransitionName(this.imgProduct,this.img_url);
         }
 
     }
