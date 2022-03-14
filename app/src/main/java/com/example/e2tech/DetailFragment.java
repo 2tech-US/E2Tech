@@ -8,14 +8,17 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.HasDefaultViewModelProviderFactory;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 
@@ -34,6 +37,9 @@ import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 
+import java.util.HashMap;
+import java.util.Objects;
+
 /**
  * a
  */
@@ -51,6 +57,7 @@ public class DetailFragment extends Fragment {
     TextView tvProductPrice;
     TextView tvProductAvailable;
     TextView tvProductDescription;
+    Button btnAddToCart;
 
     ProductModel product;
 
@@ -142,7 +149,32 @@ public class DetailFragment extends Fragment {
         }
         ViewCompat.setTransitionName(ivProductImage,getArguments().getString("img_url"));
 
+        btnAddToCart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                addToCart();
+            }
+        });
+
         return root;
+    }
+
+    private void addToCart() {
+        final HashMap<String, Object> cart = new HashMap<>();
+        cart.put("productId", product.getId());
+        cart.put("productName", product.getName());
+        cart.put("productPrice", product.getPrice());
+        cart.put("productImageURL", product.getImg_url());
+        cart.put("totalQuantity", 1);
+        cart.put("totalPrice", product.getPrice());
+
+        db.collection("AddToCart").document(Objects.requireNonNull(mAuth.getCurrentUser()).getUid()).
+                collection("CurrentUser").add(cart).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+            @Override
+            public void onSuccess(DocumentReference documentReference) {
+                Toast.makeText(getContext(), "Added to cart", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override
@@ -187,7 +219,7 @@ public class DetailFragment extends Fragment {
         ivProductImage = root.findViewById(R.id.iv_product_image);
         ivFavorite = root.findViewById((R.id.iv_product_favorite));
         ivComment = root.findViewById((R.id.iv_product_comment));
-
+        btnAddToCart = root.findViewById(R.id.btn_add_to_cart);
     }
 
 
