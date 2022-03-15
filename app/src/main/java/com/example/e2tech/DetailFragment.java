@@ -1,5 +1,6 @@
 package com.example.e2tech;
 
+import android.annotation.SuppressLint;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.transition.Transition;
@@ -44,13 +45,18 @@ public class DetailFragment extends Fragment {
     FirebaseFirestore db;
 
     ImageView ivFavorite;
-    ImageView ivComment;
 
     ImageView ivProductImage;
     TextView tvProductName;
     TextView tvProductPrice;
     TextView tvProductAvailable;
     TextView tvProductDescription;
+    TextView tvProductBrand;
+    TextView tvProductCategory;
+
+    TextView tvProductRate;
+    TextView tvCommentSeeAll;
+    ImageView ivComment;
 
     ProductModel product;
 
@@ -127,20 +133,28 @@ public class DetailFragment extends Fragment {
             public void onClick(View view) {
                 Bundle bundle = new Bundle();
                 bundle.putString("productId", product.getId());
-                bundle.putString("userEmail",email);
-                navController.navigate(R.id.commentDialogFragment,bundle);
+                bundle.putString("userEmail", email);
+                navController.navigate(R.id.commentDialogFragment, bundle);
             }
         });
 
+        tvCommentSeeAll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Bundle bundle = new Bundle();
+                bundle.putString("productId", product.getId());
+                navController.navigate(R.id.action_detailFragment_to_commentFragment, bundle);
+            }
+        });
 
         Transition transition = TransitionInflater.from(requireContext())
                 .inflateTransition(R.transition.product_share_transition);
         setSharedElementEnterTransition(transition);
 
-        if(savedInstanceState == null) {
+        if (savedInstanceState == null) {
             postponeEnterTransition();
         }
-        ViewCompat.setTransitionName(ivProductImage,getArguments().getString("img_url"));
+        ViewCompat.setTransitionName(ivProductImage, getArguments().getString("img_url"));
 
         return root;
     }
@@ -158,8 +172,8 @@ public class DetailFragment extends Fragment {
         String id = getArguments().getString("id");
         String collection = getArguments().getString("collection");
 
-        Log.v("PRODUCT-ID",id);
-        Log.v("PRODUCT-COLLECTION",collection);
+        Log.v("PRODUCT-ID", id);
+        Log.v("PRODUCT-COLLECTION", collection);
 
         DocumentReference docRef = db.collection(collection).document(id);
 
@@ -185,7 +199,13 @@ public class DetailFragment extends Fragment {
         tvProductPrice = root.findViewById(R.id.tv_product_price);
         tvProductDescription = root.findViewById(R.id.tv_product_description);
         ivProductImage = root.findViewById(R.id.iv_product_image);
+        tvProductBrand = root.findViewById(R.id.tv_product_brand);
+        tvProductCategory = root.findViewById(R.id.tv_product_category);
+
         ivFavorite = root.findViewById((R.id.iv_product_favorite));
+
+        tvProductRate = root.findViewById(R.id.tv_product_rate);
+        tvCommentSeeAll = root.findViewById(R.id.tv_comment_seeall);
         ivComment = root.findViewById((R.id.iv_product_comment));
 
     }
@@ -213,9 +233,17 @@ public class DetailFragment extends Fragment {
 
     private void fetchViewByData(ProductModel product) {
         tvProductName.setText(product.getName());
-        tvProductAvailable.setText(product.getCompany());
-        tvProductPrice.setText(Integer.toString(product.getPrice()));
+        tvProductPrice.setText(product.getPrice() + "VNĐ");
         tvProductDescription.setText(R.string.lorem_product_description);
+        tvProductBrand.setText(product.getCompany());
+        tvProductCategory.setText(product.getType());
+//        tvProductRate.setText(Double.toString(product.getRating()) + '⭐');
+
+        if (product.getRemain() == 0) {
+            tvProductAvailable.setTextColor(getResources().getColor(R.color.red,null));
+            tvProductAvailable.setText("Out Stock");
+        }
+        else tvProductAvailable.setText("In Stock");
 
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(product.getName());
 

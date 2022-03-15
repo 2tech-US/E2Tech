@@ -11,12 +11,11 @@
         tools:context=".ProductFragment">
 
 
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
             android:layout_marginTop="20dp"
+            android:orientation="vertical"
             android:padding="16dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -51,13 +50,12 @@
                 android:layout_width="300dp"
                 android:layout_height="300dp"
                 android:layout_gravity="center"
-                android:transitionName="iv_transition_big_product"
                 android:layout_marginBottom="25dp"
+                android:background="@drawable/shadow_rect"
                 android:scaleType="fitCenter"
                 android:src="@color/card_2"
                 android:textAlignment="center"
-                android:background="@drawable/shadow_rect"/>
-
+                android:transitionName="iv_transition_big_product" />
 
 
             <TextView
@@ -67,6 +65,7 @@
                 android:layout_marginBottom="8dp"
                 android:text="@string/lorem_product_name"
                 android:textSize="25sp" />
+
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -78,48 +77,158 @@
                     android:id="@+id/tv_product_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="start"
                     android:layout_alignParentStart="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="2dp"
+                    android:layout_marginBottom="8dp"
                     android:text="@string/lorem_product_price"
-                    android:textSize="20sp" />
+                    android:textColor="@color/red"
+                    android:textSize="25sp" />
 
                 <TextView
                     android:id="@+id/tv_product_rate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="30dp"
                     android:gravity="end"
                     android:text="4.2⭐"
-                    android:layout_marginEnd="30dp"
-                    android:textSize="20sp" />
-            </RelativeLayout>
+                    android:textSize="18sp" />
 
+                <TextView
+                    android:id="@+id/tv_product_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@id/tv_product_rate"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginEnd="30dp"
+                    android:gravity="end"
+                    android:text="51000 🛒"
+                    android:textSize="15sp" />
+            </RelativeLayout>
 
             <TextView
                 android:id="@+id/tv_product_available"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="15sp"
+                android:layout_marginBottom="15dp"
                 android:text="@string/available"
-                android:layout_marginBottom="15dp"/>
+                android:textColor="@color/green"
+                android:textSize="15sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginBottom="15dp"
+                android:background="@color/black"
+                android:elevation="5dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="15dp"
+                    android:text="Brand:"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tv_product_brand"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Apple"
+                    android:textColor="@color/light_blue_600"
+                    android:textSize="15sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="15dp"
+                    android:text="Category:"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tv_product_category"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Mobile"
+                    android:textColor="@color/light_blue_600"
+                    android:textSize="15sp" />
+            </LinearLayout>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
                 android:text="@string/description_text"
                 android:textSize="20sp"
-                android:layout_marginBottom="5dp"/>
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/tv_product_description"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
+                android:layout_marginBottom="20dp"
                 android:text="@string/lorem_product_description"
                 android:textSize="14sp" />
 
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="5dp"
+                        android:text="Product Reviews"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="5dp"
+                        android:text="Not Implement dynamic rating star star"
+                        android:textSize="11sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tv_comment_seeall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:text="See All ▶"
+                    android:textColor="@color/yellow"
+                    android:textSize="15sp" />
+            </RelativeLayout>
 
 
         </LinearLayout>
+
     </ScrollView>
 </layout>
