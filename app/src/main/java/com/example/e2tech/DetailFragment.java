@@ -1,6 +1,8 @@
 package com.example.e2tech;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.transition.Transition;
@@ -10,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -35,6 +38,8 @@ import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 
+import java.util.Random;
+
 /**
  * a
  */
@@ -53,6 +58,7 @@ public class DetailFragment extends Fragment {
     TextView tvProductDescription;
     TextView tvProductBrand;
     TextView tvProductCategory;
+    RatingBar rbProductRating;
 
     TextView tvProductRate;
     TextView tvCommentSeeAll;
@@ -62,6 +68,8 @@ public class DetailFragment extends Fragment {
 
     NavController navController;
 
+    private String productId;
+    private String collection;
 
     public DetailFragment() {
         // Required empty public constructor
@@ -83,6 +91,8 @@ public class DetailFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        productId = getArguments() != null ? getArguments().getString("id") : null;
+        collection = getArguments().getString("collection");
 
 //        Transition transition = TransitionInflater.from(requireContext())
 //                .inflateTransition(R.transition.product_share_transition);
@@ -104,9 +114,7 @@ public class DetailFragment extends Fragment {
 
         fetchView(root);
 
-        String id = getArguments().getString("id");
-        String collection = getArguments().getString("collection");
-        String url_image = getArguments().getString("img_url");
+        String url_image = getArguments() != null ? getArguments().getString("img_url") : null;
 
         Glide.with(this)
                 .load(url_image)
@@ -125,7 +133,7 @@ public class DetailFragment extends Fragment {
                 })
                 .into(ivProductImage);
 
-        FetchDataFromDatabase(collection, id);
+        FetchDataFromDatabase(collection, productId);
 
 
         ivComment.setOnClickListener(new View.OnClickListener() {
@@ -169,13 +177,10 @@ public class DetailFragment extends Fragment {
     public void onStart() {
         super.onStart();
 
-        String id = getArguments().getString("id");
-        String collection = getArguments().getString("collection");
-
-        Log.v("PRODUCT-ID", id);
+        Log.v("PRODUCT-ID", productId);
         Log.v("PRODUCT-COLLECTION", collection);
 
-        DocumentReference docRef = db.collection(collection).document(id);
+        DocumentReference docRef = db.collection(collection).document(productId);
 
         docRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
@@ -184,6 +189,7 @@ public class DetailFragment extends Fragment {
                     product = documentSnapshot.toObject(ProductModel.class);
                     assert product != null;
                     String id = documentSnapshot.getId();
+                    product.setId(id);
                     fetchViewByData(product);
                 } else if (error != null) {
                     Log.w("Product", "Got an exception:", error);
@@ -201,7 +207,7 @@ public class DetailFragment extends Fragment {
         ivProductImage = root.findViewById(R.id.iv_product_image);
         tvProductBrand = root.findViewById(R.id.tv_product_brand);
         tvProductCategory = root.findViewById(R.id.tv_product_category);
-
+        rbProductRating = root.findViewById(R.id.ratingBar);
         ivFavorite = root.findViewById((R.id.iv_product_favorite));
 
         tvProductRate = root.findViewById(R.id.tv_product_rate);
@@ -231,6 +237,7 @@ public class DetailFragment extends Fragment {
     }
 
 
+    @SuppressLint("SetTextI18n")
     private void fetchViewByData(ProductModel product) {
         tvProductName.setText(product.getName());
         tvProductPrice.setText(product.getPrice() + "VNĐ");
@@ -238,6 +245,11 @@ public class DetailFragment extends Fragment {
         tvProductBrand.setText(product.getCompany());
         tvProductCategory.setText(product.getType());
 //        tvProductRate.setText(Double.toString(product.getRating()) + '⭐');
+//        rbProductRating.setRating(product.getRating());
+
+        float fakeRating = (float) (0 + Math.random() * (5));
+        tvProductRate.setText(Float.toString(fakeRating));
+        rbProductRating.setRating(fakeRating);
 
         if (product.getRemain() == 0) {
             tvProductAvailable.setTextColor(getResources().getColor(R.color.red,null));
@@ -251,4 +263,23 @@ public class DetailFragment extends Fragment {
 //        Glide.with(this).load(product.getImg_url()).into(ivProductImage);
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        SharedPreferences preferences = this.getActivity().getSharedPreferences("pref", Context.MODE_PRIVATE);
+        SharedPreferences.Editor edit = preferences.edit();
+
+        edit.putString("product_id",this.productId);
+        edit.putString("collection",this.collection);
+
+        edit.apply();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        SharedPreferences pref = getActivity().getPreferences(Context.MODE_PRIVATE);
+        this.productId = pref.getString("product_id", "empty");
+        this.collection = pref.getString("collection","empty");
+    }
 }
