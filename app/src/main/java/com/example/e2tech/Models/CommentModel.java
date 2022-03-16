@@ -1,35 +1,41 @@
 package com.example.e2tech.Models;
 
+import com.google.firebase.Timestamp;
 import com.google.type.DateTime;
 
-import java.util.Date;
-
 public class CommentModel {
-    String userEmail;
-    DateTime createdAt;
+    String id;
+    String email;
+    Timestamp createdAt;
     int rating;
     String content;
+    String name;
 
-    public CommentModel(String userEmail, DateTime createdAt, int rating, String content) {
-        this.userEmail = userEmail;
+    public CommentModel() {
+
+    }
+
+    public CommentModel(String name, String email, Timestamp createdAt, int rating, String content) {
+        this.name = name;
+        this.email = email;
         this.createdAt = createdAt;
         this.rating = rating;
         this.content = content;
     }
 
-    public String getUserEmail() {
-        return userEmail;
+    public String getEmail() {
+        return email;
     }
 
-    public void setUserEmail(String userEmail) {
-        this.userEmail = userEmail;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    public DateTime getCreatedAt() {
+    public Timestamp getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(DateTime createdAt) {
+    public void setCreatedAt(Timestamp createdAt) {
         this.createdAt = createdAt;
     }
 
@@ -48,4 +54,21 @@ public class CommentModel {
     public void setContent(String content) {
         this.content = content;
     }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
 }

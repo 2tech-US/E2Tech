@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,20 +18,20 @@ import androidx.navigation.fragment.NavHostFragment;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
-import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/// TODO: 3/17/2022 : Integrate with Products collection (not ProductsPopulars)
 
 public class CommentDialogFragment extends DialogFragment implements View.OnClickListener {
 
@@ -40,8 +41,6 @@ public class CommentDialogFragment extends DialogFragment implements View.OnClic
             R.id.iv_comment_rating_5));
 
     int rating = 0;
-
-
     EditText userReview;
 
     Button btnCancel;
@@ -50,6 +49,8 @@ public class CommentDialogFragment extends DialogFragment implements View.OnClic
     NavController navController;
 
     FirebaseFirestore db;
+    FirebaseAuth mAuth;
+
     private DocumentReference mDocRef;
 
     public CommentDialogFragment() {
@@ -78,9 +79,10 @@ public class CommentDialogFragment extends DialogFragment implements View.OnClic
         btnSend = root.findViewById(R.id.btn_comment_send);
 
         String productId = getArguments() != null ? getArguments().getString("productId") : null;
-        String userEmail = getArguments() != null ? getArguments().getString("userEmail") : null;
 
         db = FirebaseFirestore.getInstance();
+        mAuth = FirebaseAuth.getInstance();
+
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -91,15 +93,17 @@ public class CommentDialogFragment extends DialogFragment implements View.OnClic
         btnSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String reviewContent = userReview.getText().toString();
-                String productId = getArguments() != null ? getArguments().getString("productId") : null;
-                String userEmail = getArguments() != null ? getArguments().getString("userEmail") : null;
+                if (rating == 0)
+                    Toast.makeText(getContext(), "You Must Select Rating Star First", Toast.LENGTH_SHORT).show();
+                else {
+                    String reviewContent = userReview.getText().toString();
+                    String productId = getArguments() != null ? getArguments().getString("productId") : null;
 
-                mDocRef = db.collection("PopularProducts").document(productId).collection("comment").document();
+                    mDocRef = db.collection("PopularProducts").document(productId).collection("comment").document();
 
-                saveComment(userEmail,rating,reviewContent);
-
-                navController.navigateUp();
+                    saveComment(rating, reviewContent);
+                    navController.navigateUp();
+                }
             }
         });
 
@@ -125,23 +129,25 @@ public class CommentDialogFragment extends DialogFragment implements View.OnClic
 
     }
 
-    private void saveComment(String email ,int rating, String content) {
-        Map<String,Object> dataToSave = new HashMap<String, Object>();
-        dataToSave.put("rating",rating);
-        dataToSave.put("content",content);
-        dataToSave.put("email",email);
-        dataToSave.put("createAt",Timestamp.now());
+    private void saveComment(int rating, String content) {
+        FirebaseUser user = mAuth.getCurrentUser();
 
+        Map<String, Object> dataToSave = new HashMap<String, Object>();
+        dataToSave.put("rating", rating);
+        dataToSave.put("content", content);
+        dataToSave.put("email", user != null ? user.getEmail() : null);
+        dataToSave.put("createAt", Timestamp.now());
+        dataToSave.put("name", user != null ? user.getDisplayName() : null);
 
         mDocRef.set(dataToSave).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
-                Log.d("SAVE_COMMENT","Document have been save");
+                Log.d("SAVE_COMMENT", "Document have been save");
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Log.w("SAVE_COMMENT","Document was not save");
+                Log.w("SAVE_COMMENT", "Document was not save");
             }
         });
     }

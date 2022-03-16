@@ -31,14 +31,11 @@ import com.bumptech.glide.request.target.Target;
 import com.example.e2tech.Models.ProductModel;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
-
-import java.util.Random;
 
 /**
  * a
@@ -46,7 +43,6 @@ import java.util.Random;
 public class DetailFragment extends Fragment {
 
     FirebaseAuth mAuth;
-    FirebaseUser currentUser;
     FirebaseFirestore db;
 
     ImageView ivFavorite;
@@ -109,8 +105,6 @@ public class DetailFragment extends Fragment {
 
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        String email = currentUser != null ? currentUser.getEmail() : null;
 
         fetchView(root);
 
@@ -141,7 +135,6 @@ public class DetailFragment extends Fragment {
             public void onClick(View view) {
                 Bundle bundle = new Bundle();
                 bundle.putString("productId", product.getId());
-                bundle.putString("userEmail", email);
                 navController.navigate(R.id.commentDialogFragment, bundle);
             }
         });
@@ -247,8 +240,8 @@ public class DetailFragment extends Fragment {
 //        tvProductRate.setText(Double.toString(product.getRating()) + '⭐');
 //        rbProductRating.setRating(product.getRating());
 
-        float fakeRating = (float) (0 + Math.random() * (5));
-        tvProductRate.setText(Float.toString(fakeRating));
+        float fakeRating = (float) Math.round((0 + Math.random() * (5))*10)/10;
+        tvProductRate.setText(fakeRating +"⭐");
         rbProductRating.setRating(fakeRating);
 
         if (product.getRemain() == 0) {
