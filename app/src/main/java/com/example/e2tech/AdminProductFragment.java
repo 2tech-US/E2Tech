@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -90,6 +91,17 @@ public class AdminProductFragment extends Fragment {
                         }
                     }
                 });
+
+        btnAddCategory = root.findViewById(R.id.btn_admin_add_category);
+
+        btnAddCategory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Navigation.findNavController(view).navigate(R.id.adminAddCategoryFragment);
+            }
+        });
+
+
 
 
 
