@@ -16,14 +16,20 @@ import androidx.fragment.app.DialogFragment;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 
+import com.example.e2tech.Models.ProductModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -51,6 +57,7 @@ public class CommentDialogFragment extends DialogFragment implements View.OnClic
     FirebaseFirestore db;
     FirebaseAuth mAuth;
 
+    ProductModel product;
     private DocumentReference mDocRef;
 
     public CommentDialogFragment() {
@@ -99,9 +106,13 @@ public class CommentDialogFragment extends DialogFragment implements View.OnClic
                     String reviewContent = userReview.getText().toString();
                     String productId = getArguments() != null ? getArguments().getString("productId") : null;
 
+                    // save review
                     mDocRef = db.collection("PopularProducts").document(productId).collection("comment").document();
+                    saveComment(productId,rating, reviewContent);
 
-                    saveComment(rating, reviewContent);
+                    // update product review
+                    updateProductDocument(productId,rating);
+
                     navController.navigateUp();
                 }
             }
@@ -110,6 +121,7 @@ public class CommentDialogFragment extends DialogFragment implements View.OnClic
         return root;
 
     }
+
 
     @Override
     public void onClick(View view) {
@@ -129,8 +141,47 @@ public class CommentDialogFragment extends DialogFragment implements View.OnClic
 
     }
 
-    private void saveComment(int rating, String content) {
+    private void updateProductDocument(String productId,int rating) {
+        mDocRef = db.collection("PopularProducts").document(productId);
+
+
+//        mDocRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+//            @Override
+//            public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException error) {
+//                if (documentSnapshot.exists()) {
+//                    product = documentSnapshot.toObject(ProductModel.class);
+//                } else if (error != null) {
+//                    Log.w("Product", "Got an exception:", error);
+//                }
+//            }
+//        });
+//
+//        product.setNumberOfReview(product.getNumberOfReview()+1);
+//        product.setNumberOfPoint(product.getNumberOfPoint()+rating);
+//        product.calculateRate();
+
+        Map<String,Object> dataToUpdate = new HashMap<>();
+        dataToUpdate.put("numberOfReview",FieldValue.increment(1));
+        dataToUpdate.put("numberOfPoint",FieldValue.increment(rating));
+
+        mDocRef.update(dataToUpdate)
+        .addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                Log.d("UPDATE_REVIEW_PRODUCT", "Document have been update");
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.w("UPDATE_REVIEW_PRODUCT", "Document was not save");
+            }
+        });
+    }
+
+
+    private void saveComment(String productId, int rating, String content) {
         FirebaseUser user = mAuth.getCurrentUser();
+        mDocRef = db.collection("PopularProducts").document(productId).collection("comment").document();
 
         Map<String, Object> dataToSave = new HashMap<String, Object>();
         dataToSave.put("rating", rating);

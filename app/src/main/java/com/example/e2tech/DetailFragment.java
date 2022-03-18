@@ -237,18 +237,21 @@ public class DetailFragment extends Fragment {
         tvProductDescription.setText(R.string.lorem_product_description);
         tvProductBrand.setText(product.getCompany());
         tvProductCategory.setText(product.getType());
-//        tvProductRate.setText(Double.toString(product.getRating()) + '⭐');
-//        rbProductRating.setRating(product.getRating());
 
-        float fakeRating = (float) Math.round((0 + Math.random() * (5))*10)/10;
-        tvProductRate.setText(fakeRating +"⭐");
-        rbProductRating.setRating(fakeRating);
+        if (product.getNumberOfReview() != 0) {
+            product.calculateRate();
+            tvProductRate.setText(Double.toString(product.getRating()) + '⭐');
+            rbProductRating.setRating((float) product.getRating());
+        } else {
+            float fakeRating = (float) Math.round((0 + Math.random() * (5)) * 10) / 10;
+            tvProductRate.setText(fakeRating + "⭐");
+            rbProductRating.setRating(fakeRating);
+        }
 
         if (product.getRemain() == 0) {
-            tvProductAvailable.setTextColor(getResources().getColor(R.color.red,null));
+            tvProductAvailable.setTextColor(getResources().getColor(R.color.red, null));
             tvProductAvailable.setText("Out Stock");
-        }
-        else tvProductAvailable.setText("In Stock");
+        } else tvProductAvailable.setText("In Stock");
 
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(product.getName());
 
@@ -262,8 +265,8 @@ public class DetailFragment extends Fragment {
         SharedPreferences preferences = this.getActivity().getSharedPreferences("pref", Context.MODE_PRIVATE);
         SharedPreferences.Editor edit = preferences.edit();
 
-        edit.putString("product_id",this.productId);
-        edit.putString("collection",this.collection);
+        edit.putString("product_id", this.productId);
+        edit.putString("collection", this.collection);
 
         edit.apply();
     }
@@ -273,6 +276,6 @@ public class DetailFragment extends Fragment {
         super.onResume();
         SharedPreferences pref = getActivity().getPreferences(Context.MODE_PRIVATE);
         this.productId = pref.getString("product_id", "empty");
-        this.collection = pref.getString("collection","empty");
+        this.collection = pref.getString("collection", "empty");
     }
 }
