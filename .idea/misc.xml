@@ -30,11 +30,15 @@
         <entry key="..\:/Data/KHTN/Nam_3/hoc_ky_2/MobileAndroid/project/E2Tech/app/src/main/res/layout/fragment_admin_about.xml" value="0.25416666666666665" />
         <entry key="..\:/Data/KHTN/Nam_3/hoc_ky_2/MobileAndroid/project/E2Tech/app/src/main/res/layout/fragment_admin_add_category.xml" value="0.25" />
         <entry key="..\:/Data/KHTN/Nam_3/hoc_ky_2/MobileAndroid/project/E2Tech/app/src/main/res/layout/fragment_admin_add_product.xml" value="0.24094202898550723" />
+        <entry key="..\:/Data/KHTN/Nam_3/hoc_ky_2/MobileAndroid/project/E2Tech/app/src/main/res/layout/fragment_admin_delivering_order.xml" value="0.19519927536231885" />
+        <entry key="..\:/Data/KHTN/Nam_3/hoc_ky_2/MobileAndroid/project/E2Tech/app/src/main/res/layout/fragment_admin_done_order.xml" value="0.19519927536231885" />
         <entry key="..\:/Data/KHTN/Nam_3/hoc_ky_2/MobileAndroid/project/E2Tech/app/src/main/res/layout/fragment_admin_home.xml" value="0.25416666666666665" />
         <entry key="..\:/Data/KHTN/Nam_3/hoc_ky_2/MobileAndroid/project/E2Tech/app/src/main/res/layout/fragment_admin_order.xml" value="0.25416666666666665" />
+        <entry key="..\:/Data/KHTN/Nam_3/hoc_ky_2/MobileAndroid/project/E2Tech/app/src/main/res/layout/fragment_admin_processing_order.xml" value="0.19519927536231885" />
         <entry key="..\:/Data/KHTN/Nam_3/hoc_ky_2/MobileAndroid/project/E2Tech/app/src/main/res/layout/fragment_admin_product.xml" value="0.25416666666666665" />
         <entry key="..\:/Data/KHTN/Nam_3/hoc_ky_2/MobileAndroid/project/E2Tech/app/src/main/res/layout/fragment_admin_product_detail.xml" value="0.25416666666666665" />
         <entry key="..\:/Data/KHTN/Nam_3/hoc_ky_2/MobileAndroid/project/E2Tech/app/src/main/res/layout/fragment_admin_product_list.xml" value="0.25416666666666665" />
+        <entry key="..\:/Data/KHTN/Nam_3/hoc_ky_2/MobileAndroid/project/E2Tech/app/src/main/res/layout/fragment_admin_waiting_order.xml" value="0.19519927536231885" />
         <entry key="..\:/Data/KHTN/Nam_3/hoc_ky_2/MobileAndroid/project/E2Tech/app/src/main/res/layout/fragment_cart.xml" value="0.1" />
         <entry key="..\:/Data/KHTN/Nam_3/hoc_ky_2/MobileAndroid/project/E2Tech/app/src/main/res/layout/fragment_category.xml" value="0.1" />
         <entry key="..\:/Data/KHTN/Nam_3/hoc_ky_2/MobileAndroid/project/E2Tech/app/src/main/res/layout/fragment_detail.xml" value="0.1" />

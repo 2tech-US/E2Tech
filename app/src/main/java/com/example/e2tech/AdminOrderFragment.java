@@ -3,10 +3,15 @@ package com.example.e2tech;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.viewpager2.widget.ViewPager2;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.example.e2tech.Adapters.AdminOrderVPAdapter;
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -15,14 +20,10 @@ import android.view.ViewGroup;
  */
 public class AdminOrderFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    AdminOrderVPAdapter viewPagerAdapter;
+    TabLayout tabLayout;
+    ViewPager2 viewPager2;
+    private String[] titles = new String[]{"Waiting", "Processing", "Delivering", "Done"};
 
     public AdminOrderFragment() {
         // Required empty public constructor
@@ -40,8 +41,7 @@ public class AdminOrderFragment extends Fragment {
     public static AdminOrderFragment newInstance(String param1, String param2) {
         AdminOrderFragment fragment = new AdminOrderFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+
         fragment.setArguments(args);
         return fragment;
     }
@@ -50,8 +50,7 @@ public class AdminOrderFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+
         }
     }
 
@@ -59,6 +58,16 @@ public class AdminOrderFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_admin_order, container, false);
+        View root = inflater.inflate(R.layout.fragment_admin_order, container, false);
+
+        viewPager2 = root.findViewById(R.id.admin_order_view_pager);
+        tabLayout = root.findViewById(R.id.admin_order_tab_layout);
+        viewPagerAdapter = new AdminOrderVPAdapter(getActivity());
+
+        viewPager2.setAdapter(viewPagerAdapter);
+
+        new TabLayoutMediator(tabLayout, viewPager2,(tab, position) -> tab.setText(titles[position])).attach();
+
+        return root;
     }
 }
