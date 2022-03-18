@@ -186,7 +186,7 @@ public class ProductModel extends ViewModel implements Serializable {
     }
 
     public void calculateRate() {
-        double preRate = (double) (this.getNumberOfPoint() / this.getNumberOfReview());
+        double preRate = (double) (this.getNumberOfPoint() /(double) this.getNumberOfReview());
         this.rating = (double) Math.round(preRate * 10) / 10;
     }
 

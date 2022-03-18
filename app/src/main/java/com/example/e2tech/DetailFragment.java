@@ -1,8 +1,6 @@
 package com.example.e2tech;
 
-import android.annotation.SuppressLint;
-import android.content.Context;
-import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.transition.Transition;
@@ -17,7 +15,6 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
@@ -40,7 +37,7 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 /**
  * a
  */
-public class DetailFragment extends Fragment {
+public class DetailFragment extends Fragment implements View.OnClickListener {
 
     FirebaseAuth mAuth;
     FirebaseFirestore db;
@@ -67,6 +64,10 @@ public class DetailFragment extends Fragment {
     private String productId;
     private String collection;
 
+
+    // Demo UI Purpose
+    boolean isFavorite = false;
+
     public DetailFragment() {
         // Required empty public constructor
     }
@@ -87,8 +88,9 @@ public class DetailFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        productId = getArguments() != null ? getArguments().getString("id") : null;
-        collection = getArguments().getString("collection");
+
+//        productId = getArguments() != null ? getArguments().getString("id") : null;
+//        collection = getArguments().getString("collection");
 
 //        Transition transition = TransitionInflater.from(requireContext())
 //                .inflateTransition(R.transition.product_share_transition);
@@ -127,26 +129,43 @@ public class DetailFragment extends Fragment {
                 })
                 .into(ivProductImage);
 
+        productId = getArguments() != null ? getArguments().getString("id") : null;
+        collection = getArguments().getString("collection");
+
         FetchDataFromDatabase(collection, productId);
 
 
-        ivComment.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Bundle bundle = new Bundle();
-                bundle.putString("productId", product.getId());
-                navController.navigate(R.id.commentDialogFragment, bundle);
-            }
-        });
-
-        tvCommentSeeAll.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Bundle bundle = new Bundle();
-                bundle.putString("productId", product.getId());
-                navController.navigate(R.id.action_detailFragment_to_commentFragment, bundle);
-            }
-        });
+//        ivComment.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Bundle bundle = new Bundle();
+//                bundle.putString("productId", product.getId());
+//                navController.navigate(R.id.commentDialogFragment, bundle);
+//            }
+//        });
+//
+//        tvCommentSeeAll.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Bundle bundle = new Bundle();
+//                bundle.putString("productId", product.getId());
+//                navController.navigate(R.id.action_detailFragment_to_commentFragment, bundle);
+//            }
+//        });
+//
+//        ivFavorite.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                if(isFavorite) {
+//                    ivFavorite.setColorFilter(Color.GRAY);
+//                    isFavorite = false;
+//                }
+//                else {
+//                    ivFavorite.setColorFilter(Color.RED);
+//                    isFavorite = true;
+//                }
+//            }
+//        });
 
         Transition transition = TransitionInflater.from(requireContext())
                 .inflateTransition(R.transition.product_share_transition);
@@ -204,9 +223,13 @@ public class DetailFragment extends Fragment {
         ivFavorite = root.findViewById((R.id.iv_product_favorite));
 
         tvProductRate = root.findViewById(R.id.tv_product_rate);
-        tvCommentSeeAll = root.findViewById(R.id.tv_comment_seeall);
+        tvCommentSeeAll = root.findViewById(R.id.tv_product_seeall);
         ivComment = root.findViewById((R.id.iv_product_comment));
 
+
+        ivComment.setOnClickListener(this);
+        ivFavorite.setOnClickListener(this);
+        tvCommentSeeAll.setOnClickListener(this);
     }
 
 
@@ -230,31 +253,30 @@ public class DetailFragment extends Fragment {
     }
 
 
-    @SuppressLint("SetTextI18n")
     private void fetchViewByData(ProductModel product) {
         tvProductName.setText(product.getName());
-        tvProductPrice.setText(product.getPrice() + "VNĐ");
+        tvProductPrice.setText(product.getPrice() + " VNĐ");
         tvProductDescription.setText(R.string.lorem_product_description);
         tvProductBrand.setText(product.getCompany());
         tvProductCategory.setText(product.getType());
 
         if (product.getNumberOfReview() != 0) {
             product.calculateRate();
-            tvProductRate.setText(Double.toString(product.getRating()) + '⭐');
+            tvProductRate.setText(Double.toString(product.getRating()) + '⭐' + " (" +product.getNumberOfReview() + ")" );
             rbProductRating.setRating((float) product.getRating());
         } else {
-            float fakeRating = (float) Math.round((0 + Math.random() * (5)) * 10) / 10;
-            tvProductRate.setText(fakeRating + "⭐");
-            rbProductRating.setRating(fakeRating);
+            tvProductRate.setText("Not Review");
+            rbProductRating.setRating(0);
         }
 
         if (product.getRemain() == 0) {
-            tvProductAvailable.setTextColor(getResources().getColor(R.color.red, null));
+            tvProductAvailable.setTextColor(Color.RED);
             tvProductAvailable.setText("Out Stock");
         } else tvProductAvailable.setText("In Stock");
 
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(product.getName());
+//        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(product.getName());
 
+        // TODO: 3/18/2022 : Check User Favorite
 
 //        Glide.with(this).load(product.getImg_url()).into(ivProductImage);
     }
@@ -262,20 +284,47 @@ public class DetailFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
-        SharedPreferences preferences = this.getActivity().getSharedPreferences("pref", Context.MODE_PRIVATE);
-        SharedPreferences.Editor edit = preferences.edit();
-
-        edit.putString("product_id", this.productId);
-        edit.putString("collection", this.collection);
-
-        edit.apply();
+//        SharedPreferences preferences = this.getActivity().getSharedPreferences("pref", Context.MODE_PRIVATE);
+//        SharedPreferences.Editor edit = preferences.edit();
+//
+//        edit.putString("product_id", this.productId);
+//        edit.putString("collection", this.collection);
+//
+//        edit.apply();
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        SharedPreferences pref = getActivity().getPreferences(Context.MODE_PRIVATE);
-        this.productId = pref.getString("product_id", "empty");
-        this.collection = pref.getString("collection", "empty");
+//        SharedPreferences pref = getActivity().getPreferences(Context.MODE_PRIVATE);
+//        this.productId = pref.getString("product_id", "empty");
+//        this.collection = pref.getString("collection", "empty");
+//
+//        Log.v("ON_RESUME","");
+    }
+
+    @Override
+    public void onClick(View view) {
+        Bundle bundle = new Bundle();
+        switch (view.getId()){
+            case R.id.iv_product_favorite:
+                if(isFavorite) {
+                    ivFavorite.setColorFilter(Color.GRAY);
+                    isFavorite = false;
+                }
+                else {
+                    ivFavorite.setColorFilter(Color.RED);
+                    isFavorite = true;
+                }
+                break;
+            case R.id.iv_product_comment:
+                bundle.putString("productId", product.getId());
+                navController.navigate(R.id.commentDialogFragment, bundle);
+                break;
+            case R.id.tv_product_seeall:
+                bundle.putString("productId", product.getId());
+                navController.navigate(R.id.action_detailFragment_to_commentFragment, bundle);
+                break;
+        }
     }
 }

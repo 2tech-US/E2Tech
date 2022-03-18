@@ -36,6 +36,9 @@
         <entry key="..\:/Users/bestm/Desktop/E2Tech/app/src/main/res/drawable-v24/bg_yellow_corner_only_top16.xml" value="0.137" />
         <entry key="..\:/Users/bestm/Desktop/E2Tech/app/src/main/res/drawable-v24/bg_yellow_corner_only_top_32.xml" value="0.137" />
         <entry key="..\:/Users/bestm/Desktop/E2Tech/app/src/main/res/drawable-v24/item_selector.xml" value="0.137" />
+        <entry key="..\:/Users/bestm/Desktop/E2Tech/app/src/main/res/drawable-v24/outline_account_circle_24.xml" value="0.137" />
+        <entry key="..\:/Users/bestm/Desktop/E2Tech/app/src/main/res/drawable-v24/outline_favorite_24.xml" value="0.137" />
+        <entry key="..\:/Users/bestm/Desktop/E2Tech/app/src/main/res/drawable-v24/outline_grid_view_20.xml" value="0.137" />
         <entry key="..\:/Users/bestm/Desktop/E2Tech/app/src/main/res/drawable-v24/outline_grid_view_24.xml" value="0.137" />
         <entry key="..\:/Users/bestm/Desktop/E2Tech/app/src/main/res/drawable-v24/outline_home_24.xml" value="0.137" />
         <entry key="..\:/Users/bestm/Desktop/E2Tech/app/src/main/res/drawable-v24/outline_shopping_cart_24.xml" value="0.137" />
@@ -53,7 +56,9 @@
         <entry key="..\:/Users/bestm/Desktop/E2Tech/app/src/main/res/drawable/ic_baseline_star_24.xml" value="0.216" />
         <entry key="..\:/Users/bestm/Desktop/E2Tech/app/src/main/res/drawable/ic_baseline_star_24_grey.xml" value="0.216" />
         <entry key="..\:/Users/bestm/Desktop/E2Tech/app/src/main/res/drawable/ic_baseline_star_24_yellow.xml" value="0.216" />
+        <entry key="..\:/Users/bestm/Desktop/E2Tech/app/src/main/res/drawable/ic_baseline_star_border_24.xml" value="0.137" />
         <entry key="..\:/Users/bestm/Desktop/E2Tech/app/src/main/res/drawable/layout_border.xml" value="0.137" />
+        <entry key="..\:/Users/bestm/Desktop/E2Tech/app/src/main/res/drawable/outline_background_blue.xml" value="0.137" />
         <entry key="..\:/Users/bestm/Desktop/E2Tech/app/src/main/res/drawable/search_gb.xml" value="0.137" />
         <entry key="..\:/Users/bestm/Desktop/E2Tech/app/src/main/res/drawable/shadow_rect.xml" value="0.137" />
         <entry key="..\:/Users/bestm/Desktop/E2Tech/app/src/main/res/layout/activity_main.xml" value="0.264" />
@@ -67,7 +72,7 @@
         <entry key="..\:/Users/bestm/Desktop/E2Tech/app/src/main/res/layout/fragment_category.xml" value="0.28894173602853745" />
         <entry key="..\:/Users/bestm/Desktop/E2Tech/app/src/main/res/layout/fragment_comment.xml" value="0.49544626593806923" />
         <entry key="..\:/Users/bestm/Desktop/E2Tech/app/src/main/res/layout/fragment_comment_dialog.xml" value="0.264" />
-        <entry key="..\:/Users/bestm/Desktop/E2Tech/app/src/main/res/layout/fragment_detail.xml" value="0.264" />
+        <entry key="..\:/Users/bestm/Desktop/E2Tech/app/src/main/res/layout/fragment_detail.xml" value="0.5112781954887218" />
         <entry key="..\:/Users/bestm/Desktop/E2Tech/app/src/main/res/layout/fragment_home.xml" value="0.264" />
         <entry key="..\:/Users/bestm/Desktop/E2Tech/app/src/main/res/layout/fragment_shop.xml" value="0.4" />
         <entry key="..\:/Users/bestm/Desktop/E2Tech/app/src/main/res/layout/fragment_update.xml" value="0.10389055151774262" />
