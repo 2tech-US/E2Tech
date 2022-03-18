@@ -81,31 +81,9 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
                     });
 
                     totalPrice -= cartModelList.get(position).getProductPrice();
-                    Intent intent = new Intent("MyTotalAmount");
-                    intent.putExtra("totalAmount", totalPrice);
-                    LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
-                    // fetch value from firebase and update the value
-
-                } else {
-                    CollectionReference cartRef = db.collection("AddToCart").document(Objects.requireNonNull(mAuth.getCurrentUser()).getUid())
-                            .collection("CurrentUser");
-                    Query query = cartRef.whereEqualTo("productId", cartModelList.get(position).getProductId());
-                    query.get().addOnSuccessListener(queryDocumentSnapshots -> {
-                        for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
-                            db.collection("AddToCart").document(mAuth.getCurrentUser().getUid())
-                                    .collection("CurrentUser").document(documentSnapshot.getId())
-                                    .delete();
-                        }
-                    });
-
-                    totalPrice -= cartModelList.get(position).getProductPrice();
-                    Intent intent = new Intent("MyTotalAmount");
                     intent.putExtra("totalAmount", totalPrice);
                     LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
 
-                    cartModelList.remove(position);
-                    notifyItemRemoved(position);
-                    notifyItemChanged(position);
                 }
             }
         });
@@ -128,9 +106,37 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
                 });
 
                 totalPrice += cartModelList.get(position).getProductPrice();
+                intent.putExtra("totalAmount", totalPrice);
+                LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+            }
+        });
+        holder.deleteBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                CollectionReference cartRef = db.collection("AddToCart").document(Objects.requireNonNull(mAuth.getCurrentUser()).getUid())
+                        .collection("CurrentUser");
+                Query query = cartRef.whereEqualTo("productId", cartModelList.get(position).getProductId());
+                query.get().addOnSuccessListener(queryDocumentSnapshots -> {
+                    for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                        db.collection("AddToCart").document(mAuth.getCurrentUser().getUid())
+                                .collection("CurrentUser").document(documentSnapshot.getId())
+                                .delete();
+                    }
+                });
+
+                for (int i = position; i < cartModelList.size(); i++) {
+                    totalPrice -= cartModelList.get(i).getProductPrice() * cartModelList.get(i).getTotalQuantity();
+                }
+
                 Intent intent = new Intent("MyTotalAmount");
                 intent.putExtra("totalAmount", totalPrice);
                 LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+
+                cartModelList.remove(position);
+                notifyItemRemoved(position);
+                notifyItemRangeChanged(position, cartModelList.size());
+
 
             }
         });
@@ -145,7 +151,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
 
         TextView name, price, quantity, totalPrice;
         ImageView productImage;
-        ImageView addBtn, removeBtn;
+        ImageView addBtn, removeBtn, deleteBtn;
 
         public ViewHolder(@NonNull View itemView) {
 
@@ -161,6 +167,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
 
             addBtn = itemView.findViewById(R.id.add_btn);
             removeBtn = itemView.findViewById(R.id.remove_btn);
+            deleteBtn = itemView.findViewById(R.id.delete_btn);
             mAuth = FirebaseAuth.getInstance();
             db = FirebaseFirestore.getInstance();
 
