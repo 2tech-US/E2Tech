@@ -1,5 +1,6 @@
 package com.example.e2tech;
 
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.transition.Transition;
@@ -10,12 +11,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.HasDefaultViewModelProviderFactory;
@@ -32,6 +33,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
@@ -50,26 +52,38 @@ import java.util.Queue;
 /**
  * a
  */
-public class DetailFragment extends Fragment {
+public class DetailFragment extends Fragment implements View.OnClickListener {
 
     FirebaseAuth mAuth;
-    FirebaseUser currentUser;
     FirebaseFirestore db;
 
     ImageView ivFavorite;
-    ImageView ivComment;
 
     ImageView ivProductImage;
     TextView tvProductName;
     TextView tvProductPrice;
     TextView tvProductAvailable;
     TextView tvProductDescription;
+    TextView tvProductBrand;
+    TextView tvProductCategory;
+    RatingBar rbProductRating;
+
+    TextView tvProductRate;
+    TextView tvCommentSeeAll;
+    ImageView ivComment;
+
     Button btnAddToCart;
 
     ProductModel product;
 
     NavController navController;
 
+    private String productId;
+    private String collection;
+
+
+    // Demo UI Purpose
+    boolean isFavorite = false;
 
     public DetailFragment() {
         // Required empty public constructor
@@ -92,6 +106,9 @@ public class DetailFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+//        productId = getArguments() != null ? getArguments().getString("id") : null;
+//        collection = getArguments().getString("collection");
+
 //        Transition transition = TransitionInflater.from(requireContext())
 //                .inflateTransition(R.transition.product_share_transition);
 //        setSharedElementEnterTransition(transition);
@@ -107,14 +124,10 @@ public class DetailFragment extends Fragment {
 
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        String email = currentUser != null ? currentUser.getEmail() : null;
 
         fetchView(root);
 
-        String id = getArguments().getString("id");
-        String collection = getArguments().getString("collection");
-        String url_image = getArguments().getString("img_url");
+        String url_image = getArguments() != null ? getArguments().getString("img_url") : null;
 
         Glide.with(this)
                 .load(url_image)
@@ -133,28 +146,52 @@ public class DetailFragment extends Fragment {
                 })
                 .into(ivProductImage);
 
-        FetchDataFromDatabase(collection, id);
+        productId = getArguments() != null ? getArguments().getString("id") : null;
+        collection = getArguments().getString("collection");
+
+        FetchDataFromDatabase(collection, productId);
 
 
-        ivComment.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Bundle bundle = new Bundle();
-                bundle.putString("productId", product.getId());
-                bundle.putString("userEmail",email);
-                navController.navigate(R.id.commentDialogFragment,bundle);
-            }
-        });
-
+//        ivComment.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Bundle bundle = new Bundle();
+//                bundle.putString("productId", product.getId());
+//                navController.navigate(R.id.commentDialogFragment, bundle);
+//            }
+//        });
+//
+//        tvCommentSeeAll.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Bundle bundle = new Bundle();
+//                bundle.putString("productId", product.getId());
+//                navController.navigate(R.id.action_detailFragment_to_commentFragment, bundle);
+//            }
+//        });
+//
+//        ivFavorite.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                if(isFavorite) {
+//                    ivFavorite.setColorFilter(Color.GRAY);
+//                    isFavorite = false;
+//                }
+//                else {
+//                    ivFavorite.setColorFilter(Color.RED);
+//                    isFavorite = true;
+//                }
+//            }
+//        });
 
         Transition transition = TransitionInflater.from(requireContext())
                 .inflateTransition(R.transition.product_share_transition);
         setSharedElementEnterTransition(transition);
 
-        if(savedInstanceState == null) {
+        if (savedInstanceState == null) {
             postponeEnterTransition();
         }
-        ViewCompat.setTransitionName(ivProductImage,getArguments().getString("img_url"));
+        ViewCompat.setTransitionName(ivProductImage, getArguments().getString("img_url"));
 
         btnAddToCart.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -227,13 +264,10 @@ public class DetailFragment extends Fragment {
     public void onStart() {
         super.onStart();
 
-        String id = getArguments().getString("id");
-        String collection = getArguments().getString("collection");
+        Log.v("PRODUCT-ID", productId);
+        Log.v("PRODUCT-COLLECTION", collection);
 
-        Log.v("PRODUCT-ID",id);
-        Log.v("PRODUCT-COLLECTION",collection);
-
-        DocumentReference docRef = db.collection(collection).document(id);
+        DocumentReference docRef = db.collection(collection).document(productId);
 
         docRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
@@ -242,6 +276,7 @@ public class DetailFragment extends Fragment {
                     product = documentSnapshot.toObject(ProductModel.class);
                     assert product != null;
                     String id = documentSnapshot.getId();
+                    product.setId(id);
                     fetchViewByData(product);
                 } else if (error != null) {
                     Log.w("Product", "Got an exception:", error);
@@ -257,8 +292,18 @@ public class DetailFragment extends Fragment {
         tvProductPrice = root.findViewById(R.id.tv_product_price);
         tvProductDescription = root.findViewById(R.id.tv_product_description);
         ivProductImage = root.findViewById(R.id.iv_product_image);
+        tvProductBrand = root.findViewById(R.id.tv_product_brand);
+        tvProductCategory = root.findViewById(R.id.tv_product_category);
+        rbProductRating = root.findViewById(R.id.ratingBar);
         ivFavorite = root.findViewById((R.id.iv_product_favorite));
+
+        tvProductRate = root.findViewById(R.id.tv_product_rate);
+        tvCommentSeeAll = root.findViewById(R.id.tv_product_seeall);
         ivComment = root.findViewById((R.id.iv_product_comment));
+
+        ivComment.setOnClickListener(this);
+        ivFavorite.setOnClickListener(this);
+        tvCommentSeeAll.setOnClickListener(this);
         btnAddToCart = root.findViewById(R.id.btn_add_to_cart);
     }
 
@@ -285,14 +330,76 @@ public class DetailFragment extends Fragment {
 
     private void fetchViewByData(ProductModel product) {
         tvProductName.setText(product.getName());
-        tvProductAvailable.setText(product.getCompany());
-        tvProductPrice.setText(Integer.toString(product.getPrice()));
+        tvProductPrice.setText(product.getPrice() + " VNĐ");
         tvProductDescription.setText(R.string.lorem_product_description);
+        tvProductBrand.setText(product.getCompany());
+        tvProductCategory.setText(product.getType());
 
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(product.getName());
+        if (product.getNumberOfReview() != 0) {
+            product.calculateRate();
+            tvProductRate.setText(Double.toString(product.getRating()) + '⭐' + " (" +product.getNumberOfReview() + ")" );
+            rbProductRating.setRating((float) product.getRating());
+        } else {
+            tvProductRate.setText("Not Review");
+            rbProductRating.setRating(0);
+        }
 
+        if (product.getRemain() == 0) {
+            tvProductAvailable.setTextColor(Color.RED);
+            tvProductAvailable.setText("Out Stock");
+        } else tvProductAvailable.setText("In Stock");
+
+//        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(product.getName());
+
+        // TODO: 3/18/2022 : Check User Favorite
 
 //        Glide.with(this).load(product.getImg_url()).into(ivProductImage);
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+//        SharedPreferences preferences = this.getActivity().getSharedPreferences("pref", Context.MODE_PRIVATE);
+//        SharedPreferences.Editor edit = preferences.edit();
+//
+//        edit.putString("product_id", this.productId);
+//        edit.putString("collection", this.collection);
+//
+//        edit.apply();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+//        SharedPreferences pref = getActivity().getPreferences(Context.MODE_PRIVATE);
+//        this.productId = pref.getString("product_id", "empty");
+//        this.collection = pref.getString("collection", "empty");
+//
+//        Log.v("ON_RESUME","");
+    }
+
+    @Override
+    public void onClick(View view) {
+        Bundle bundle = new Bundle();
+        switch (view.getId()){
+            case R.id.iv_product_favorite:
+                if(isFavorite) {
+                    ivFavorite.setColorFilter(Color.GRAY);
+                    isFavorite = false;
+                }
+                else {
+                    ivFavorite.setColorFilter(Color.RED);
+                    isFavorite = true;
+                }
+                break;
+            case R.id.iv_product_comment:
+                bundle.putString("productId", product.getId());
+                navController.navigate(R.id.commentDialogFragment, bundle);
+                break;
+            case R.id.tv_product_seeall:
+                bundle.putString("productId", product.getId());
+                navController.navigate(R.id.action_detailFragment_to_commentFragment, bundle);
+                break;
+        }
+    }
 }
