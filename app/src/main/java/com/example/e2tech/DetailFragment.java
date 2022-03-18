@@ -19,7 +19,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.HasDefaultViewModelProviderFactory;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 
@@ -33,8 +32,6 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -47,7 +44,6 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.HashMap;
 import java.util.Objects;
-import java.util.Queue;
 
 /**
  * a
@@ -86,13 +82,8 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
     boolean isFavorite = false;
 
     public DetailFragment() {
-        // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     */
     // TODO: Rename and change types and number of parameters
     public static DetailFragment newInstance() {
         DetailFragment fragment = new DetailFragment();
@@ -105,10 +96,6 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-//        productId = getArguments() != null ? getArguments().getString("id") : null;
-//        collection = getArguments().getString("collection");
-
 //        Transition transition = TransitionInflater.from(requireContext())
 //                .inflateTransition(R.transition.product_share_transition);
 //        setSharedElementEnterTransition(transition);
@@ -151,39 +138,6 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
 
         FetchDataFromDatabase(collection, productId);
 
-
-//        ivComment.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Bundle bundle = new Bundle();
-//                bundle.putString("productId", product.getId());
-//                navController.navigate(R.id.commentDialogFragment, bundle);
-//            }
-//        });
-//
-//        tvCommentSeeAll.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Bundle bundle = new Bundle();
-//                bundle.putString("productId", product.getId());
-//                navController.navigate(R.id.action_detailFragment_to_commentFragment, bundle);
-//            }
-//        });
-//
-//        ivFavorite.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                if(isFavorite) {
-//                    ivFavorite.setColorFilter(Color.GRAY);
-//                    isFavorite = false;
-//                }
-//                else {
-//                    ivFavorite.setColorFilter(Color.RED);
-//                    isFavorite = true;
-//                }
-//            }
-//        });
-
         Transition transition = TransitionInflater.from(requireContext())
                 .inflateTransition(R.transition.product_share_transition);
         setSharedElementEnterTransition(transition);
@@ -192,13 +146,6 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
             postponeEnterTransition();
         }
         ViewCompat.setTransitionName(ivProductImage, getArguments().getString("img_url"));
-
-        btnAddToCart.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                addToCart();
-            }
-        });
 
         return root;
     }
@@ -301,10 +248,12 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
         tvCommentSeeAll = root.findViewById(R.id.tv_product_seeall);
         ivComment = root.findViewById((R.id.iv_product_comment));
 
+        btnAddToCart = root.findViewById(R.id.btn_add_to_cart);
+
         ivComment.setOnClickListener(this);
         ivFavorite.setOnClickListener(this);
         tvCommentSeeAll.setOnClickListener(this);
-        btnAddToCart = root.findViewById(R.id.btn_add_to_cart);
+        btnAddToCart.setOnClickListener(this);
     }
 
 
@@ -399,6 +348,9 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
             case R.id.tv_product_seeall:
                 bundle.putString("productId", product.getId());
                 navController.navigate(R.id.action_detailFragment_to_commentFragment, bundle);
+                break;
+            case R.id .btn_add_to_cart:
+                addToCart();
                 break;
         }
     }
