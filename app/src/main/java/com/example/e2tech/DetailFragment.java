@@ -9,14 +9,17 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.HasDefaultViewModelProviderFactory;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 
@@ -26,13 +29,25 @@ import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.example.e2tech.Models.ProductModel;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.HashMap;
+import java.util.Objects;
+import java.util.Queue;
 
 /**
  * a
@@ -56,6 +71,8 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
     TextView tvProductRate;
     TextView tvCommentSeeAll;
     ImageView ivComment;
+
+    Button btnAddToCart;
 
     ProductModel product;
 
@@ -176,7 +193,65 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
         }
         ViewCompat.setTransitionName(ivProductImage, getArguments().getString("img_url"));
 
+        btnAddToCart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                addToCart();
+            }
+        });
+
         return root;
+    }
+
+    private void addToCart() {
+        String productId = getArguments().getString("id");
+        final HashMap<String, Object> cart = new HashMap<>();
+        cart.put("productId", productId);
+        cart.put("productName", product.getName());
+        cart.put("productPrice", product.getPrice());
+        cart.put("productImageURL", product.getImg_url());
+        cart.put("totalQuantity", 1);
+
+
+        CollectionReference cartRef = db.collection("AddToCart").document(Objects.requireNonNull(mAuth.getCurrentUser()).getUid())
+                .collection("CurrentUser");
+        Query query = cartRef.whereEqualTo("productId", productId);
+        query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                // check product exist in cart
+                if (task.isSuccessful()) {
+                    if (task.getResult().isEmpty()) {
+                        cartRef.add(cart).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                            @Override
+                            public void onSuccess(DocumentReference documentReference) {
+                                Toast.makeText(getContext(), "Added to cart", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    } else {
+                        // update quantity
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            String id = document.getId();
+                            int quantity = Integer.parseInt(document.get("totalQuantity").toString());
+                            int price = Integer.parseInt(document.get("productPrice").toString());
+                            int newQuantity = quantity + 1;
+                            cartRef.document(id).update("totalQuantity", newQuantity);
+                            Toast.makeText(getContext(), "Updated to cart", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }
+            }
+        });
+
+//        db.collection("AddToCart").document(Objects.requireNonNull(mAuth.getCurrentUser()).getUid()).
+//                collection("CurrentUser").add(cart).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+//            @Override
+//            public void onSuccess(DocumentReference documentReference) {
+//                Toast.makeText(getContext(), "Added to cart", Toast.LENGTH_SHORT).show();
+//            }
+//        });
+
+
     }
 
     @Override
@@ -226,10 +301,10 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
         tvCommentSeeAll = root.findViewById(R.id.tv_product_seeall);
         ivComment = root.findViewById((R.id.iv_product_comment));
 
-
         ivComment.setOnClickListener(this);
         ivFavorite.setOnClickListener(this);
         tvCommentSeeAll.setOnClickListener(this);
+        btnAddToCart = root.findViewById(R.id.btn_add_to_cart);
     }
 
 
