@@ -232,9 +232,6 @@ public class RegisterActivity extends AppCompatActivity {
                                 String phone = "";
                                 String imgUrl = "";
 
-                                imgUrl = signInAccount.getPhotoUrl().toString();
-                                imgUrl += "?type=large";
-
                                 UserModel newUser = new UserModel(uname, email, address, age, phone, gender, imgUrl);
                                 newUser.setId(uid);
 
@@ -381,11 +378,6 @@ public class RegisterActivity extends AppCompatActivity {
                             String gender = "";
                             String phone = "";
                             String imgUrl = "";
-
-                            if(user.getPhotoUrl() != null) {
-                                imgUrl = user.getPhotoUrl().toString();
-                                imgUrl += "?type=large";
-                            }
 
                             UserModel newUser = new UserModel(uname, email, address, age, phone, gender, imgUrl);
                             newUser.setId(uid);
