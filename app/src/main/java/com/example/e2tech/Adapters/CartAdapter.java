@@ -69,13 +69,13 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
                     holder.quantity.setText(String.valueOf(cartModelList.get(position).getTotalQuantity()));
                     holder.totalPrice.setText(String.valueOf(cartModelList.get(position).getProductPrice() * (cartModelList.get(position).getTotalQuantity())));
 
-                    CollectionReference cartRef = db.collection("AddToCart").document(Objects.requireNonNull(mAuth.getCurrentUser()).getUid())
-                            .collection("CurrentUser");
+                    CollectionReference cartRef = db.collection("Users").document(Objects.requireNonNull(mAuth.getCurrentUser()).getUid())
+                            .collection("Cart");
                     Query query = cartRef.whereEqualTo("productId", cartModelList.get(position).getProductId());
                     query.get().addOnSuccessListener(queryDocumentSnapshots -> {
                         for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
-                            db.collection("AddToCart").document(mAuth.getCurrentUser().getUid())
-                                    .collection("CurrentUser").document(documentSnapshot.getId())
+                            db.collection("Users").document(Objects.requireNonNull(mAuth.getCurrentUser()).getUid())
+                                    .collection("Cart").document(documentSnapshot.getId())
                                     .update("totalQuantity", cartModelList.get(position).getTotalQuantity());
                         }
                     });
@@ -94,13 +94,13 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
                 holder.quantity.setText(String.valueOf(cartModelList.get(position).getTotalQuantity()));
                 holder.totalPrice.setText(String.valueOf(cartModelList.get(position).getProductPrice() * (cartModelList.get(position).getTotalQuantity())));
 
-                CollectionReference cartRef = db.collection("AddToCart").document(Objects.requireNonNull(mAuth.getCurrentUser()).getUid())
-                        .collection("CurrentUser");
+                CollectionReference cartRef = db.collection("Users").document(Objects.requireNonNull(mAuth.getCurrentUser()).getUid())
+                        .collection("Cart");
                 Query query = cartRef.whereEqualTo("productId", cartModelList.get(position).getProductId());
                 query.get().addOnSuccessListener(queryDocumentSnapshots -> {
                     for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
-                        db.collection("AddToCart").document(mAuth.getCurrentUser().getUid())
-                                .collection("CurrentUser").document(documentSnapshot.getId())
+                        db.collection("Users").document(Objects.requireNonNull(mAuth.getCurrentUser()).getUid())
+                                .collection("Cart").document(documentSnapshot.getId())
                                 .update("totalQuantity", cartModelList.get(position).getTotalQuantity());
                     }
                 });
@@ -114,13 +114,13 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
             @Override
             public void onClick(View v) {
 
-                CollectionReference cartRef = db.collection("AddToCart").document(Objects.requireNonNull(mAuth.getCurrentUser()).getUid())
-                        .collection("CurrentUser");
+                CollectionReference cartRef = db.collection("Users").document(Objects.requireNonNull(mAuth.getCurrentUser()).getUid())
+                        .collection("Cart");
                 Query query = cartRef.whereEqualTo("productId", cartModelList.get(position).getProductId());
                 query.get().addOnSuccessListener(queryDocumentSnapshots -> {
                     for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
-                        db.collection("AddToCart").document(mAuth.getCurrentUser().getUid())
-                                .collection("CurrentUser").document(documentSnapshot.getId())
+                        db.collection("Users").document(Objects.requireNonNull(mAuth.getCurrentUser()).getUid())
+                                .collection("Cart").document(documentSnapshot.getId())
                                 .delete();
                     }
                 });

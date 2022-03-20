@@ -36,7 +36,11 @@
         android:id="@+id/cartFragment"
         android:name="com.example.e2tech.CartFragment"
         android:label="fragment_cart"
-        tools:layout="@layout/fragment_cart" />
+        tools:layout="@layout/fragment_cart" >
+        <action
+            android:id="@+id/action_cartFragment_to_oderDetail"
+            app:destination="@id/orderDetail" />
+    </fragment>
     <fragment
         android:id="@+id/meFragment"
         android:name="com.example.e2tech.MeFragment"
@@ -120,6 +124,15 @@
         android:name="com.example.e2tech.CommentFragment"
         android:label="fragment_comment"
         tools:layout="@layout/fragment_comment" />
+    <fragment
+        android:id="@+id/orderDetail"
+        android:name="com.example.e2tech.OrderDetail"
+        android:label="fragment_order_detail"
+        tools:layout="@layout/fragment_oder_detail">
+        <action
+            android:id="@+id/action_oderDetail_to_cartFragment"
+            app:destination="@id/cartFragment" />
+    </fragment>
 
 
 </navigation>
