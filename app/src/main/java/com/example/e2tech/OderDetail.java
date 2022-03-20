@@ -16,14 +16,18 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.e2tech.Models.CartModel;
+import com.example.e2tech.Models.UserModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.text.DecimalFormat;
@@ -48,6 +52,9 @@ public class OderDetail extends Fragment {
 
     List<CartModel> cartModelList;
     int totalBill;
+    String username;
+    String userPhone;
+    String userAddress;
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -133,6 +140,26 @@ public class OderDetail extends Fragment {
             }
         });
 
+        DatabaseReference ref = FirebaseDatabase.getInstance("https://e2tech-default-rtdb.asia-southeast1.firebasedatabase.app").
+                getReference("Users").child(user.getUid());
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                UserModel user = dataSnapshot.getValue(UserModel.class);
+                username = user.getUsername();
+                userPhone = user.getPhone();
+                userAddress = user.getAddress();
+                edtName.setText(username);
+                edtPhone.setText(userPhone);
+                edtAddress.setText(userAddress);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(getContext(), "Cannot get user information!", Toast.LENGTH_SHORT).show();
+            }
+        });
+
         return root;
     }
 
@@ -153,6 +180,7 @@ public class OderDetail extends Fragment {
         hashMap.put("orderBy", user.getUid());
         hashMap.put("note", note);
         hashMap.put("quantity", cartModelList.size());
+        hashMap.put("username", username);
 
         // add to db
         db.collection("Orders").document(timestamp).set(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
