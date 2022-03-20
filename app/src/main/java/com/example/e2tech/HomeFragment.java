@@ -11,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
@@ -30,6 +31,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FieldPath;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -71,6 +74,7 @@ public class HomeFragment extends Fragment {
     PopularAdapter favoriteAdapter;
     ArrayList<ProductModel> favoriteList;
 
+    MainActivity mainActivity;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -170,8 +174,6 @@ public class HomeFragment extends Fragment {
                                 String id = documentSnapshot.getId();
                                 categoryModel.setId(id);
 
-                                Log.v("CATEGORY", "\n\n" + categoryModel.getName());
-
                                 categoryModelList.add(categoryModel);
                                 categoryAdapter.notifyDataSetChanged();
                             }
@@ -216,6 +218,7 @@ public class HomeFragment extends Fragment {
                     }
                 });
 
+
         favoriteList = new ArrayList<>();
         favoriteRecyclerView = root.findViewById(R.id.home_favorite_recycler);
         favoriteRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), RecyclerView.HORIZONTAL, false));
@@ -223,27 +226,58 @@ public class HomeFragment extends Fragment {
         favoriteAdapter = new PopularAdapter(getActivity(), productList);
         favoriteRecyclerView.setAdapter(favoriteAdapter);
 
+        ArrayList<String> userFavoriteProducts = new ArrayList<>();
 
-        db.collection("PopularProducts")
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot documentSnapshot: task.getResult()) {
-                                ProductModel productModel = documentSnapshot.toObject(ProductModel.class);
-                                String id = documentSnapshot.getId();
-                                productModel.setId(id);
-                                favoriteList.add(productModel);
-                                favoriteAdapter.notifyDataSetChanged();
-                            }
-                        } else {
-                            Toast.makeText(getActivity(), "Error" + task.getException(), Toast.LENGTH_SHORT).show();
-                            Log.e("FIREBASE","ERRROR" + task.getException());
-                        }
+
+        CollectionReference collectionReference = db.collection("Users").document(currentUser.getUid()).collection("Favorites");
+
+        collectionReference.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot documentSnapshot : task.getResult()) {
+                        String productId = documentSnapshot.getId();
+                        userFavoriteProducts.add(productId);
+                        Log.v("MainAcitivty_PULL", productId);
                     }
-                });
+
+                    mainActivity = (MainActivity) getActivity();
+                    mainActivity.setUserFavoriteProducts(userFavoriteProducts);
+
+                    db.collection("PopularProducts").whereIn(FieldPath.documentId(),userFavoriteProducts)
+                            .get()
+                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                    if (task.isSuccessful()) {
+                                        for (QueryDocumentSnapshot documentSnapshot: task.getResult()) {
+                                            ProductModel productModel = documentSnapshot.toObject(ProductModel.class);
+                                            String id = documentSnapshot.getId();
+                                            productModel.setId(id);
+                                            Log.d("FUCK",id);
+                                            favoriteList.add(productModel);
+                                            favoriteAdapter.notifyDataSetChanged();
+                                        }
+                                    } else {
+                                        Toast.makeText(getActivity(), "Error" + task.getException(), Toast.LENGTH_SHORT).show();
+                                        Log.e("FIREBASE","ERRROR" + task.getException());
+                                    }
+                                }
+                            });
+
+
+                } else {
+                    Log.e("FIRESTORE", task.getException().toString());
+                }
+            }
+        });
 
         return root;
+    }
+
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
     }
 }
