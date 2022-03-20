@@ -152,6 +152,7 @@ public class OderDetail extends Fragment {
         hashMap.put("total", totalBill);
         hashMap.put("orderBy", user.getUid());
         hashMap.put("note", note);
+        hashMap.put("quantity", cartModelList.size());
 
         // add to db
         db.collection("Orders").document(timestamp).set(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {

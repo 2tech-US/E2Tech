@@ -213,8 +213,8 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
         cart.put("totalQuantity", 1);
 
 
-        CollectionReference cartRef = db.collection("AddToCart").document(Objects.requireNonNull(mAuth.getCurrentUser()).getUid())
-                .collection("CurrentUser");
+        CollectionReference cartRef = db.collection("Users").document(Objects.requireNonNull(mAuth.getCurrentUser()).getUid())
+                .collection("Cart");
         Query query = cartRef.whereEqualTo("productId", productId);
         query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
@@ -243,13 +243,6 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
             }
         });
 
-//        db.collection("AddToCart").document(Objects.requireNonNull(mAuth.getCurrentUser()).getUid()).
-//                collection("CurrentUser").add(cart).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-//            @Override
-//            public void onSuccess(DocumentReference documentReference) {
-//                Toast.makeText(getContext(), "Added to cart", Toast.LENGTH_SHORT).show();
-//            }
-//        });
 
 
     }

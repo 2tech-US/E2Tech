@@ -116,8 +116,7 @@ public class CartFragment extends Fragment {
         cartAdapter = new CartAdapter(getActivity(), cartModelList);
         recyclerView.setAdapter(cartAdapter);
 
-        db.collection("AddToCart").document(Objects.requireNonNull(auth.getCurrentUser()).getUid())
-                .collection("CurrentUser").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        db.collection("Users").document(Objects.requireNonNull(auth.getCurrentUser()).getUid()).collection("Cart").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
