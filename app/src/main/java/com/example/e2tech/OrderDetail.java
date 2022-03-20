@@ -13,7 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,7 +20,6 @@ import com.example.e2tech.Models.CartModel;
 import com.example.e2tech.Models.UserModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -38,10 +36,10 @@ import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link OderDetail#newInstance} factory method to
+ * Use the {@link OrderDetail#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class OderDetail extends Fragment {
+public class OrderDetail extends Fragment {
     private ProgressDialog progressDialog;
 
     FirebaseFirestore db;
@@ -65,7 +63,7 @@ public class OderDetail extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public OderDetail() {
+    public OrderDetail() {
         // Required empty public constructor
     }
 
@@ -78,8 +76,8 @@ public class OderDetail extends Fragment {
      * @return A new instance of fragment OderDetail.
      */
     // TODO: Rename and change types and number of parameters
-    public static OderDetail newInstance(String param1, String param2) {
-        OderDetail fragment = new OderDetail();
+    public static OrderDetail newInstance(String param1, String param2) {
+        OrderDetail fragment = new OrderDetail();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);

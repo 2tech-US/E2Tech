@@ -126,7 +126,7 @@
         tools:layout="@layout/fragment_comment" />
     <fragment
         android:id="@+id/oderDetail"
-        android:name="com.example.e2tech.OderDetail"
+        android:name="com.example.e2tech.OrderDetail"
         android:label="fragment_oder_detail"
         tools:layout="@layout/fragment_oder_detail" >
         <action
