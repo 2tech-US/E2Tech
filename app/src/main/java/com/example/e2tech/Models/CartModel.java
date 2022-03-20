@@ -4,18 +4,20 @@ public class CartModel {
     String productName;
     int productPrice;
     int totalQuantity;
-    int totalPrice;
     String productImageURL;
+    String productId;
+    String id;
 
     public CartModel() {
     }
 
-    public CartModel(String productName, int productPrice, int totalQuantity, int totalPrice, String productImageURL) {
+    public CartModel(String productName, int productPrice, int totalQuantity, String productImageURL, String productId, String id) {
         this.productName = productName;
         this.productPrice = productPrice;
         this.totalQuantity = totalQuantity;
-        this.totalPrice = totalPrice;
         this.productImageURL = productImageURL;
+        this.productId = productId;
+        this.id = id;
     }
 
     public String getProductName() {
@@ -42,19 +44,27 @@ public class CartModel {
         this.totalQuantity = totalQuantity;
     }
 
-    public int getTotalPrice() {
-        return totalPrice;
-    }
-
-    public void setTotalPrice(int totalPrice) {
-        this.totalPrice = totalPrice;
-    }
-
     public String getProductImageURL() {
         return productImageURL;
     }
 
     public void setProductImageURL(String productImageURL) {
         this.productImageURL = productImageURL;
+    }
+
+    public String getProductId() {
+        return productId;
+    }
+
+    public void setProductId(String productId) {
+        this.productId = productId;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

@@ -1,5 +1,6 @@
 package com.example.e2tech;
 
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.transition.Transition;
@@ -8,12 +9,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
@@ -25,46 +28,62 @@ import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.example.e2tech.Models.ProductModel;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.HashMap;
+import java.util.Objects;
 
 /**
  * a
  */
-public class DetailFragment extends Fragment {
+public class DetailFragment extends Fragment implements View.OnClickListener {
 
     FirebaseAuth mAuth;
-    FirebaseUser currentUser;
     FirebaseFirestore db;
 
     ImageView ivFavorite;
-    ImageView ivComment;
 
     ImageView ivProductImage;
     TextView tvProductName;
     TextView tvProductPrice;
     TextView tvProductAvailable;
     TextView tvProductDescription;
+    TextView tvProductBrand;
+    TextView tvProductCategory;
+    RatingBar rbProductRating;
+
+    TextView tvProductRate;
+    TextView tvCommentSeeAll;
+    ImageView ivComment;
+
+    Button btnAddToCart;
 
     ProductModel product;
 
     NavController navController;
 
+    private String productId;
+    private String collection;
+
+
+    // Demo UI Purpose
+    boolean isFavorite = false;
 
     public DetailFragment() {
-        // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     */
     // TODO: Rename and change types and number of parameters
     public static DetailFragment newInstance() {
         DetailFragment fragment = new DetailFragment();
@@ -77,7 +96,6 @@ public class DetailFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
 //        Transition transition = TransitionInflater.from(requireContext())
 //                .inflateTransition(R.transition.product_share_transition);
 //        setSharedElementEnterTransition(transition);
@@ -93,14 +111,10 @@ public class DetailFragment extends Fragment {
 
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        String email = currentUser != null ? currentUser.getEmail() : null;
 
         fetchView(root);
 
-        String id = getArguments().getString("id");
-        String collection = getArguments().getString("collection");
-        String url_image = getArguments().getString("img_url");
+        String url_image = getArguments() != null ? getArguments().getString("img_url") : null;
 
         Glide.with(this)
                 .load(url_image)
@@ -119,30 +133,72 @@ public class DetailFragment extends Fragment {
                 })
                 .into(ivProductImage);
 
-        FetchDataFromDatabase(collection, id);
+        productId = getArguments() != null ? getArguments().getString("id") : null;
+        collection = getArguments().getString("collection");
 
-
-        ivComment.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Bundle bundle = new Bundle();
-                bundle.putString("productId", product.getId());
-                bundle.putString("userEmail",email);
-                navController.navigate(R.id.commentDialogFragment,bundle);
-            }
-        });
-
+        FetchDataFromDatabase(collection, productId);
 
         Transition transition = TransitionInflater.from(requireContext())
                 .inflateTransition(R.transition.product_share_transition);
         setSharedElementEnterTransition(transition);
 
-        if(savedInstanceState == null) {
+        if (savedInstanceState == null) {
             postponeEnterTransition();
         }
-        ViewCompat.setTransitionName(ivProductImage,getArguments().getString("img_url"));
+        ViewCompat.setTransitionName(ivProductImage, getArguments().getString("img_url"));
 
         return root;
+    }
+
+    private void addToCart() {
+        String productId = getArguments().getString("id");
+        final HashMap<String, Object> cart = new HashMap<>();
+        cart.put("productId", productId);
+        cart.put("productName", product.getName());
+        cart.put("productPrice", product.getPrice());
+        cart.put("productImageURL", product.getImg_url());
+        cart.put("totalQuantity", 1);
+
+
+        CollectionReference cartRef = db.collection("AddToCart").document(Objects.requireNonNull(mAuth.getCurrentUser()).getUid())
+                .collection("CurrentUser");
+        Query query = cartRef.whereEqualTo("productId", productId);
+        query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                // check product exist in cart
+                if (task.isSuccessful()) {
+                    if (task.getResult().isEmpty()) {
+                        cartRef.add(cart).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                            @Override
+                            public void onSuccess(DocumentReference documentReference) {
+                                Toast.makeText(getContext(), "Added to cart", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    } else {
+                        // update quantity
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            String id = document.getId();
+                            int quantity = Integer.parseInt(document.get("totalQuantity").toString());
+                            int price = Integer.parseInt(document.get("productPrice").toString());
+                            int newQuantity = quantity + 1;
+                            cartRef.document(id).update("totalQuantity", newQuantity);
+                            Toast.makeText(getContext(), "Updated to cart", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }
+            }
+        });
+
+//        db.collection("AddToCart").document(Objects.requireNonNull(mAuth.getCurrentUser()).getUid()).
+//                collection("CurrentUser").add(cart).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+//            @Override
+//            public void onSuccess(DocumentReference documentReference) {
+//                Toast.makeText(getContext(), "Added to cart", Toast.LENGTH_SHORT).show();
+//            }
+//        });
+
+
     }
 
     @Override
@@ -155,13 +211,10 @@ public class DetailFragment extends Fragment {
     public void onStart() {
         super.onStart();
 
-        String id = getArguments().getString("id");
-        String collection = getArguments().getString("collection");
+        Log.v("PRODUCT-ID", productId);
+        Log.v("PRODUCT-COLLECTION", collection);
 
-        Log.v("PRODUCT-ID",id);
-        Log.v("PRODUCT-COLLECTION",collection);
-
-        DocumentReference docRef = db.collection(collection).document(id);
+        DocumentReference docRef = db.collection(collection).document(productId);
 
         docRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
@@ -170,6 +223,7 @@ public class DetailFragment extends Fragment {
                     product = documentSnapshot.toObject(ProductModel.class);
                     assert product != null;
                     String id = documentSnapshot.getId();
+                    product.setId(id);
                     fetchViewByData(product);
                 } else if (error != null) {
                     Log.w("Product", "Got an exception:", error);
@@ -185,9 +239,21 @@ public class DetailFragment extends Fragment {
         tvProductPrice = root.findViewById(R.id.tv_product_price);
         tvProductDescription = root.findViewById(R.id.tv_product_description);
         ivProductImage = root.findViewById(R.id.iv_product_image);
+        tvProductBrand = root.findViewById(R.id.tv_product_brand);
+        tvProductCategory = root.findViewById(R.id.tv_product_category);
+        rbProductRating = root.findViewById(R.id.ratingBar);
         ivFavorite = root.findViewById((R.id.iv_product_favorite));
+
+        tvProductRate = root.findViewById(R.id.tv_product_rate);
+        tvCommentSeeAll = root.findViewById(R.id.tv_product_seeall);
         ivComment = root.findViewById((R.id.iv_product_comment));
 
+        btnAddToCart = root.findViewById(R.id.btn_add_to_cart);
+
+        ivComment.setOnClickListener(this);
+        ivFavorite.setOnClickListener(this);
+        tvCommentSeeAll.setOnClickListener(this);
+        btnAddToCart.setOnClickListener(this);
     }
 
 
@@ -213,14 +279,79 @@ public class DetailFragment extends Fragment {
 
     private void fetchViewByData(ProductModel product) {
         tvProductName.setText(product.getName());
-        tvProductAvailable.setText(product.getCompany());
-        tvProductPrice.setText(Integer.toString(product.getPrice()));
+        tvProductPrice.setText(product.getPrice() + " VNĐ");
         tvProductDescription.setText(R.string.lorem_product_description);
+        tvProductBrand.setText(product.getCompany());
+        tvProductCategory.setText(product.getType());
 
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(product.getName());
+        if (product.getNumberOfReview() != 0) {
+            product.calculateRate();
+            tvProductRate.setText(Double.toString(product.getRating()) + '⭐' + " (" +product.getNumberOfReview() + ")" );
+            rbProductRating.setRating((float) product.getRating());
+        } else {
+            tvProductRate.setText("Not Review");
+            rbProductRating.setRating(0);
+        }
 
+        if (product.getRemain() == 0) {
+            tvProductAvailable.setTextColor(Color.RED);
+            tvProductAvailable.setText("Out Stock");
+        } else tvProductAvailable.setText("In Stock");
+
+//        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(product.getName());
+
+        // TODO: 3/18/2022 : Check User Favorite
 
 //        Glide.with(this).load(product.getImg_url()).into(ivProductImage);
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+//        SharedPreferences preferences = this.getActivity().getSharedPreferences("pref", Context.MODE_PRIVATE);
+//        SharedPreferences.Editor edit = preferences.edit();
+//
+//        edit.putString("product_id", this.productId);
+//        edit.putString("collection", this.collection);
+//
+//        edit.apply();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+//        SharedPreferences pref = getActivity().getPreferences(Context.MODE_PRIVATE);
+//        this.productId = pref.getString("product_id", "empty");
+//        this.collection = pref.getString("collection", "empty");
+//
+//        Log.v("ON_RESUME","");
+    }
+
+    @Override
+    public void onClick(View view) {
+        Bundle bundle = new Bundle();
+        switch (view.getId()){
+            case R.id.iv_product_favorite:
+                if(isFavorite) {
+                    ivFavorite.setColorFilter(Color.GRAY);
+                    isFavorite = false;
+                }
+                else {
+                    ivFavorite.setColorFilter(Color.RED);
+                    isFavorite = true;
+                }
+                break;
+            case R.id.iv_product_comment:
+                bundle.putString("productId", product.getId());
+                navController.navigate(R.id.commentDialogFragment, bundle);
+                break;
+            case R.id.tv_product_seeall:
+                bundle.putString("productId", product.getId());
+                navController.navigate(R.id.action_detailFragment_to_commentFragment, bundle);
+                break;
+            case R.id .btn_add_to_cart:
+                addToCart();
+                break;
+        }
+    }
 }

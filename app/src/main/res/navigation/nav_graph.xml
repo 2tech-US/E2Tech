@@ -60,6 +60,9 @@
         <action
             android:id="@+id/action_detailFragment_to_commentDialogFragment"
             app:destination="@id/commentDialogFragment" />
+        <action
+            android:id="@+id/action_detailFragment_to_commentFragment"
+            app:destination="@id/commentFragment" />
     </fragment>
     <action
         android:id="@+id/action_global_detailFragment"
@@ -112,6 +115,11 @@
         android:id="@+id/commentDialogFragment"
         android:name="com.example.e2tech.CommentDialogFragment"
         android:label="CommentDialogFragment" />
+    <fragment
+        android:id="@+id/commentFragment"
+        android:name="com.example.e2tech.CommentFragment"
+        android:label="fragment_comment"
+        tools:layout="@layout/fragment_comment" />
 
 
 </navigation>
