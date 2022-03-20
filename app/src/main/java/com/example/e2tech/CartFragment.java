@@ -27,6 +27,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -128,7 +129,11 @@ public class CartFragment extends Fragment {
         @Override
         public void onReceive(Context context, Intent intent) {
             int totalBill = intent.getIntExtra("totalAmount", 0);
-            overToTalAmount.setText("Total Bill : " + totalBill + " VND");
+
+            DecimalFormat decimalFormat = new DecimalFormat("#,###,###");
+            String totalAmount = decimalFormat.format(totalBill);
+
+            overToTalAmount.setText("Total bill : " + totalAmount + " VND");
         }
     };
 }
