@@ -39,7 +39,7 @@
         tools:layout="@layout/fragment_cart" >
         <action
             android:id="@+id/action_cartFragment_to_oderDetail"
-            app:destination="@id/oderDetail" />
+            app:destination="@id/orderDetail" />
     </fragment>
     <fragment
         android:id="@+id/meFragment"
@@ -125,10 +125,10 @@
         android:label="fragment_comment"
         tools:layout="@layout/fragment_comment" />
     <fragment
-        android:id="@+id/oderDetail"
+        android:id="@+id/orderDetail"
         android:name="com.example.e2tech.OrderDetail"
-        android:label="fragment_oder_detail"
-        tools:layout="@layout/fragment_oder_detail" >
+        android:label="fragment_order_detail"
+        tools:layout="@layout/fragment_oder_detail">
         <action
             android:id="@+id/action_oderDetail_to_cartFragment"
             app:destination="@id/cartFragment" />
