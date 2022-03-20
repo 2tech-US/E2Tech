@@ -68,6 +68,12 @@ public class AdminOrderFragment extends Fragment {
 
         new TabLayoutMediator(tabLayout, viewPager2,(tab, position) -> tab.setText(titles[position])).attach();
 
+        tabLayout.getTabAt(0).setIcon(R.drawable.ic_baseline_pending_actions_24);
+        tabLayout.getTabAt(1).setIcon(R.drawable.ic_baseline_processing);
+        tabLayout.getTabAt(2).setIcon(R.drawable.ic_baseline_local_shipping_24);
+        tabLayout.getTabAt(3).setIcon(R.drawable.ic_baseline_check_circle_outline_24);
+
+
         return root;
     }
 }

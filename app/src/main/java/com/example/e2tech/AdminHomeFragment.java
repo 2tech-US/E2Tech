@@ -10,9 +10,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
+import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.renderer.XAxisRenderer;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
@@ -67,11 +70,59 @@ public class AdminHomeFragment extends Fragment {
         entries.add(new Entry(i,i*3-i));
         }
 
-        LineDataSet lineDataSet = new LineDataSet(entries,"country");
-        lineData = new LineData(lineDataSet);
+        ArrayList<Entry> entries2 = new ArrayList<>();
+        entries2.add(new Entry(1,22));
+        entries2.add(new Entry(2,2));
+        entries2.add(new Entry(3,6));
+        entries2.add(new Entry(4,9));
+        entries2.add(new Entry(5,2));
+        entries2.add(new Entry(6,10));
+        entries2.add(new Entry(7,2));
+        entries2.add(new Entry(8,2));
+        entries2.add(new Entry(9,2));
+        entries2.add(new Entry(10,6));
+        entries2.add(new Entry(11,9));
+        entries2.add(new Entry(12,5));
+
+
+        LineDataSet lineDataSet1 = new LineDataSet(entries,"man");
+        LineDataSet lineDataSet2 = new LineDataSet(entries2,"women");
+        lineDataSet2.setColor(R.color.card_3);
+        lineDataSet2.setDrawFilled(true);
+
+
+        ArrayList<ILineDataSet> dataSets = new ArrayList<>();
+        dataSets.add(lineDataSet1);
+        dataSets.add(lineDataSet2);
+
+        lineData = new LineData(dataSets);
         saleChart.setData(lineData);
-        saleChart.setVisibleXRangeMaximum(10);
+//        saleChart.setVisibleXRangeMaximum(12);
+
+
+        String[] months = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec", "bonus"};
+
+        XAxis xAxis = saleChart.getXAxis();
+        xAxis.setValueFormatter(new MyXAxisValueFormater(months));
+        xAxis.setPosition(XAxis.XAxisPosition.BOTH_SIDED);
+
+        saleChart.setDrawGridBackground(true);
+        saleChart.animateY(2000);
         saleChart.invalidate();
         return root;
+    }
+
+    public class MyXAxisValueFormater extends IndexAxisValueFormatter {
+
+        private String[] mValues;
+
+        public MyXAxisValueFormater(String[] values) {
+            this.mValues = values;
+        }
+
+        @Override
+        public String getFormattedValue(float value) {
+            return mValues[(int) value];
+        }
     }
 }

@@ -53,7 +53,6 @@ public class Fragment_infor extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 UserModel userProfile = snapshot.getValue(UserModel.class);
-
                 if(userProfile != null) {
                     String username = userProfile.getUsername();
                     String email = user.getEmail();
