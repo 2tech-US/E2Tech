@@ -9,13 +9,17 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.e2tech.Adapters.CartAdapter;
 import com.example.e2tech.Models.CartModel;
@@ -27,6 +31,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -43,6 +48,9 @@ public class CartFragment extends Fragment {
     FirebaseAuth auth;
     TextView overToTalAmount;
     RecyclerView recyclerView;
+    Button checkoutBtn;
+
+    int totalBill = 0;
     CartAdapter cartAdapter;
     List<CartModel> cartModelList;
 
@@ -96,6 +104,7 @@ public class CartFragment extends Fragment {
         auth = FirebaseAuth.getInstance();
         recyclerView = root.findViewById(R.id.recycleview);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        checkoutBtn = root.findViewById(R.id.checkoutBtn);
 
         overToTalAmount = root.findViewById(R.id.textView);
         overToTalAmount.bringToFront();
@@ -121,6 +130,22 @@ public class CartFragment extends Fragment {
             }
         });
 
+        checkoutBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (cartModelList.size() > 0) {
+
+                    Bundle extras = new Bundle();
+                    extras.putSerializable("cartModelList", (Serializable) cartModelList);
+                    extras.putInt("totalBill", totalBill);
+
+                    NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment);
+                    navController.navigate(R.id.action_cartFragment_to_oderDetail, extras);
+                } else {
+                    Toast.makeText(getActivity(), "Cart is Empty", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
 
         return root;
     }
@@ -128,7 +153,7 @@ public class CartFragment extends Fragment {
     public BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            int totalBill = intent.getIntExtra("totalAmount", 0);
+            totalBill = intent.getIntExtra("totalAmount", 0);
 
             DecimalFormat decimalFormat = new DecimalFormat("#,###,###");
             String totalAmount = decimalFormat.format(totalBill);
