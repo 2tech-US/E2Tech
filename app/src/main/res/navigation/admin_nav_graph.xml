@@ -28,6 +28,9 @@
         <action
             android:id="@+id/action_adminProductFragment_to_adminProductListFragment"
             app:destination="@id/adminProductListFragment" />
+        <action
+            android:id="@+id/action_adminProductFragment_to_adminAddCategoryFragment"
+            app:destination="@id/adminAddCategoryFragment" />
     </fragment>
     <fragment
         android:id="@+id/adminOrderFragment"
@@ -48,10 +51,46 @@
             android:name="category"
             app:argType="string"
             android:defaultValue="Laptop" />
+        <action
+            android:id="@+id/action_adminProductListFragment_to_adminProductDetail"
+            app:destination="@id/adminProductDetail" />
+        <action
+            android:id="@+id/action_adminProductListFragment_to_adminAddProductFragment"
+            app:destination="@id/adminAddProductFragment" />
     </fragment>
     <fragment
         android:id="@+id/adminProductDetail"
         android:name="com.example.e2tech.AdminProductDetail"
         android:label="fragment_admin_product_detail"
         tools:layout="@layout/fragment_admin_product_detail" />
+    <fragment
+        android:id="@+id/adminAddProductFragment"
+        android:name="com.example.e2tech.AdminAddProductFragment"
+        android:label="fragment_admin_add_product"
+        tools:layout="@layout/fragment_admin_add_product" />
+    <fragment
+        android:id="@+id/adminAddCategoryFragment"
+        android:name="com.example.e2tech.AdminAddCategoryFragment"
+        android:label="fragment_admin_add_category"
+        tools:layout="@layout/fragment_admin_add_category" />
+    <fragment
+        android:id="@+id/adminWaitingOrderFragment"
+        android:name="com.example.e2tech.AdminWaitingOrderFragment"
+        android:label="fragment_admin_waiting_order"
+        tools:layout="@layout/fragment_admin_waiting_order" />
+    <fragment
+        android:id="@+id/adminProcessingOrderFragment"
+        android:name="com.example.e2tech.AdminProcessingOrderFragment"
+        android:label="fragment_admin_processing_order"
+        tools:layout="@layout/fragment_admin_processing_order" />
+    <fragment
+        android:id="@+id/adminDeliveringOrderFragment"
+        android:name="com.example.e2tech.AdminDeliveringOrderFragment"
+        android:label="fragment_admin_delivering_order"
+        tools:layout="@layout/fragment_admin_delivering_order" />
+    <fragment
+        android:id="@+id/adminDoneOrderFragment"
+        android:name="com.example.e2tech.AdminDoneOrderFragment"
+        android:label="fragment_admin_done_order"
+        tools:layout="@layout/fragment_admin_done_order" />
 </navigation>
