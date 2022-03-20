@@ -5,6 +5,8 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -133,6 +135,10 @@ public class OderDetail extends Fragment {
                     Toast.makeText(getContext(), "Please fill all fields! The note is not required", Toast.LENGTH_SHORT).show();
                 } else {
                     submitOrder(name, phone, address, note);
+                    removeCart();
+                    // navigate to cart fragment
+                    NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment);
+                    navController.navigate(R.id.action_oderDetail_to_cartFragment);
 
                 }
 
@@ -161,6 +167,12 @@ public class OderDetail extends Fragment {
         });
 
         return root;
+    }
+
+    private void removeCart() {
+        for (CartModel cartModel : cartModelList) {
+            db.collection("Users").document(user.getUid()).collection("Cart").document(cartModel.getId()).delete();
+        }
     }
 
     private void submitOrder(String name, String phone, String address, String note) {

@@ -205,7 +205,9 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
 
     private void addToCart() {
         String productId = getArguments().getString("id");
+        String timestamp = String.valueOf(System.currentTimeMillis());
         final HashMap<String, Object> cart = new HashMap<>();
+        cart.put("id", timestamp);
         cart.put("productId", productId);
         cart.put("productName", product.getName());
         cart.put("productPrice", product.getPrice());
@@ -225,6 +227,7 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
                         cartRef.add(cart).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                             @Override
                             public void onSuccess(DocumentReference documentReference) {
+                                documentReference.update("id", documentReference.getId());
                                 Toast.makeText(requireContext(), "Added to cart", Toast.LENGTH_SHORT).show();
                             }
                         });
