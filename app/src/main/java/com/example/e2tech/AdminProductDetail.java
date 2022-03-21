@@ -186,7 +186,7 @@ public class AdminProductDetail extends Fragment implements View.OnClickListener
                             map.put("img_url", downloadUrl.toString());
 
 
-                            db.collection("PopularProducts").document(product.getId()).update(map).addOnCompleteListener(new OnCompleteListener() {
+                            db.collection("Products").document(product.getId()).update(map).addOnCompleteListener(new OnCompleteListener() {
                                 @Override
                                 public void onComplete(@NonNull Task task) {
                                     if (task.isComplete()) {
@@ -266,7 +266,7 @@ public class AdminProductDetail extends Fragment implements View.OnClickListener
         map.put("description", description);
 
 
-        db.collection("PopularProducts").document(product.getId()).update(map).addOnCompleteListener(new OnCompleteListener() {
+        db.collection("Products").document(product.getId()).update(map).addOnCompleteListener(new OnCompleteListener() {
             @Override
             public void onComplete(@NonNull Task task) {
                 if (task.isComplete()) {

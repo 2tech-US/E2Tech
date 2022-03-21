@@ -156,7 +156,9 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
 
     private void addToCart() {
         String productId = getArguments().getString("id");
+        String timestamp = String.valueOf(System.currentTimeMillis());
         final HashMap<String, Object> cart = new HashMap<>();
+        cart.put("id", timestamp);
         cart.put("productId", productId);
         cart.put("productName", product.getName());
         cart.put("productPrice", product.getPrice());
@@ -164,8 +166,8 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
         cart.put("totalQuantity", 1);
 
 
-        CollectionReference cartRef = db.collection("AddToCart").document(Objects.requireNonNull(mAuth.getCurrentUser()).getUid())
-                .collection("CurrentUser");
+        CollectionReference cartRef = db.collection("Users").document(Objects.requireNonNull(mAuth.getCurrentUser()).getUid())
+                .collection("Cart");
         Query query = cartRef.whereEqualTo("productId", productId);
         query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
@@ -176,7 +178,8 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
                         cartRef.add(cart).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                             @Override
                             public void onSuccess(DocumentReference documentReference) {
-                                Toast.makeText(getContext(), "Added to cart", Toast.LENGTH_SHORT).show();
+                                documentReference.update("id", documentReference.getId());
+                                Toast.makeText(requireContext(), "Added to cart", Toast.LENGTH_SHORT).show();
                             }
                         });
                     } else {
@@ -187,20 +190,13 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
                             int price = Integer.parseInt(document.get("productPrice").toString());
                             int newQuantity = quantity + 1;
                             cartRef.document(id).update("totalQuantity", newQuantity);
-                            Toast.makeText(getContext(), "Updated to cart", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(requireContext(), "Added to cart", Toast.LENGTH_SHORT).show();
                         }
                     }
                 }
             }
         });
 
-//        db.collection("AddToCart").document(Objects.requireNonNull(mAuth.getCurrentUser()).getUid()).
-//                collection("CurrentUser").add(cart).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-//            @Override
-//            public void onSuccess(DocumentReference documentReference) {
-//                Toast.makeText(getContext(), "Added to cart", Toast.LENGTH_SHORT).show();
-//            }
-//        });
 
 
     }
