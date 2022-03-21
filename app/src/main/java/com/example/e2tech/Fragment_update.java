@@ -36,6 +36,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Picasso;
 
 import org.w3c.dom.Text;
 
@@ -54,7 +55,6 @@ public class Fragment_update extends Fragment {
     private DatabaseReference dbreference;
     private StorageReference storageReference;
     private String userID;
-
     private Uri filepath;
     Bitmap bitmap;
 
@@ -77,6 +77,7 @@ public class Fragment_update extends Fragment {
         edtPassword = (EditText) view.findViewById(R.id.password_confirmUpdate);
         btnSave = (Button) view.findViewById(R.id.btnSaveUpdate);
         radioGroupGender = (RadioGroup) view.findViewById(R.id.radioGroupGender);
+        avatar = (CircleImageView) view.findViewById(R.id.profile_image);
 
         dbreference.child(userID).addValueEventListener(new ValueEventListener() {
             @Override
@@ -96,7 +97,7 @@ public class Fragment_update extends Fragment {
                     edtAddress.setHint(address);
                     edtAge.setHint(age);
                     edtPhone.setHint(phone);
-
+                    Picasso.get().load(userProfile.getImg_url()).into(avatar);
 
                     btnSave.setOnClickListener(new View.OnClickListener() {
                         @Override

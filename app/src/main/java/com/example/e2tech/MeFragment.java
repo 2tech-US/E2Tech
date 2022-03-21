@@ -28,6 +28,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.auth.User;
 import com.example.e2tech.Models.UserModel;
+import com.squareup.picasso.Picasso;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 
 public class MeFragment extends Fragment {
@@ -35,12 +38,14 @@ public class MeFragment extends Fragment {
     private FirebaseUser user;
     private DatabaseReference reference;
     private String userID;
+    private CircleImageView avatar;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_me, container, false);
         btnInfor = (Button) view.findViewById(R.id.btnInfor);
+        avatar = (CircleImageView) view.findViewById(R.id.profile_image);
 
         btnInfor.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,8 +70,8 @@ public class MeFragment extends Fragment {
 
                 if(userProfile != null) {
                     String username = userProfile.getUsername();
-
                     txtUsername.setText(username);
+                    Picasso.get().load(userProfile.getImg_url()).into(avatar);
                 }
             }
 

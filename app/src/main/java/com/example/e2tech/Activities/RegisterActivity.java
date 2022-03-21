@@ -23,9 +23,12 @@ import com.example.e2tech.MainActivity;
 import com.example.e2tech.Models.UserModel;
 import com.example.e2tech.R;
 import com.facebook.AccessToken;
+import com.facebook.AccessTokenTracker;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -43,10 +46,17 @@ import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.auth.SignInMethodQueryResult;
 import com.google.firebase.auth.UserInfo;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.facebook.FacebookSdk;
+import com.facebook.appevents.AppEventsLogger;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.Arrays;
 import java.util.HashMap;
 
 public class RegisterActivity extends AppCompatActivity {
@@ -61,6 +71,7 @@ public class RegisterActivity extends AppCompatActivity {
     private LoginButton btnloginFacebook;
     private CallbackManager callbackManager;
     private FirebaseAuth.AuthStateListener authStateListener;
+    private AccessTokenTracker accessTokenTracker;
     private SignInButton btnSignInGoogle;
     private GoogleSignInClient googleSignInClient;
     private int RC_SIGN_IN = 123;
@@ -157,12 +168,29 @@ public class RegisterActivity extends AppCompatActivity {
 
         callbackManager = CallbackManager.Factory.create();
         btnloginFacebook = findViewById(R.id.btnLoginFacebook);
-        btnloginFacebook.setReadPermissions("email", "public_profile");
+        btnloginFacebook.setReadPermissions(Arrays.asList("email", "public_profile"));
         btnloginFacebook.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
                 Log.d("FacebookAuth", "onSuccess" + loginResult);
-                handleFacebookAccessToken(loginResult.getAccessToken());
+                GraphRequest request = GraphRequest.newMeRequest(loginResult.getAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
+                    @Override
+                    public void onCompleted(@Nullable JSONObject jsonObject, @Nullable GraphResponse graphResponse) {
+                        try {
+                            String email = jsonObject.getString("email");
+                            mAuth.fetchSignInMethodsForEmail(email).addOnCompleteListener(new OnCompleteListener<SignInMethodQueryResult>() {
+                                @Override
+                                public void onComplete(@NonNull Task<SignInMethodQueryResult> task) {
+                                    if(task.getResult().getSignInMethods().isEmpty()) {
+                                        handleFacebookAccessToken(loginResult.getAccessToken());
+                                    }
+                                }
+                            });
+                        }catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
             }
 
             @Override
@@ -182,8 +210,20 @@ public class RegisterActivity extends AppCompatActivity {
                 FirebaseUser user = mAuth.getCurrentUser();
                 if (user != null) {
                     Log.d("Auth", "onAuthStateChanged:sign_in:" + user.getUid());
+                    Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
                 } else {
                     Log.d("Auth", "onAuthStateChanged:sign_out:");
+                }
+            }
+        };
+
+        accessTokenTracker = new AccessTokenTracker() {
+            @Override
+            protected void onCurrentAccessTokenChanged(@Nullable AccessToken accessToken, @Nullable AccessToken accessToken1) {
+                if(accessToken1 == null) {
+                    mAuth.signOut();
                 }
             }
         };
@@ -232,6 +272,9 @@ public class RegisterActivity extends AppCompatActivity {
                                 String phone = "";
                                 String imgUrl = "";
 
+                                imgUrl = signInAccount.getPhotoUrl().toString();
+                                imgUrl += "?type=large";
+
                                 UserModel newUser = new UserModel(uname, email, address, age, phone, gender, imgUrl);
                                 newUser.setId(uid);
 
@@ -262,6 +305,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        callbackManager.onActivityResult(requestCode, resultCode, data);
         super.onActivityResult(requestCode, resultCode, data);
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 //        if (user != null) {
@@ -270,7 +314,6 @@ public class RegisterActivity extends AppCompatActivity {
 //                String providerId = profile.getProviderId();
 //
 //                if (providerId.equals("facebook.com")) {
-                    callbackManager.onActivityResult(requestCode, resultCode, data);
 //                } else if (providerId.equals("google.com")) {
 //                    Log.d("Signed_in_user", "Google signed in");
                     // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
@@ -359,7 +402,7 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void handleFacebookAccessToken(AccessToken accessToken) {
-        AuthCredential credential = FacebookAuthProvider.getCredential(accessToken.getToken());
+        final AuthCredential credential = FacebookAuthProvider.getCredential(accessToken.getToken());
         progressBar.setVisibility(View.VISIBLE);
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -378,6 +421,12 @@ public class RegisterActivity extends AppCompatActivity {
                             String gender = "";
                             String phone = "";
                             String imgUrl = "";
+
+                            if(user.getPhotoUrl() != null) {
+                                imgUrl = user.getPhotoUrl().toString();
+                                imgUrl += "?type=large";
+                            }
+
 
                             UserModel newUser = new UserModel(uname, email, address, age, phone, gender, imgUrl);
                             newUser.setId(uid);
