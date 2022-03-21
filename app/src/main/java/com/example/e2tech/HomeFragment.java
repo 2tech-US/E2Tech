@@ -146,7 +146,7 @@ public class HomeFragment extends Fragment {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot documentSnapshot: task.getResult()) {
+                            for (QueryDocumentSnapshot documentSnapshot : task.getResult()) {
                                 BannerModel bannerModel = documentSnapshot.toObject(BannerModel.class);
                                 bannerList.add(bannerModel);
                                 bannerSliderAdapter.notifyDataSetChanged();
@@ -160,7 +160,7 @@ public class HomeFragment extends Fragment {
         categoryModelList = new ArrayList<>();
         categoryRecyclerView = root.findViewById(R.id.home_category_recycler);
         categoryRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), RecyclerView.HORIZONTAL, false));
-        categoryAdapter = new CategoryAdapter(getActivity(), categoryModelList,R.layout.category_item_home);
+        categoryAdapter = new CategoryAdapter(getActivity(), categoryModelList, R.layout.category_item_home);
         categoryRecyclerView.setAdapter(categoryAdapter);
 
         db.collection("Categories")
@@ -169,7 +169,7 @@ public class HomeFragment extends Fragment {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot documentSnapshot: task.getResult()) {
+                            for (QueryDocumentSnapshot documentSnapshot : task.getResult()) {
                                 CategoryModel categoryModel = documentSnapshot.toObject(CategoryModel.class);
                                 String id = documentSnapshot.getId();
                                 categoryModel.setId(id);
@@ -204,7 +204,7 @@ public class HomeFragment extends Fragment {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot documentSnapshot: task.getResult()) {
+                            for (QueryDocumentSnapshot documentSnapshot : task.getResult()) {
                                 ProductModel productModel = documentSnapshot.toObject(ProductModel.class);
                                 String id = documentSnapshot.getId();
                                 productModel.setId(id);
@@ -213,7 +213,7 @@ public class HomeFragment extends Fragment {
                             }
                         } else {
                             Toast.makeText(getActivity(), "Error" + task.getException(), Toast.LENGTH_SHORT).show();
-                            Log.e("FIREBASE","ERROR" + task.getException());
+                            Log.e("FIREBASE", "ERROR" + task.getException());
                         }
                     }
                 });
@@ -223,7 +223,7 @@ public class HomeFragment extends Fragment {
         favoriteRecyclerView = root.findViewById(R.id.home_favorite_recycler);
         favoriteRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), RecyclerView.HORIZONTAL, false));
 
-        favoriteAdapter = new PopularAdapter(getActivity(), productList);
+        favoriteAdapter = new PopularAdapter(getActivity(), favoriteList);
         favoriteRecyclerView.setAdapter(favoriteAdapter);
 
         ArrayList<String> userFavoriteProducts = new ArrayList<>();
@@ -238,32 +238,32 @@ public class HomeFragment extends Fragment {
                     for (QueryDocumentSnapshot documentSnapshot : task.getResult()) {
                         String productId = documentSnapshot.getId();
                         userFavoriteProducts.add(productId);
-                        Log.v("MainAcitivty_PULL", productId);
                     }
 
                     mainActivity = (MainActivity) getActivity();
                     mainActivity.setUserFavoriteProducts(userFavoriteProducts);
 
-                    db.collection("PopularProducts").whereIn(FieldPath.documentId(),userFavoriteProducts)
-                            .get()
-                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                @Override
-                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                    if (task.isSuccessful()) {
-                                        for (QueryDocumentSnapshot documentSnapshot: task.getResult()) {
-                                            ProductModel productModel = documentSnapshot.toObject(ProductModel.class);
-                                            String id = documentSnapshot.getId();
-                                            productModel.setId(id);
-                                            Log.d("FUCK",id);
-                                            favoriteList.add(productModel);
-                                            favoriteAdapter.notifyDataSetChanged();
+                    if (!userFavoriteProducts.isEmpty()) {
+                        db.collection("PopularProducts").whereIn(FieldPath.documentId(), userFavoriteProducts)
+                                .get()
+                                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                        if (task.isSuccessful()) {
+                                            for (QueryDocumentSnapshot documentSnapshot : task.getResult()) {
+                                                ProductModel productModel = documentSnapshot.toObject(ProductModel.class);
+                                                String id = documentSnapshot.getId();
+                                                productModel.setId(id);
+                                                favoriteList.add(productModel);
+                                                favoriteAdapter.notifyDataSetChanged();
+                                            }
+                                        } else {
+                                            Toast.makeText(getActivity(), "Error" + task.getException(), Toast.LENGTH_SHORT).show();
+                                            Log.e("FIREBASE", "ERRROR" + task.getException());
                                         }
-                                    } else {
-                                        Toast.makeText(getActivity(), "Error" + task.getException(), Toast.LENGTH_SHORT).show();
-                                        Log.e("FIREBASE","ERRROR" + task.getException());
                                     }
-                                }
-                            });
+                                });
+                    }
 
 
                 } else {
