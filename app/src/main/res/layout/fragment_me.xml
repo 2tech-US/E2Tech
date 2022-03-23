@@ -45,7 +45,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="65dp"
                 android:layout_marginTop="20dp"
-                android:text="Thong tin ca nhan"
+                android:text="Personal Information"
                 app:icon="@drawable/outline_account_circle_24"/>
 
             <Button
@@ -53,7 +53,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="65dp"
                 android:layout_marginTop="10dp"
-                android:text="Gio Hang"
+                android:text="Cart"
                 app:icon="@drawable/outline_shopping_cart_24" />
 
             <Button
@@ -61,7 +61,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="65dp"
                 android:layout_marginTop="10dp"
-                android:text="Lich su mua hang"
+                android:text="purchase history"
                 app:icon="@drawable/ic_baseline_history_24" />
 
             <Button
@@ -69,25 +69,26 @@
                 android:layout_width="match_parent"
                 android:layout_height="65dp"
                 android:layout_marginTop="10dp"
-                android:text="San pham yeu thich"
+                android:text="Favorite product"
                 app:icon="@drawable/outline_favorite_24" />
 
             <Button
-                android:id="@+id/btnAddProduct"
+                android:id="@+id/btnChangePass"
                 android:layout_width="match_parent"
                 android:layout_height="65dp"
                 android:layout_marginTop="10dp"
-                android:text="Them san pham (Admin)"
-                app:icon="@drawable/ic_baseline_add_circle_24" />
+                app:icon="@drawable/ic_baseline_change_circle_24"
+                android:text="Change Password"/>
 
             <Button
-                android:id="@+id/btnOrderManage"
+                android:id="@+id/btn_logout"
                 android:layout_width="match_parent"
                 android:layout_height="65dp"
                 android:layout_marginTop="10dp"
-                android:layout_marginBottom="20dp"
-                android:text="Quan ly don hang (Admin)"
-                app:icon="@drawable/ic_baseline_star_border_24" />
+                app:icon="@drawable/ic_baseline_logout_24"
+                android:text="Log out"
+                android:layout_marginBottom="20dp"/>
+
 
         </LinearLayout>
     </ScrollView>
