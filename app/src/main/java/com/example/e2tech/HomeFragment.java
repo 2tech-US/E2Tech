@@ -51,7 +51,6 @@ public class HomeFragment extends Fragment {
     FirebaseAuth mAuth;
     FirebaseUser currentUser;
     FirebaseFirestore db;
-    TextView tvUsername;
 
     SliderView bannerSliderView;
     List<BannerModel> bannerList;
@@ -110,9 +109,6 @@ public class HomeFragment extends Fragment {
         db = FirebaseFirestore.getInstance();
         FirebaseUser currentUser = mAuth.getCurrentUser();
         String email = currentUser.getEmail();
-
-        tvUsername = root.findViewById(R.id.tv_username);
-        tvUsername.setText("Hi, " + currentUser.getDisplayName());
 
         bannerList = new ArrayList<>();
         bannerSliderView = root.findViewById(R.id.imageBannerSlider);
