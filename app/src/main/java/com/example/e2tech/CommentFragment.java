@@ -64,7 +64,7 @@ public class CommentFragment extends Fragment {
         String productId;
         if (getArguments() != null) {
             productId = getArguments().getString("productId");
-            db.collection("PopularProducts").document(productId).collection("comment")
+            db.collection("Products").document(productId).collection("comment")
                     .get()
                     .addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {

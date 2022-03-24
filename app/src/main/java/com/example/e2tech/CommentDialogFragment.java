@@ -107,7 +107,7 @@ public class CommentDialogFragment extends DialogFragment implements View.OnClic
                     String productId = getArguments() != null ? getArguments().getString("productId") : null;
 
                     // save review
-                    mDocRef = db.collection("PopularProducts").document(productId).collection("comment").document();
+                    mDocRef = db.collection("Products").document(productId).collection("comment").document();
                     saveComment(productId,rating, reviewContent);
 
                     // update product review
@@ -142,7 +142,7 @@ public class CommentDialogFragment extends DialogFragment implements View.OnClic
     }
 
     private void updateProductDocument(String productId,int rating) {
-        mDocRef = db.collection("PopularProducts").document(productId);
+        mDocRef = db.collection("Products").document(productId);
 
 
 //        mDocRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
@@ -181,7 +181,7 @@ public class CommentDialogFragment extends DialogFragment implements View.OnClic
 
     private void saveComment(String productId, int rating, String content) {
         FirebaseUser user = mAuth.getCurrentUser();
-        mDocRef = db.collection("PopularProducts").document(productId).collection("comment").document();
+        mDocRef = db.collection("Products").document(productId).collection("comment").document();
 
         Map<String, Object> dataToSave = new HashMap<String, Object>();
         dataToSave.put("rating", rating);
