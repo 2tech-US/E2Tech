@@ -1,13 +1,33 @@
 package com.example.e2tech.Models;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class OrderModel implements Serializable {
 
     String receiverName, address, createAt, id, note, phone, status, orderBy, userName, nameProducts;
     int fee_ship, subTotal, total, quantity;
+    ArrayList<ProductModel> productList;
 
-    public OrderModel( String id, String address, String createAt, String nameProducts, int total, int quantity) {
+    public OrderModel(String receiverName, String address, String createAt, String id, String note, String phone, String status, String orderBy, String userName, String nameProducts, int fee_ship, int subTotal, int total, int quantity, ArrayList<ProductModel> productList) {
+        this.receiverName = receiverName;
+        this.address = address;
+        this.createAt = createAt;
+        this.id = id;
+        this.note = note;
+        this.phone = phone;
+        this.status = status;
+        this.orderBy = orderBy;
+        this.userName = userName;
+        this.nameProducts = nameProducts;
+        this.fee_ship = fee_ship;
+        this.subTotal = subTotal;
+        this.total = total;
+        this.quantity = quantity;
+        this.productList = productList;
+    }
+
+    public OrderModel(String id, String address, String createAt, String nameProducts, int total, int quantity) {
         this.address = address;
         this.createAt = createAt;
         this.id = id;
@@ -24,7 +44,7 @@ public class OrderModel implements Serializable {
         this.nameProducts = nameProducts;
     }
 
-    public OrderModel(String receiverName, String address, String createAt, String id, String note, String phone, String status, String orderBy, String userName, int fee_ship, int subTotal, int total, int quantity) {
+    public OrderModel(String receiverName, String address, String createAt, String id, String note, String phone, String status, String orderBy, String userName, int total, int quantity) {
         this.receiverName = receiverName;
         this.address = address;
         this.createAt = createAt;
@@ -34,8 +54,8 @@ public class OrderModel implements Serializable {
         this.status = status;
         this.orderBy = orderBy;
         this.userName = userName;
-        this.fee_ship = fee_ship;
-        this.subTotal = subTotal;
+        this.fee_ship = 0;
+//        this.subTotal = subTotal;
         this.total = total;
         this.quantity = quantity;
     }
@@ -146,4 +166,96 @@ public class OrderModel implements Serializable {
     public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
+
+
+
+    // Builder class
+    public static class OrderBuilder {
+        String receiverName, address, createAt, id, note, phone, status, orderBy, userName, nameProducts;
+        int fee_ship, subTotal, total, quantity;
+        ArrayList<ProductModel> productList;
+
+        public OrderBuilder receiver(String receiverName) {
+            this.receiverName = receiverName;
+            return this;
+        }
+
+        public OrderBuilder createAt(String createAt) {
+            this.createAt = createAt;
+            return this;
+        }
+
+        public OrderBuilder id(String id) {
+            this.id = id;
+            return this;
+        }
+
+        public OrderBuilder note(String note) {
+            this.note = note;
+            return this;
+        }
+
+        public OrderBuilder phone(String phone) {
+            this.phone = phone;
+            return this;
+        }
+
+        public OrderBuilder status(String status) {
+            this.status = status;
+            return this;
+        }
+
+        public OrderBuilder orderByID(String orderBy) {
+            this.orderBy = orderBy;
+            return this;
+        }
+
+        public OrderBuilder userName(String userName) {
+            this.userName = userName;
+            return this;
+        }
+
+        public OrderBuilder productNames(String nameProducts) {
+            this.nameProducts = nameProducts;
+            return this;
+        }
+
+        public OrderBuilder address(String address) {
+            this.address = address;
+            return this;
+        }
+
+        public OrderBuilder feeShip(int fee) {
+            this.fee_ship = fee;
+            return this;
+        }
+
+        public OrderBuilder subTotal(int subTotal) {
+            this.subTotal = subTotal;
+            return this;
+        }
+
+        public OrderBuilder total(int total) {
+            this.total = total;
+            return this;
+        }
+
+        public OrderBuilder quantity(int quantity) {
+            this.quantity = quantity;
+            return this;
+        }
+
+        public OrderBuilder productList(ArrayList<ProductModel> productList) {
+            this.productList = productList;
+            return this;
+        }
+
+
+        public OrderModel build() {
+            return new OrderModel(receiverName, address, createAt, id, note, phone, status, orderBy, userName, nameProducts, fee_ship, subTotal, total, quantity, productList);
+        }
+
+    }
+
+
 }

@@ -14,10 +14,30 @@ public class ProductModel extends ViewModel implements Serializable {
     double discount;
     String type;
     String img_url;
+
+    public int getQuantityOnOrder() {
+        return quantityOnOrder;
+    }
+
+    public void setQuantityOnOrder(int quantityOnOrder) {
+        this.quantityOnOrder = quantityOnOrder;
+    }
+
+    public int getNumberSold() {
+        return numberSold;
+    }
+
+    public void setNumberSold(int numberSold) {
+        this.numberSold = numberSold;
+    }
+
     String id;
     String company;
-
+    int quantityOnOrder;
     int remain;
+    int numberOfReview;
+    int numberOfPoint;
+    int numberSold;
 
     public int getRemain() {
         return remain;
@@ -27,8 +47,22 @@ public class ProductModel extends ViewModel implements Serializable {
         this.remain = remain;
     }
 
-    int numberOfReview;
-    int numberOfPoint;
+    public ProductModel(String name, int price, String description, double rating, double discount, String type, String img_url, String id, String company, int quantityOnOrder, int remain, int numberOfReview, int numberOfPoint, int numberSold) {
+        this.name = name;
+        this.price = price;
+        this.description = description;
+        this.rating = rating;
+        this.discount = discount;
+        this.type = type;
+        this.img_url = img_url;
+        this.id = id;
+        this.company = company;
+        this.quantityOnOrder = quantityOnOrder;
+        this.remain = remain;
+        this.numberOfReview = numberOfReview;
+        this.numberOfPoint = numberOfPoint;
+        this.numberSold = numberSold;
+    }
 
 
     public ProductModel(String name, int price, String description, double rating, double discount, String type, String img_url, String id, String company, int remain) {
@@ -42,9 +76,7 @@ public class ProductModel extends ViewModel implements Serializable {
         this.id = id;
         this.company = company;
         this.remain = remain;
-        this.numberOfReview = 0;
-        this.numberOfPoint = 0;
-        this.rating = -1;
+        this.rating = -1;                   // why -1? (toan)
     }
 
     public ProductModel(String name, int price, String description, double rating, double discount, String type, String img_url, String id, String company) {
