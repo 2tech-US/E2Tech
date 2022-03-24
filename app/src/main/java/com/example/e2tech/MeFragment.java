@@ -20,6 +20,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.e2tech.Activities.LoginActivity;
 import com.facebook.login.LoginManager;
 import com.google.firebase.auth.FirebaseAuth;
@@ -88,7 +89,7 @@ public class MeFragment extends Fragment {
                 if(userProfile != null) {
                     String username = userProfile.getUsername();
                     txtUsername.setText(username);
-                    Picasso.get().load(userProfile.getImg_url()).into(avatar);
+                    Glide.with(getActivity()).load(userProfile.getImg_url()).into(avatar);
                 }
             }
 

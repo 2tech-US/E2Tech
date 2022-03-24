@@ -1,6 +1,6 @@
 package com.example.e2tech;
 
-import android.graphics.Bitmap;
+
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -15,13 +15,18 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
+import com.bumptech.glide.Glide;
 import com.example.e2tech.Models.UserModel;
+import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -29,18 +34,22 @@ import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserInfo;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.StorageTask;
+import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
-import org.w3c.dom.Text;
-
 import java.util.HashMap;
+import java.util.UUID;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -55,8 +64,12 @@ public class Fragment_update extends Fragment {
     private DatabaseReference dbreference;
     private StorageReference storageReference;
     private String userID;
-    private Uri filepath;
-    Bitmap bitmap;
+
+    FirebaseStorage storage;
+    FirebaseFirestore db;
+    Uri imgUri;
+    String imgUrl = "";
+
 
     @Nullable
     @Override
@@ -64,7 +77,6 @@ public class Fragment_update extends Fragment {
         View view = inflater.inflate(R.layout.fragment_update, container, false);
         user = FirebaseAuth.getInstance().getCurrentUser();
         dbreference = FirebaseDatabase.getInstance("https://e2tech-default-rtdb.asia-southeast1.firebasedatabase.app").getReference("Users");
-//        storageReference = FirebaseStorage.getInstance().getReference();
         userID = user.getUid();
 
         tvUpdateAvatar = (TextView) view.findViewById(R.id.update_avatar);
@@ -78,6 +90,28 @@ public class Fragment_update extends Fragment {
         btnSave = (Button) view.findViewById(R.id.btnSaveUpdate);
         radioGroupGender = (RadioGroup) view.findViewById(R.id.radioGroupGender);
         avatar = (CircleImageView) view.findViewById(R.id.profile_image);
+
+        db = FirebaseFirestore.getInstance();
+        storage = FirebaseStorage.getInstance();
+
+
+        ActivityResultLauncher<String> launcher = registerForActivityResult(new ActivityResultContracts.GetContent(), new ActivityResultCallback<Uri>() {
+            @Override
+            public void onActivityResult(Uri result) {
+                avatar.setImageURI(result);
+                imgUri = result;
+                if (imgUri != null) {
+                    uploadImage();
+                }
+            }
+        });
+
+        tvUpdateAvatar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                launcher.launch("image/*");
+            }
+        });
 
         dbreference.child(userID).addValueEventListener(new ValueEventListener() {
             @Override
@@ -93,11 +127,12 @@ public class Fragment_update extends Fragment {
                     String pass = userProfile.getPassword();
 
                     edtName.setHint(name);
-                    edtEmail.setHint(email);
+                    edtEmail.setText(email);
+                    edtEmail.setEnabled(false);
                     edtAddress.setHint(address);
                     edtAge.setHint(age);
                     edtPhone.setHint(phone);
-                    Picasso.get().load(userProfile.getImg_url()).into(avatar);
+                    Glide.with(getActivity()).load(userProfile.getImg_url()).into(avatar);
 
                     btnSave.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -118,13 +153,18 @@ public class Fragment_update extends Fragment {
                                 edtPhone.requestFocus();
                                 return;
                             }
+
+                            if (imgUrl.equals("")) {
+                                Toast.makeText(getActivity(), "Please select image first", Toast.LENGTH_LONG).show();
+                            }
+
                             if (TextUtils.isEmpty(addressStr)) {
                                 edtAddress.setHint("Enter your address...");
                                 edtAddress.requestFocus();
                                 return;
                             }
 
-                            if (TextUtils.isEmpty(passwordStr) && (!passwordStr.equalsIgnoreCase(pass))) {
+                            if (TextUtils.isEmpty(passwordStr) || (!passwordStr.equalsIgnoreCase(pass))) {
                                 edtPassword.setError("Please enter the right password to confirm update!");
                                 edtPassword.requestFocus();
                                 return;
@@ -132,13 +172,11 @@ public class Fragment_update extends Fragment {
                                 edtAge.setError("Please enter a valid age!");
                                 edtAge.requestFocus();
                                 return;
-                            }
-                            else if(TextUtils.isEmpty(emailStr)) {
+                            } else if (TextUtils.isEmpty(emailStr)) {
                                 edtEmail.setError("Please enter your email!");
                                 edtEmail.requestFocus();
                                 return;
-                            }
-                            else {
+                            } else {
                                 if (!emailStr.equalsIgnoreCase(email)) {
                                     AuthCredential credential = EmailAuthProvider.getCredential(email, pass);
                                     user.reauthenticate(credential)
@@ -168,6 +206,19 @@ public class Fragment_update extends Fragment {
                                 hashMap.put("phone", edtPhone.getText().toString());
                                 hashMap.put("username", edtName.getText().toString());
                                 hashMap.put("email", edtEmail.getText().toString());
+                                hashMap.put("img_url", imgUrl);
+
+                                db.collection("Avatars").add(hashMap)
+                                        .addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<DocumentReference> task) {
+                                                if (task.isSuccessful()) {
+                                                    Toast.makeText(getActivity(), "Add avatar successfully", Toast.LENGTH_SHORT).show();
+                                                } else {
+                                                    Toast.makeText(getActivity(), "Add avatar fail", Toast.LENGTH_SHORT).show();
+                                                }
+                                            }
+                                        });
 
                                 dbreference.child(userID).updateChildren(hashMap).
                                         addOnSuccessListener(new OnSuccessListener() {
@@ -190,7 +241,26 @@ public class Fragment_update extends Fragment {
             }
         });
 
-
         return view;
+    }
+
+    private void uploadImage() {
+        StorageReference reference = storage.getReference().child("Avatars/" + UUID.randomUUID().toString());
+
+        reference.putFile(imgUri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                if (task.isSuccessful()) {
+
+                    reference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+                            final Uri downloadUrl = uri;
+                            imgUrl = downloadUrl.toString();
+                        }});
+                }
+            }
+        });
+
     }
 }
