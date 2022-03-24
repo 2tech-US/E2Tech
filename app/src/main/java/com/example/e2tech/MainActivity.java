@@ -69,7 +69,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onDestinationChanged(@NonNull NavController navController, @NonNull NavDestination navDestination, @Nullable Bundle bundle) {
                 if (navDestination.getId() == R.id.detailFragment || navDestination.getId() == R.id.fragment_infor
-                        || navDestination.getId() == R.id.fragment_update || navDestination.getId() == R.id.orderDetail) {
+                        || navDestination.getId() == R.id.fragment_update || navDestination.getId() == R.id.orderDetail
+                        || navDestination.getId() == R.id.orderHistory) {
                     bottomNavigationView.setVisibility(View.GONE);
                     getSupportActionBar().hide();
                 } else {

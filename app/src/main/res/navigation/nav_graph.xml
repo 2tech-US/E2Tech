@@ -49,6 +49,9 @@
         <action
             android:id="@+id/action_meFragment_to_fragment_infor"
             app:destination="@id/fragment_infor" />
+        <action
+            android:id="@+id/action_meFragment_to_orderHistory"
+            app:destination="@id/orderHistory" />
     </fragment>
     <fragment
         android:id="@+id/detailFragment"
@@ -133,6 +136,10 @@
             android:id="@+id/action_oderDetail_to_cartFragment"
             app:destination="@id/cartFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/orderHistory"
+        android:name="com.example.e2tech.orderhistory.OrderHistory"
+        android:label="OrderHistory" />
 
 
 </navigation>

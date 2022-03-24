@@ -51,6 +51,15 @@ public class MeFragment extends Fragment {
             }
         });
 
+        btnHistory = (Button) view.findViewById(R.id.btnHistory);
+        btnHistory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment);
+                navController.navigate(R.id.action_meFragment_to_orderHistory);
+            }
+        });
+
         user = FirebaseAuth.getInstance().getCurrentUser();
         reference = FirebaseDatabase.getInstance("https://e2tech-default-rtdb.asia-southeast1.firebasedatabase.app").getReference("Users");
         userID = user.getUid();

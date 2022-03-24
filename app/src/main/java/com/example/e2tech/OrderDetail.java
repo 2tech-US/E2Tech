@@ -185,7 +185,7 @@ public class OrderDetail extends Fragment {
         hashMap.put("receiverName", name);
         hashMap.put("phone", phone);
         hashMap.put("createAt", timestamp);
-        hashMap.put("status", "In Progress");
+        hashMap.put("status", "waiting");
         hashMap.put("total", totalBill);
         hashMap.put("orderBy", user.getUid());
         hashMap.put("note", note);
