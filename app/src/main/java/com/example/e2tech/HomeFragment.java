@@ -34,6 +34,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FieldPath;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.smarteist.autoimageslider.SliderView;
@@ -81,7 +82,7 @@ public class HomeFragment extends Fragment {
     }
 
 
-    public static HomeFragment newInstance(String param1, String param2) {
+    public static HomeFragment newInstance() {
         HomeFragment fragment = new HomeFragment();
         Bundle args = new Bundle();
 
@@ -92,11 +93,6 @@ public class HomeFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-
-        }
-
-
     }
 
     @Override
@@ -109,7 +105,7 @@ public class HomeFragment extends Fragment {
 
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
-        FirebaseUser currentUser = mAuth.getCurrentUser();
+         currentUser = mAuth.getCurrentUser();
         String email = currentUser.getEmail();
 
         tvUsername = root.findViewById(R.id.tv_username);
@@ -198,7 +194,7 @@ public class HomeFragment extends Fragment {
         popularAdapter = new PopularAdapter(getActivity(), productList);
         popularRecyclerView.setAdapter(popularAdapter);
 
-        db.collection("PopularProducts")
+        db.collection("Products").limit(20).orderBy("buyCount", Query.Direction.DESCENDING)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -244,7 +240,7 @@ public class HomeFragment extends Fragment {
                     mainActivity.setUserFavoriteProducts(userFavoriteProducts);
 
                     if (!userFavoriteProducts.isEmpty()) {
-                        db.collection("PopularProducts").whereIn(FieldPath.documentId(), userFavoriteProducts)
+                        db.collection("Products").whereIn(FieldPath.documentId(), userFavoriteProducts)
                                 .get()
                                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                                     @Override
@@ -255,8 +251,8 @@ public class HomeFragment extends Fragment {
                                                 String id = documentSnapshot.getId();
                                                 productModel.setId(id);
                                                 favoriteList.add(productModel);
-                                                favoriteAdapter.notifyDataSetChanged();
                                             }
+                                            favoriteAdapter.notifyDataSetChanged();
                                         } else {
                                             Toast.makeText(getActivity(), "Error" + task.getException(), Toast.LENGTH_SHORT).show();
                                             Log.e("FIREBASE", "ERRROR" + task.getException());
