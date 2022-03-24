@@ -18,6 +18,7 @@ public class ProductModel extends ViewModel implements Serializable {
     String company;
 
     int remain;
+    long buyCount;
 
     public int getRemain() {
         return remain;
@@ -31,7 +32,7 @@ public class ProductModel extends ViewModel implements Serializable {
     int numberOfPoint;
 
 
-    public ProductModel(String name, int price, String description, double rating, double discount, String type, String img_url, String id, String company, int remain) {
+    public ProductModel(String name, int price, String description, double rating, double discount, String type, String img_url, String id, String company, int remain,int buyCount) {
         this.name = name;
         this.price = price;
         this.description = description;
@@ -45,6 +46,7 @@ public class ProductModel extends ViewModel implements Serializable {
         this.numberOfReview = 0;
         this.numberOfPoint = 0;
         this.rating = -1;
+        this.buyCount = buyCount;
     }
 
     public ProductModel(String name, int price, String description, double rating, double discount, String type, String img_url, String id, String company) {
