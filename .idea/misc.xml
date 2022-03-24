@@ -119,6 +119,8 @@
         <entry key="app/src/main/res/layout/cart_item.xml" value="0.335" />
         <entry key="app/src/main/res/layout/category_item_home.xml" value="0.13697916666666668" />
         <entry key="app/src/main/res/layout/catetory_item_category.xml" value="0.28229166666666666" />
+        <entry key="app/src/main/res/layout/dialog_order_detail.xml" value="0.18125" />
+        <entry key="app/src/main/res/layout/dialog_order_item.xml" value="0.18125" />
         <entry key="app/src/main/res/layout/fragment_admin_about.xml" value="0.28229166666666666" />
         <entry key="app/src/main/res/layout/fragment_admin_home.xml" value="0.28229166666666666" />
         <entry key="app/src/main/res/layout/fragment_admin_order.xml" value="0.28229166666666666" />

@@ -7,11 +7,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -19,6 +21,7 @@ import com.bumptech.glide.Glide;
 import com.example.e2tech.Models.CategoryModel;
 import com.example.e2tech.Models.OrderModel;
 import com.example.e2tech.R;
+import com.example.e2tech.orderhistory.OrderDetailDialog;
 
 import java.util.List;
 
@@ -55,9 +58,11 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
             @Override
             public void onClick(View view) {
                 Bundle productBundle = new Bundle();
-                productBundle.putSerializable("order", orders.get(position));
-//                Navigation.findNavController(view).navigate(R.id.adminProductDetail, productBundle);
-                Toast.makeText(context, "Click" + Integer.toString(position), Toast.LENGTH_LONG).show();
+                productBundle.putString("orderId", orders.get(position).getId());
+                OrderDetailDialog orderDetailDialog = new OrderDetailDialog();
+                orderDetailDialog.setArguments(productBundle);
+                orderDetailDialog.show(((AppCompatActivity) context).getSupportFragmentManager(), "orderDetailDialog");
+
             }
         });
     }
