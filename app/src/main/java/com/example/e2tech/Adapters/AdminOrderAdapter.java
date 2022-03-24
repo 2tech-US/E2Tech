@@ -46,11 +46,12 @@ public class AdminOrderAdapter extends RecyclerView.Adapter<AdminOrderAdapter.Vi
     public void onBindViewHolder(@NonNull AdminOrderAdapter.ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         holder.tvID.setText(orders.get(position).getId());
         holder.tvProductNames.setText(orders.get(position).getNameProducts());
-        holder.tvTotal.setText(Integer.toString(orders.get(position).getTotal()));
-        holder.tvQuantity.setText(Integer.toString(orders.get(position).getQuantity()));
+        holder.tvAddress.setText("Địa chỉ: " + orders.get(position).getAddress());
+        holder.tvTotal.setText("Tổng tiền: " + Integer.toString(orders.get(position).getTotal()));
+        holder.tvQuantity.setText("Số lượng: " + Integer.toString(orders.get(position).getQuantity()));
         holder.tvDate.setText(orders.get(position).getCreateAt());
-        holder.imgProducts.setImageResource(R.drawable.iphone_12_pro_max);
-        //Glide.with(context).load(orders.get(position).getImg_url()).into(holder.imgProduct);
+//        holder.imgProducts.setImageResource(R.drawable.iphone_12_pro_max);
+        Glide.with(context).load(orders.get(position).getProductList().get(0).getImg_url()).into(holder.imgProducts);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

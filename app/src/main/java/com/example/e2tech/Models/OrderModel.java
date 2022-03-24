@@ -7,6 +7,15 @@ public class OrderModel implements Serializable {
 
     String receiverName, address, createAt, id, note, phone, status, orderBy, userName, nameProducts;
     int fee_ship, subTotal, total, quantity;
+
+    public ArrayList<ProductModel> getProductList() {
+        return productList;
+    }
+
+    public void setProductList(ArrayList<ProductModel> productList) {
+        this.productList = productList;
+    }
+
     ArrayList<ProductModel> productList;
 
     public OrderModel(String receiverName, String address, String createAt, String id, String note, String phone, String status, String orderBy, String userName, String nameProducts, int fee_ship, int subTotal, int total, int quantity, ArrayList<ProductModel> productList) {
