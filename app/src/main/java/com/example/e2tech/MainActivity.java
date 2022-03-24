@@ -19,16 +19,33 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.example.e2tech.ViewModels.ProductViewModel;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
     BottomNavigationView bottomNavigationView;
     NavController navController;
 
-
+    ArrayList<String> userFavoriteProducts;
+    FirebaseAuth mAuth;
+    FirebaseUser currentUser;
+    FirebaseFirestore db;
 
     Toolbar toolbar;
 //    SearchView searchView;
@@ -52,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onDestinationChanged(@NonNull NavController navController, @NonNull NavDestination navDestination, @Nullable Bundle bundle) {
                 if (navDestination.getId() == R.id.detailFragment || navDestination.getId() == R.id.fragment_infor
-                        || navDestination.getId() == R.id.fragment_update) {
+                        || navDestination.getId() == R.id.fragment_update || navDestination.getId() == R.id.orderDetail) {
                     bottomNavigationView.setVisibility(View.GONE);
                     getSupportActionBar().hide();
                 } else {
@@ -106,4 +123,21 @@ public class MainActivity extends AppCompatActivity {
     public boolean onSupportNavigateUp() {
         return navController.navigateUp() || super.onSupportNavigateUp();
     }
+
+    public void setUserFavoriteProducts(ArrayList<String> userFavoriteProducts) {
+        this.userFavoriteProducts = userFavoriteProducts;
+    }
+
+    public ArrayList<String> getUserFavoriteProducts() {
+        return userFavoriteProducts;
+    }
+
+    public void addFavorite(String productId) {
+        this.userFavoriteProducts.add(productId);
+    }
+
+    public void removeFavorite(String productId) {
+        this.userFavoriteProducts.remove(productId);
+    }
+
 }

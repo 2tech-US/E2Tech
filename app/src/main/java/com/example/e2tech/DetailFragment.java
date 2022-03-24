@@ -29,6 +29,7 @@ import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.example.e2tech.Models.ProductModel;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -43,6 +44,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -77,9 +79,9 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
     private String productId;
     private String collection;
 
+    private MainActivity mainActivity;
 
     // Demo UI Purpose
-    boolean isFavorite = false;
 
     public DetailFragment() {
     }
@@ -111,6 +113,8 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
 
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
+
+        mainActivity = (MainActivity)getActivity();
 
         fetchView(root);
 
@@ -152,7 +156,9 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
 
     private void addToCart() {
         String productId = getArguments().getString("id");
+        String timestamp = String.valueOf(System.currentTimeMillis());
         final HashMap<String, Object> cart = new HashMap<>();
+        cart.put("id", timestamp);
         cart.put("productId", productId);
         cart.put("productName", product.getName());
         cart.put("productPrice", product.getPrice());
@@ -160,8 +166,8 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
         cart.put("totalQuantity", 1);
 
 
-        CollectionReference cartRef = db.collection("AddToCart").document(Objects.requireNonNull(mAuth.getCurrentUser()).getUid())
-                .collection("CurrentUser");
+        CollectionReference cartRef = db.collection("Users").document(Objects.requireNonNull(mAuth.getCurrentUser()).getUid())
+                .collection("Cart");
         Query query = cartRef.whereEqualTo("productId", productId);
         query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
@@ -172,7 +178,8 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
                         cartRef.add(cart).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                             @Override
                             public void onSuccess(DocumentReference documentReference) {
-                                Toast.makeText(getContext(), "Added to cart", Toast.LENGTH_SHORT).show();
+                                documentReference.update("id", documentReference.getId());
+                                Toast.makeText(requireContext(), "Added to cart", Toast.LENGTH_SHORT).show();
                             }
                         });
                     } else {
@@ -183,20 +190,13 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
                             int price = Integer.parseInt(document.get("productPrice").toString());
                             int newQuantity = quantity + 1;
                             cartRef.document(id).update("totalQuantity", newQuantity);
-                            Toast.makeText(getContext(), "Updated to cart", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(requireContext(), "Added to cart", Toast.LENGTH_SHORT).show();
                         }
                     }
                 }
             }
         });
 
-//        db.collection("AddToCart").document(Objects.requireNonNull(mAuth.getCurrentUser()).getUid()).
-//                collection("CurrentUser").add(cart).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-//            @Override
-//            public void onSuccess(DocumentReference documentReference) {
-//                Toast.makeText(getContext(), "Added to cart", Toast.LENGTH_SHORT).show();
-//            }
-//        });
 
 
     }
@@ -284,6 +284,13 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
         tvProductBrand.setText(product.getCompany());
         tvProductCategory.setText(product.getType());
 
+
+        if(mainActivity.getUserFavoriteProducts().contains(productId)){
+            ivFavorite.setColorFilter(Color.RED);
+        }
+        else {
+            Log.v("FAVORITE",productId + " Not User Favorite Product");
+        }
         if (product.getNumberOfReview() != 0) {
             product.calculateRate();
             tvProductRate.setText(Double.toString(product.getRating()) + '⭐' + " (" +product.getNumberOfReview() + ")" );
@@ -308,23 +315,11 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onPause() {
         super.onPause();
-//        SharedPreferences preferences = this.getActivity().getSharedPreferences("pref", Context.MODE_PRIVATE);
-//        SharedPreferences.Editor edit = preferences.edit();
-//
-//        edit.putString("product_id", this.productId);
-//        edit.putString("collection", this.collection);
-//
-//        edit.apply();
     }
 
     @Override
     public void onResume() {
         super.onResume();
-//        SharedPreferences pref = getActivity().getPreferences(Context.MODE_PRIVATE);
-//        this.productId = pref.getString("product_id", "empty");
-//        this.collection = pref.getString("collection", "empty");
-//
-//        Log.v("ON_RESUME","");
     }
 
     @Override
@@ -332,14 +327,48 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
         Bundle bundle = new Bundle();
         switch (view.getId()){
             case R.id.iv_product_favorite:
-                if(isFavorite) {
-                    ivFavorite.setColorFilter(Color.GRAY);
-                    isFavorite = false;
-                }
-                else {
-                    ivFavorite.setColorFilter(Color.RED);
-                    isFavorite = true;
-                }
+                DocumentReference docRef = db.collection("Users").document(mAuth.getCurrentUser().getUid()).collection("Favorites")
+                        .document(productId);
+
+                docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        if(documentSnapshot.exists()) {
+                            Log.e("FAVORITE","Exist");
+                            ivFavorite.setColorFilter(Color.GRAY);
+
+                            docRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void unused) {
+                                    mainActivity.removeFavorite(productId);
+                                    Log.d("SAVE_FAVORITE", "Document have been deleted");
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Log.w("SAVE_FAVORITE", "Document was not deleted");
+                                }
+                            });
+                        }
+                        else {
+                            ivFavorite.setColorFilter(Color.RED);
+                            Map<String, Object> dataToSave = new HashMap<String, Object>();
+
+                            docRef.set(dataToSave).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    Log.d("SAVE_FAVORITE", "Document have been save");
+                                    mainActivity.addFavorite(productId);
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Log.w("SAVE_FAVORITE", "Document was not save");
+                                }
+                            });
+                        }
+                    }
+                });
                 break;
             case R.id.iv_product_comment:
                 bundle.putString("productId", product.getId());
