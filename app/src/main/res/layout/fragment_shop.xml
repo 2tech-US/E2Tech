@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -23,17 +23,17 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:text="@string/categories"
                 android:textSize="20sp"
-                android:textStyle="bold"
-                android:layout_weight="1"/>
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/tv_shop_see_all_text"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:gravity="end"
                 android:layout_weight="1"
+                android:gravity="end"
                 android:text="@string/see_all"
                 android:textSize="20sp"
                 app:drawableEndCompat="@drawable/ic_baseline_arrow_forward_ios_24"
@@ -49,48 +49,76 @@
             android:layout_marginTop="1dp"
             android:layout_marginBottom="16dp" />
 
-
-<!--        <androidx.constraintlayout.widget.ConstraintLayout-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginVertical="16dp"-->
-<!--            android:layout_marginLeft="16dp"-->
-<!--            android:orientation="horizontal"-->
-<!--            android:paddingRight="30dp">-->
-
-<!--            <Button-->
-<!--                android:id="@+id/btn_shop_popular_filter"-->
-<!--                android:layout_width="88dp"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginHorizontal="5dp"-->
-<!--                android:layout_weight="1"-->
-<!--                android:text="Popular"-->
-<!--                android:textSize="5sp"-->
-<!--                app:layout_constraintStart_toStartOf="parent"-->
-<!--                app:layout_constraintTop_toTopOf="parent" />-->
-
-<!--            <Button-->
-<!--                android:id="@+id/btn_shop_ratting_filter"-->
-<!--                android:layout_width="88dp"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginHorizontal="5dp"-->
-<!--                android:layout_marginStart="12dp"-->
-<!--                android:layout_weight="1"-->
-<!--                android:text="Rate"-->
-<!--                android:textSize="5sp"-->
-<!--                app:layout_constraintStart_toEndOf="@+id/btn_shop_popular_filter"-->
-<!--                app:layout_constraintTop_toTopOf="parent" />-->
-
-<!--        </androidx.constraintlayout.widget.ConstraintLayout>-->
-
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:text="Product"
             android:textSize="20sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:layout_marginBottom="12dp"/>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingHorizontal="12dp">
+
+            <TextView
+                android:id="@+id/shop_filter_popular"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="4dp"
+                android:layout_weight="0.5"
+                android:text="Popular"
+                android:textSize="15sp"
+                android:textStyle="italic" />
+
+
+            <TextView
+                android:id="@+id/shop_filter_rate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="4dp"
+                android:layout_weight="0.5"
+                android:text="Rate"
+                android:textSize="15sp"
+                android:textStyle="italic" />
+
+
+            <TextView
+                android:id="@+id/shop_filter_discount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="4dp"
+                android:layout_weight="0.5"
+                android:text="Discount"
+                android:textSize="15sp"
+                android:textStyle="italic" />
+
+
+            <TextView
+                android:id="@+id/shop_filter_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="4dp"
+                android:layout_weight="0.5"
+                android:text="Price"
+                android:textSize="15sp"
+                android:textStyle="italic" />
+        </LinearLayout>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/shop_fillter_button"
+            android:layout_width="65dp"
+            android:layout_height="24dp"
+            android:layout_gravity="right"
+            android:background="@drawable/bg_grey_corner_10"
+            android:text="Filter"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="20dp"
+            android:layout_marginHorizontal="10dp"
+            android:textSize="11sp" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/shop_product_recycle"
@@ -100,4 +128,4 @@
             android:layout_marginTop="8dp"
             app:spanCount="2" />
     </LinearLayout>
-</ScrollView>
+</androidx.core.widget.NestedScrollView>
