@@ -1,6 +1,7 @@
 package com.example.e2tech;
 
 
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -132,106 +133,123 @@ public class Fragment_update extends Fragment {
                     edtAddress.setHint(address);
                     edtAge.setHint(age);
                     edtPhone.setHint(phone);
-                    Glide.with(getActivity()).load(userProfile.getImg_url()).into(avatar);
+                    Glide.with(getActivity()).load(userProfile.getImg_url()).error(R.drawable.profile_pic).into(avatar);
 
-                    btnSave.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            String addressStr = edtAddress.getText().toString();
-                            String ageStr = edtAge.getText().toString();
-                            String phoneStr = edtPhone.getText().toString();
-                            String passwordStr = edtPassword.getText().toString();
-                            String emailStr = edtEmail.getText().toString().trim();
+                    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                    if (user != null) {
+                        for (UserInfo profile : user.getProviderData()) {
+                            // Id of the provider (ex: google.com)
+                            String providerId = profile.getProviderId();
 
-                            if (TextUtils.isEmpty(ageStr)) {
-                                edtAge.setHint("Enter your age...");
-                                edtAge.requestFocus();
-                                return;
-                            }
-                            if (TextUtils.isEmpty(phoneStr)) {
-                                edtPhone.setHint("Enter your phone number...");
-                                edtPhone.requestFocus();
-                                return;
+                            if (providerId.equals("facebook.com") | providerId.equals("google.com")) {
+                                Log.d("Signed_in_method", "FB or GG method!");
+                                edtPassword.setEnabled(false);
+                                edtPassword.setBackgroundColor(Color.rgb(181, 180, 179));
+                            } else if (providerId.equals("password")) {
+                                Log.d("Signed_in_method", "Email password method!");
+                                edtPassword.setEnabled(true);
                             }
 
-                            if (imgUrl.equals("")) {
-                                Toast.makeText(getActivity(), "Please select image first", Toast.LENGTH_LONG).show();
-                            }
+                            btnSave.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    String addressStr = edtAddress.getText().toString();
+                                    String ageStr = edtAge.getText().toString();
+                                    String phoneStr = edtPhone.getText().toString();
+                                    String passwordStr = edtPassword.getText().toString();
+                                    String emailStr = edtEmail.getText().toString().trim();
 
-                            if (TextUtils.isEmpty(addressStr)) {
-                                edtAddress.setHint("Enter your address...");
-                                edtAddress.requestFocus();
-                                return;
-                            }
+                                    if (TextUtils.isEmpty(ageStr)) {
+                                        edtAge.setHint("Enter your age...");
+                                        edtAge.requestFocus();
+                                        return;
+                                    }
+                                    if (TextUtils.isEmpty(phoneStr)) {
+                                        edtPhone.setHint("Enter your phone number...");
+                                        edtPhone.requestFocus();
+                                        return;
+                                    }
 
-                            if (TextUtils.isEmpty(passwordStr) || (!passwordStr.equalsIgnoreCase(pass))) {
-                                edtPassword.setError("Please enter the right password to confirm update!");
-                                edtPassword.requestFocus();
-                                return;
-                            } else if (Integer.parseInt(ageStr) < 6 || Integer.parseInt(ageStr) > 105) {
-                                edtAge.setError("Please enter a valid age!");
-                                edtAge.requestFocus();
-                                return;
-                            } else if (TextUtils.isEmpty(emailStr)) {
-                                edtEmail.setError("Please enter your email!");
-                                edtEmail.requestFocus();
-                                return;
-                            } else {
-                                if (!emailStr.equalsIgnoreCase(email)) {
-                                    AuthCredential credential = EmailAuthProvider.getCredential(email, pass);
-                                    user.reauthenticate(credential)
-                                            .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                @Override
-                                                public void onComplete(@NonNull Task<Void> task) {
-                                                    Log.d("Re-authenticated", "User re-authenticated.");
-                                                    user.updateEmail(emailStr)
-                                                            .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                                @Override
-                                                                public void onComplete(@NonNull Task<Void> task) {
-                                                                    if (task.isSuccessful()) {
-                                                                        Log.d("Update email", "User email address updated.");
-                                                                    }
-                                                                }
-                                                            });
-                                                }
-                                            });
+                                    if (imgUrl.equals("")) {
+                                        Toast.makeText(getActivity(), "Please select image first", Toast.LENGTH_LONG).show();
+                                    }
+
+                                    if (TextUtils.isEmpty(addressStr)) {
+                                        edtAddress.setHint("Enter your address...");
+                                        edtAddress.requestFocus();
+                                        return;
+                                    }
+
+                                    if ((TextUtils.isEmpty(passwordStr) || (!passwordStr.equalsIgnoreCase(pass))) && providerId.equals("password")) {
+                                        edtPassword.setError("Please enter the right password to confirm update!");
+                                        edtPassword.requestFocus();
+                                        return;
+                                    } else if (Integer.parseInt(ageStr) < 6 || Integer.parseInt(ageStr) > 105) {
+                                        edtAge.setError("Please enter a valid age!");
+                                        edtAge.requestFocus();
+                                        return;
+                                    } else if (TextUtils.isEmpty(emailStr)) {
+                                        edtEmail.setError("Please enter your email!");
+                                        edtEmail.requestFocus();
+                                        return;
+                                    } else {
+                                        if (!emailStr.equalsIgnoreCase(email)) {
+                                            AuthCredential credential = EmailAuthProvider.getCredential(email, pass);
+                                            user.reauthenticate(credential)
+                                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                        @Override
+                                                        public void onComplete(@NonNull Task<Void> task) {
+                                                            Log.d("Re-authenticated", "User re-authenticated.");
+                                                            user.updateEmail(emailStr)
+                                                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                                        @Override
+                                                                        public void onComplete(@NonNull Task<Void> task) {
+                                                                            if (task.isSuccessful()) {
+                                                                                Log.d("Update email", "User email address updated.");
+                                                                            }
+                                                                        }
+                                                                    });
+                                                        }
+                                                    });
+                                        }
+                                        HashMap hashMap = new HashMap();
+
+                                        hashMap.put("address", edtAddress.getText().toString());
+                                        hashMap.put("age", edtAge.getText().toString());
+                                        int selectedID = radioGroupGender.getCheckedRadioButtonId();
+                                        selectedGender = (RadioButton) radioGroupGender.findViewById(selectedID);
+                                        hashMap.put("gender", selectedGender.getText().toString());
+                                        hashMap.put("phone", edtPhone.getText().toString());
+                                        hashMap.put("username", edtName.getText().toString());
+                                        hashMap.put("email", edtEmail.getText().toString());
+                                        hashMap.put("img_url", imgUrl);
+
+                                        db.collection("Avatars").add(hashMap)
+                                                .addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+                                                    @Override
+                                                    public void onComplete(@NonNull Task<DocumentReference> task) {
+                                                        if (task.isSuccessful()) {
+                                                            Toast.makeText(getActivity(), "Add avatar successfully", Toast.LENGTH_SHORT).show();
+                                                        } else {
+                                                            Toast.makeText(getActivity(), "Add avatar fail", Toast.LENGTH_SHORT).show();
+                                                        }
+                                                    }
+                                                });
+
+                                        dbreference.child(userID).updateChildren(hashMap).
+                                                addOnSuccessListener(new OnSuccessListener() {
+                                                    @Override
+                                                    public void onSuccess(Object o) {
+                                                        NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment);
+                                                        navController.navigate(R.id.action_fragment_update_to_meFragment);
+                                                        Toast.makeText(getActivity(), "Update successful!", Toast.LENGTH_SHORT).show();
+                                                    }
+                                                });
+                                    }
                                 }
-                                HashMap hashMap = new HashMap();
-
-                                hashMap.put("address", edtAddress.getText().toString());
-                                hashMap.put("age", edtAge.getText().toString());
-                                int selectedID = radioGroupGender.getCheckedRadioButtonId();
-                                selectedGender = (RadioButton) radioGroupGender.findViewById(selectedID);
-                                hashMap.put("gender", selectedGender.getText().toString());
-                                hashMap.put("phone", edtPhone.getText().toString());
-                                hashMap.put("username", edtName.getText().toString());
-                                hashMap.put("email", edtEmail.getText().toString());
-                                hashMap.put("img_url", imgUrl);
-
-                                db.collection("Avatars").add(hashMap)
-                                        .addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
-                                            @Override
-                                            public void onComplete(@NonNull Task<DocumentReference> task) {
-                                                if (task.isSuccessful()) {
-                                                    Toast.makeText(getActivity(), "Add avatar successfully", Toast.LENGTH_SHORT).show();
-                                                } else {
-                                                    Toast.makeText(getActivity(), "Add avatar fail", Toast.LENGTH_SHORT).show();
-                                                }
-                                            }
-                                        });
-
-                                dbreference.child(userID).updateChildren(hashMap).
-                                        addOnSuccessListener(new OnSuccessListener() {
-                                            @Override
-                                            public void onSuccess(Object o) {
-                                                NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment);
-                                                navController.navigate(R.id.action_fragment_update_to_meFragment);
-                                                Toast.makeText(getActivity(), "Update successful!", Toast.LENGTH_SHORT).show();
-                                            }
-                                        });
-                            }
+                            });
                         }
-                    });
+                    }
                 }
             }
 
@@ -257,7 +275,8 @@ public class Fragment_update extends Fragment {
                         public void onSuccess(Uri uri) {
                             final Uri downloadUrl = uri;
                             imgUrl = downloadUrl.toString();
-                        }});
+                        }
+                    });
                 }
             }
         });
