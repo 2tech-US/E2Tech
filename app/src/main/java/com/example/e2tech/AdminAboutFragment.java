@@ -5,6 +5,8 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,7 +35,7 @@ import java.util.List;
  */
 public class AdminAboutFragment extends Fragment {
 
-    Button btnLogout;
+    Button btnLogout, btnAddVoucher;
     FirebaseAuth mAuth;
     SliderView bannerSliderView;
     List<BannerModel> bannerList;
@@ -72,6 +74,14 @@ public class AdminAboutFragment extends Fragment {
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
                 getActivity().finishAffinity();
+            }
+        });
+
+        btnAddVoucher = root.findViewById(R.id.btnAddVoucher);
+        btnAddVoucher.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Navigation.findNavController(view).navigate(R.id.adminAddVoucherFragment);
             }
         });
 

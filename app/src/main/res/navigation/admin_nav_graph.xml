@@ -41,7 +41,11 @@
         android:id="@+id/adminAboutFragment"
         android:name="com.example.e2tech.AdminAboutFragment"
         android:label="fragment_admin_about"
-        tools:layout="@layout/fragment_admin_about" />
+        tools:layout="@layout/fragment_admin_about" >
+        <action
+            android:id="@+id/action_adminAboutFragment_to_adminAddVoucherFragment"
+            app:destination="@id/adminAddVoucherFragment" />
+    </fragment>
     <fragment
         android:id="@+id/adminProductListFragment"
         android:name="com.example.e2tech.AdminProductListFragment"
@@ -93,4 +97,12 @@
         android:name="com.example.e2tech.AdminDoneOrderFragment"
         android:label="fragment_admin_done_order"
         tools:layout="@layout/fragment_admin_done_order" />
+    <fragment
+        android:id="@+id/adminAddVoucherFragment"
+        android:name="com.example.e2tech.AdminAddVoucherFragment"
+        android:label="AdminAddVoucherFragment" >
+        <action
+            android:id="@+id/action_adminAddVoucherFragment_to_adminAboutFragment"
+            app:destination="@id/adminAboutFragment" />
+    </fragment>
 </navigation>
