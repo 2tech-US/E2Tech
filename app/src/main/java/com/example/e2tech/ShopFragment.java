@@ -84,7 +84,7 @@ public class ShopFragment extends Fragment implements View.OnClickListener {
 
     // Pagination Logic
     private DocumentSnapshot lastVisible;
-    private final int limit_query = 2;
+    private final int limit_query = 4;
     private boolean isScrolling = false;
     private boolean isLastItemReached = false;
 
@@ -329,26 +329,26 @@ public class ShopFragment extends Fragment implements View.OnClickListener {
             case R.id.shop_fillter_button:
                 if(filterRate.value != 0) {
                     if(filterRate.value==-1) {
-                        filterProductQuery.orderBy("rating", Query.Direction.DESCENDING);
-                    } else filterProductQuery.orderBy("rating", Query.Direction.ASCENDING);
+                        filterProductQuery=  filterProductQuery.orderBy("rating", Query.Direction.DESCENDING);
+                    } else filterProductQuery = filterProductQuery.orderBy("rating", Query.Direction.ASCENDING);
                 }
                 if(filterPopular.value != 0) {
                     if(filterPopular.value ==-1) {
-                        filterProductQuery.orderBy("rating", Query.Direction.DESCENDING);
-                    } else filterProductQuery.orderBy("rating", Query.Direction.ASCENDING);
+                        filterProductQuery = filterProductQuery.orderBy("rating", Query.Direction.DESCENDING);
+                    } else filterProductQuery = filterProductQuery.orderBy("rating", Query.Direction.ASCENDING);
                 }
                 if(filterPrice.value != 0) {
                     if(filterPrice.value==-1) {
-                        filterProductQuery.orderBy("rating", Query.Direction.DESCENDING);
-                    } else filterProductQuery.orderBy("rating", Query.Direction.ASCENDING);
+                        filterProductQuery = filterProductQuery.orderBy("rating", Query.Direction.DESCENDING);
+                    } else filterProductQuery =filterProductQuery.orderBy("rating", Query.Direction.ASCENDING);
                 }
                 if(filterDiscount.value != 0) {
                     if(filterDiscount.value ==-1) {
-                        filterProductQuery.orderBy("rating", Query.Direction.DESCENDING);
-                    } else filterProductQuery.orderBy("rating", Query.Direction.ASCENDING);
+                        filterProductQuery = filterProductQuery.orderBy("rating", Query.Direction.DESCENDING);
+                    } else filterProductQuery = filterProductQuery.orderBy("rating", Query.Direction.ASCENDING);
                 }
 
-//                productRecycleView.clearOnScrollListeners();
+                productRecycleView.clearOnScrollListeners();
                 productList.clear();
                 filterProductQuery.limit(limit_query)
                         .get()
@@ -361,11 +361,9 @@ public class ShopFragment extends Fragment implements View.OnClickListener {
                                     productList.add(productModel);
                                 }
                                 productAdapter.notifyDataSetChanged();
-                                Log.v("FUCK", "100%");
 
                                 if (!task.getResult().isEmpty()) {
                                     lastVisible = task.getResult().getDocuments().get(task.getResult().size() - 1);
-                                    Log.v("FUCK", "WORKING PLEZSE");
 
                                     productRecycleView.addOnScrollListener(new RecyclerView.OnScrollListener() {
                                         @Override
