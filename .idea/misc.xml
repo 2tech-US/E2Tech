@@ -122,6 +122,8 @@
         <entry key="app/src/main/res/layout/dialog_order_detail.xml" value="0.18125" />
         <entry key="app/src/main/res/layout/dialog_order_item.xml" value="0.18125" />
         <entry key="app/src/main/res/layout/fragment_admin_about.xml" value="0.28229166666666666" />
+        <entry key="app/src/main/res/layout/fragment_admin_add_product.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/fragment_admin_add_voucher.xml" value="0.203125" />
         <entry key="app/src/main/res/layout/fragment_admin_home.xml" value="0.28229166666666666" />
         <entry key="app/src/main/res/layout/fragment_admin_order.xml" value="0.28229166666666666" />
         <entry key="app/src/main/res/layout/fragment_admin_product.xml" value="0.28229166666666666" />

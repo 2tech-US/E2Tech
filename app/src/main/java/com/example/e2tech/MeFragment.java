@@ -1,6 +1,7 @@
 package com.example.e2tech;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -19,6 +20,9 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.example.e2tech.Activities.LoginActivity;
+import com.facebook.login.LoginManager;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -28,6 +32,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.auth.User;
 import com.example.e2tech.Models.UserModel;
+import com.squareup.picasso.Picasso;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 
 public class MeFragment extends Fragment {
@@ -35,12 +42,28 @@ public class MeFragment extends Fragment {
     private FirebaseUser user;
     private DatabaseReference reference;
     private String userID;
+    Button btnLogout;
+    private CircleImageView avatar;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_me, container, false);
         btnInfor = (Button) view.findViewById(R.id.btnInfor);
+        avatar = (CircleImageView) view.findViewById(R.id.profile_image);
+        btnLogout = view.findViewById(R.id.btn_logout);
+        btnLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FirebaseAuth.getInstance().signOut();
+                LoginManager.getInstance().logOut();
+
+                Intent intent = new Intent(getContext(), LoginActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+                getActivity().finishAffinity();
+            }
+        });
 
         btnInfor.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,8 +97,8 @@ public class MeFragment extends Fragment {
 
                 if(userProfile != null) {
                     String username = userProfile.getUsername();
-
                     txtUsername.setText(username);
+                    Glide.with(getActivity()).load(userProfile.getImg_url()).error(R.drawable.profile_pic).into(avatar);
                 }
             }
 

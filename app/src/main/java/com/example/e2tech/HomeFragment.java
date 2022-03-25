@@ -52,8 +52,6 @@ public class HomeFragment extends Fragment {
     FirebaseAuth mAuth;
     FirebaseUser currentUser;
     FirebaseFirestore db;
-    Button btnLogout;
-    TextView tvUsername;
 
     SliderView bannerSliderView;
     List<BannerModel> bannerList;
@@ -107,24 +105,6 @@ public class HomeFragment extends Fragment {
         db = FirebaseFirestore.getInstance();
          currentUser = mAuth.getCurrentUser();
         String email = currentUser.getEmail();
-
-        tvUsername = root.findViewById(R.id.tv_username);
-        tvUsername.setText(email);
-
-
-        btnLogout = root.findViewById(R.id.btn_logout);
-        btnLogout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                FirebaseAuth.getInstance().signOut();
-                LoginManager.getInstance().logOut();
-
-                Intent intent = new Intent(getContext(), LoginActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intent);
-                getActivity().finishAffinity();
-            }
-        });
 
         bannerList = new ArrayList<>();
         bannerSliderView = root.findViewById(R.id.imageBannerSlider);
