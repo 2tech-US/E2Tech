@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="8dp">
+
+
+    <ImageView
+        android:id="@+id/img_admin_order_detail_product_item"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        tools:srcCompat="@tools:sample/avatars"
+        android:layout_marginRight="8dp"/>
+
+    <TextView
+        android:id="@+id/tv_admin_order_detail_product_item_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/img_admin_order_detail_product_item"
+        android:text="Bí mật sâu kính nhất"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tv_admin_order_detail_product_item_quantity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_toRightOf="@id/img_admin_order_detail_product_item"
+        android:layout_below="@id/tv_admin_order_detail_product_item_name"
+        android:text="x1"
+        android:textSize="16sp"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:id="@+id/tv_admin_order_detail_product_item_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="20dp"
+        android:layout_toRightOf="@id/tv_admin_order_detail_product_item_quantity"
+        android:layout_below="@id/tv_admin_order_detail_product_item_name"
+        android:text="95000"
+        android:textSize="16sp"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_toRightOf="@id/tv_admin_order_detail_product_item_price"
+        android:layout_below="@id/tv_admin_order_detail_product_item_name"
+        android:text=" đ"
+        android:textSize="16sp"
+        android:textStyle="bold"/>
+
+
+</RelativeLayout>
