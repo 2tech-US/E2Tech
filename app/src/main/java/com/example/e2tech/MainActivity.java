@@ -1,5 +1,10 @@
 package com.example.e2tech;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultCaller;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,6 +19,8 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -38,7 +45,6 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
-
     BottomNavigationView bottomNavigationView;
     NavController navController;
 
@@ -69,7 +75,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onDestinationChanged(@NonNull NavController navController, @NonNull NavDestination navDestination, @Nullable Bundle bundle) {
                 if (navDestination.getId() == R.id.detailFragment || navDestination.getId() == R.id.fragment_infor
-                        || navDestination.getId() == R.id.fragment_update || navDestination.getId() == R.id.orderDetail) {
+                        || navDestination.getId() == R.id.fragment_update || navDestination.getId() == R.id.orderDetail
+                        || navDestination.getId() == R.id.orderHistory) {
                     bottomNavigationView.setVisibility(View.GONE);
                     getSupportActionBar().hide();
                 } else {
@@ -139,5 +146,4 @@ public class MainActivity extends AppCompatActivity {
     public void removeFavorite(String productId) {
         this.userFavoriteProducts.remove(productId);
     }
-
 }

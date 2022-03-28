@@ -48,7 +48,7 @@ public class PopularAdapter extends RecyclerView.Adapter<PopularAdapter.ViewHold
                 int position = holder.getAdapterPosition();
                 Bundle bundle = new Bundle();
                 bundle.putString("id", productList.get(position).getId());
-                bundle.putString("collection", "PopularProducts");
+                bundle.putString("collection", "Products");
                 bundle.putString("img_url", productList.get(position).getImg_url());
 
 
