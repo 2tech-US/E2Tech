@@ -3,12 +3,20 @@ package com.example.e2tech;
 import android.graphics.Color;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import com.example.e2tech.Adapters.AdminPopularAdapter;
+import com.example.e2tech.Adapters.PopularAdapter;
+import com.example.e2tech.Models.ProductModel;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.Entry;
@@ -18,6 +26,15 @@ import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.renderer.XAxisRenderer;
 import com.github.mikephil.charting.utils.ColorTemplate;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.core.OrderBy;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,9 +46,17 @@ import java.util.List;
  */
 public class AdminHomeFragment extends Fragment {
 
+    FirebaseAuth mAuth;
+    FirebaseUser currentUser;
+    FirebaseFirestore db;
+
     LineChart saleChart;
     List<Entry> entries = new ArrayList<Entry>();
     LineData lineData;
+
+    RecyclerView popularRecyclerView;
+    AdminPopularAdapter popularAdapter;
+    ArrayList<ProductModel> productList;
 
     public AdminHomeFragment() {
         // Required empty public constructor
@@ -52,6 +77,9 @@ public class AdminHomeFragment extends Fragment {
         if (getArguments() != null) {
 
         }
+        mAuth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
+        currentUser = mAuth.getCurrentUser();
     }
 
     @Override
@@ -59,6 +87,37 @@ public class AdminHomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.fragment_admin_home, container, false);
+
+        productList = new ArrayList<>();
+        popularRecyclerView = root.findViewById(R.id.admin_home_top_product_recycler_view);
+        popularRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
+
+        popularAdapter = new AdminPopularAdapter(getActivity(), productList);
+        popularRecyclerView.setAdapter(popularAdapter);
+
+        db.collection("Products").limit(10).orderBy("numberSold", Query.Direction.DESCENDING)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot documentSnapshot : task.getResult()) {
+                                ProductModel productModel = documentSnapshot.toObject(ProductModel.class);
+                                String id = documentSnapshot.getId();
+                                productModel.setId(id);
+                                productList.add(productModel);
+                                popularAdapter.notifyDataSetChanged();
+                                Log.v("popu", productModel.getName());
+                            }
+                        } else {
+                            Toast.makeText(getActivity(), "Error" + task.getException(), Toast.LENGTH_SHORT).show();
+                            Log.e("FIREBASE", "ERROR" + task.getException());
+                        }
+                    }
+                });
+
+
+
 
         saleChart = root.findViewById(R.id.admin_chart_total_sale);
 //        entries.add(new Entry(3,14));
