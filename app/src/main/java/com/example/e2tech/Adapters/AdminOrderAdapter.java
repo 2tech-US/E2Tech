@@ -57,8 +57,8 @@ public class AdminOrderAdapter extends RecyclerView.Adapter<AdminOrderAdapter.Vi
             public void onClick(View view) {
                 Bundle productBundle = new Bundle();
                 productBundle.putSerializable("order", orders.get(position));
-//                Navigation.findNavController(view).navigate(R.id.adminProductDetail, productBundle);
-                Toast.makeText(context, "click" + Integer.toString(position), Toast.LENGTH_LONG).show();
+                Navigation.findNavController(view).navigate(R.id.adminOrderDetail, productBundle);
+//                Toast.makeText(context, "click" + Integer.toString(position), Toast.LENGTH_LONG).show();
             }
         });
     }

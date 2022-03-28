@@ -102,16 +102,13 @@ public class AdminDeliveringOrderFragment extends Fragment {
                                 String id = documentSnapshot.getString("id");
                                 String note = documentSnapshot.getString("note");
                                 String phone = documentSnapshot.getString("phone");
-                                String status = documentSnapshot.getString("status");
+//                                String status = documentSnapshot.getString("status");
+                                String status = "Đang giao";
                                 String orderBy = documentSnapshot.getString("orderBy");
                                 String userName = documentSnapshot.getString("userName");
 //                                String nameProducts = documentSnapshot.getString("receiverName");
 //                                String fee_ship = documentSnapshot.getString("receiverName");
 
-
-                                long currentDateTime = System.currentTimeMillis();
-                                Log.v("Time", String.valueOf(currentDateTime));
-                                Log.v("Created", createAt);
 
                                 SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy hh:mm");
                                 Date orderDate = new Date(Long.parseLong(createAt));

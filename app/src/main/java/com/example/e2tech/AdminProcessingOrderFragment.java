@@ -111,7 +111,8 @@ public class AdminProcessingOrderFragment extends Fragment {
                                 String id = documentSnapshot.getString("id");
                                 String note = documentSnapshot.getString("note");
                                 String phone = documentSnapshot.getString("phone");
-                                String status = documentSnapshot.getString("status");
+//                                String status = documentSnapshot.getString("status");
+                                String status = "Đang xử lý";
                                 String orderBy = documentSnapshot.getString("orderBy");
                                 String userName = documentSnapshot.getString("userName");
 //                                String nameProducts = documentSnapshot.getString("receiverName");

@@ -1,10 +1,16 @@
 package com.example.e2tech;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.viewpager2.widget.ViewPager2;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -66,6 +72,10 @@ public class AdminOrderFragment extends Fragment {
 
         viewPager2.setAdapter(viewPagerAdapter);
 
+
+        LocalBroadcastManager.getInstance(getActivity())
+                .registerReceiver(mMessageReceiver,new IntentFilter("order update"));
+
         new TabLayoutMediator(tabLayout, viewPager2,(tab, position) -> tab.setText(titles[position])).attach();
 
         tabLayout.getTabAt(0).setIcon(R.drawable.ic_baseline_pending_actions_24);
@@ -76,4 +86,13 @@ public class AdminOrderFragment extends Fragment {
 
         return root;
     }
+
+    public BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            viewPagerAdapter.notifyDataSetChanged();
+            Log.v("refresh", "ressesfefs");
+        }
+    };
+
 }
