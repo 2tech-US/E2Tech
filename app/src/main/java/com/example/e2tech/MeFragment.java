@@ -25,6 +25,7 @@ import com.example.e2tech.Activities.LoginActivity;
 import com.facebook.login.LoginManager;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserInfo;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -52,6 +53,18 @@ public class MeFragment extends Fragment {
         btnInfor = (Button) view.findViewById(R.id.btnInfor);
         btnChangePass = (Button) view.findViewById(R.id.btnChangePass);
         avatar = (CircleImageView) view.findViewById(R.id.profile_image);
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            for (UserInfo profile : user.getProviderData()) {
+                String providerId = profile.getProviderId();
+                if (providerId.equals("facebook.com") | providerId.equals("google.com")) {
+                    btnChangePass.setVisibility(View.GONE);
+                } else if (providerId.equals("password")) {
+                    btnChangePass.setVisibility(View.VISIBLE);
+                }
+            }
+        }
         btnLogout = view.findViewById(R.id.btn_logout);
         btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
