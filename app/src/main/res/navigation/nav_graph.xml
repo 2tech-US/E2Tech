@@ -139,7 +139,11 @@
     <fragment
         android:id="@+id/changePassFragment"
         android:name="com.example.e2tech.ChangePassFragment"
-        android:label="ChangePassFragment" />
+        android:label="ChangePassFragment" >
+        <action
+            android:id="@+id/action_changePassFragment_to_meFragment"
+            app:destination="@id/meFragment" />
+    </fragment>
 
 
 </navigation>
