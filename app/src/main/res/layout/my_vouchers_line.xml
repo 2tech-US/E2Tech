@@ -25,22 +25,35 @@
         android:layout_height="wrap_content"
         android:text="Voucher code"/>
 
-    <TextView
-        android:id="@+id/voucherDiscount"
-        android:textColor="#03A9F4"
+    <LinearLayout
+        android:id="@+id/linearLayoutVoucher"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:orientation="horizontal"
         android:layout_below="@+id/voucherCode"
-        android:layout_toRightOf="@+id/voucherImg"
+        android:layout_toRightOf="@+id/voucherImg">
+    <TextView
+        android:id="@+id/voucherDiscount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginBottom="10dp"
-        android:text="Discount value" />
+        android:text="Discount value"
+        android:textColor="#03A9F4" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/voucherDiscount"
+            android:text="%"
+            android:textColor="#03A9F4" />
+    </LinearLayout>
 
     <TextView
         android:id="@+id/voucherDescription"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/voucherDiscount"
+        android:layout_below="@+id/linearLayoutVoucher"
         android:layout_marginLeft="10dp"
         android:layout_toRightOf="@+id/voucherImg"
         android:text="Voucher description"

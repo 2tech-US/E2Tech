@@ -41,7 +41,7 @@ public class VoucherAdapter extends RecyclerView.Adapter<VoucherAdapter.ViewHold
     @Override
     public void onBindViewHolder(@NonNull VoucherAdapter.ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         holder.voucherCode.setText(voucherList.get(position).getCode());
-        holder.voucherDiscount.setText("Discount value: " + Double.toString(voucherList.get(position).getDiscount()));
+        holder.voucherDiscount.setText("Discount value: " + Integer.toString(voucherList.get(position).getDiscount()));
         holder.voucherDescription.setText("Description: " + voucherList.get(position).getDescription());
         Glide.with(context).load(voucherList.get(position).getImg_url()).into(holder.voucherImg);
     }

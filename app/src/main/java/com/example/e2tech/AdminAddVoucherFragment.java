@@ -116,13 +116,13 @@ public class AdminAddVoucherFragment extends Fragment {
                     voucher = new VoucherModel();
 
                     voucher.setCode(code);
-                    voucher.setDiscount(Double.parseDouble(discountStr));
+                    voucher.setDiscount(Integer.parseInt(discountStr));
                     voucher.setDescription(description);
                     voucher.setImg_url(imgUrl);
 
                     Map<String, Object> map = new HashMap();
                     map.put("code", code);
-                    map.put("discount", Double.parseDouble(discountStr));
+                    map.put("discount", Integer.parseInt(discountStr));
                     map.put("description", description);
                     map.put("img_url", imgUrl);
 
