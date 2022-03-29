@@ -43,7 +43,7 @@ public class MeFragment extends Fragment {
     private FirebaseUser user;
     private DatabaseReference reference;
     private String userID;
-    Button btnLogout, btnChangePass;
+    Button btnLogout, btnChangePass, btnMyVouchers;
     private CircleImageView avatar;
 
     @Override
@@ -52,6 +52,7 @@ public class MeFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_me, container, false);
         btnInfor = (Button) view.findViewById(R.id.btnInfor);
         btnChangePass = (Button) view.findViewById(R.id.btnChangePass);
+        btnMyVouchers = (Button) view.findViewById(R.id.btnMyVouchers);
         avatar = (CircleImageView) view.findViewById(R.id.profile_image);
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -84,6 +85,14 @@ public class MeFragment extends Fragment {
             public void onClick(View view) {
                 NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment);
                 navController.navigate(R.id.action_meFragment_to_fragment_infor);
+            }
+        });
+
+        btnMyVouchers.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment);
+                navController.navigate(R.id.action_meFragment_to_myVouchersFragment);
             }
         });
 

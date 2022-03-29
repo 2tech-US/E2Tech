@@ -135,6 +135,7 @@
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.18703703703703703" />
         <entry key="app/src/main/res/layout/fragment_infor.xml" value="0.203125" />
         <entry key="app/src/main/res/layout/fragment_me.xml" value="0.203125" />
+        <entry key="app/src/main/res/layout/fragment_my_vouchers.xml" value="0.203125" />
         <entry key="app/src/main/res/layout/fragment_oder_detail.xml" value="0.28229166666666666" />
         <entry key="app/src/main/res/layout/fragment_update.xml" value="0.203125" />
         <entry key="app/src/main/res/layout/my_vouchers_line.xml" value="0.203125" />

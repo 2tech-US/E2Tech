@@ -52,6 +52,9 @@
         <action
             android:id="@+id/action_meFragment_to_changePassFragment"
             app:destination="@id/changePassFragment" />
+        <action
+            android:id="@+id/action_meFragment_to_myVouchersFragment"
+            app:destination="@id/myVouchersFragment" />
     </fragment>
     <fragment
         android:id="@+id/detailFragment"
@@ -144,6 +147,10 @@
             android:id="@+id/action_changePassFragment_to_meFragment"
             app:destination="@id/meFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/myVouchersFragment"
+        android:name="com.example.e2tech.MyVouchersFragment"
+        android:label="MyVouchersFragment" />
 
 
 </navigation>
