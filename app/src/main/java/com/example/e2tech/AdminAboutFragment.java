@@ -81,7 +81,7 @@ public class AdminAboutFragment extends Fragment {
         btnAddVoucher.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Navigation.findNavController(view).navigate(R.id.adminAddVoucherFragment);
+                Navigation.findNavController(view).navigate(R.id.adminVoucherListFragment);
             }
         });
 

@@ -49,10 +49,10 @@ public class AdminVoucherAdapter extends RecyclerView.Adapter<AdminVoucherAdapte
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Bundle productBundle = new Bundle();
+                Bundle voucherBundle = new Bundle();
 
-                productBundle.putSerializable("voucher", voucherList.get(position));
-                Navigation.findNavController(view).navigate(R.id.adminVoucherDetail, productBundle);
+                voucherBundle.putSerializable("voucher", voucherList.get(position));
+                Navigation.findNavController(view).navigate(R.id.adminVoucherDetail, voucherBundle);
             }
         });
     }
