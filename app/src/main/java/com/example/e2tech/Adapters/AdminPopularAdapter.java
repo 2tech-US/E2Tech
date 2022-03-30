@@ -2,6 +2,7 @@ package com.example.e2tech.Adapters;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,25 +39,9 @@ public class AdminPopularAdapter extends RecyclerView.Adapter<AdminPopularAdapte
             @Override
             public void onClick(View view) {
                 int position = holder.getAdapterPosition();
-                Bundle bundle = new Bundle();
-                bundle.putString("id", productList.get(position).getId());
-                bundle.putString("collection", "Products");
-                bundle.putString("img_url", productList.get(position).getImg_url());
-
-
-                // animation zoom in
-
-//                ViewCompat.setTransitionName(this.imgProduct,productList.get(position).getImg_url());
-//                FragmentNavigator.Extras extras = new FragmentNavigator.Extras.Builder()
-//                        .addSharedElement(holder.imgProduct, holder.id)
-//                        .build();
-
-
-//                Navigation.findNavController(view).navigate(R.id.detailFragment, bundle,
-//                        null, extras);
-
-                Navigation.findNavController(view).navigate(R.id.detailFragment, bundle,
-                        null, null);
+                Bundle productBundle = new Bundle();
+                productBundle.putSerializable("product", productList.get(position));
+                Navigation.findNavController(view).navigate(R.id.adminProductDetail, productBundle);
             }
         });
         return holder;

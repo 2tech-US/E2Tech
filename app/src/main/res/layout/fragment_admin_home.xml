@@ -92,7 +92,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/tv_admin_home_pending_order"
+                        android:id="@+id/tv_admin_home_total_order"
                         android:layout_marginTop="20dp"
                         android:layout_marginLeft="8dp"
                         android:text="200000đ"/>
@@ -100,7 +100,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Pending Order"
+                        android:text="Total Orders"
                         android:textSize="10sp"/>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
@@ -135,7 +135,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/tv_admin_home_total_sale_product"
+                        android:id="@+id/tv_admin_home_pending_order"
                         android:layout_marginTop="20dp"
                         android:layout_marginLeft="8dp"
                         android:text="200000đ"/>
@@ -143,7 +143,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Today Product Sale"
+                        android:text="Pending Orders"
                         android:textSize="8sp"/>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
@@ -186,7 +186,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Today Order"
+                        android:text="Today Orders"
                         android:textSize="10sp"/>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
