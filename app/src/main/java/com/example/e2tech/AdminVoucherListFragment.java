@@ -19,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.e2tech.Adapters.AdminProductAdapter;
+import com.example.e2tech.Adapters.AdminVoucherAdapter;
 import com.example.e2tech.Adapters.VoucherAdapter;
 import com.example.e2tech.Models.CategoryModel;
 import com.example.e2tech.Models.ProductModel;
@@ -35,7 +36,7 @@ public class AdminVoucherListFragment extends Fragment {
 
     ArrayList<VoucherModel> voucherList;
     RecyclerView recyclerView;
-    VoucherAdapter adminVoucherAdapter;
+    AdminVoucherAdapter adminVoucherAdapter;
     Button btnAddVoucher;
     FirebaseFirestore db;
 
@@ -67,7 +68,7 @@ public class AdminVoucherListFragment extends Fragment {
 
         recyclerView = root.findViewById(R.id.admin_voucher_recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
-        adminVoucherAdapter = new VoucherAdapter(getActivity(), voucherList);
+        adminVoucherAdapter = new AdminVoucherAdapter(getActivity(), voucherList);
         recyclerView.setAdapter(adminVoucherAdapter);
 
         btnAddVoucher = root.findViewById(R.id.btnAddVoucher);
@@ -86,6 +87,9 @@ public class AdminVoucherListFragment extends Fragment {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot documentSnapshot: task.getResult()) {
                                 VoucherModel voucher = documentSnapshot.toObject(VoucherModel.class);
+                                String id = documentSnapshot.getId();
+                                voucher.setId(id);
+
                                 voucherList.add(voucher);
                                 adminVoucherAdapter.notifyDataSetChanged();
                             }

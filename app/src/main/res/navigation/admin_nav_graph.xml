@@ -102,8 +102,8 @@
         android:name="com.example.e2tech.AdminAddVoucherFragment"
         android:label="AdminAddVoucherFragment" >
         <action
-            android:id="@+id/action_adminAddVoucherFragment_to_adminAboutFragment"
-            app:destination="@id/adminAboutFragment" />
+            android:id="@+id/action_adminAddVoucherFragment_to_adminVoucherListFragment"
+            app:destination="@id/adminVoucherListFragment" />
     </fragment>
     <fragment
         android:id="@+id/adminVoucherListFragment"
@@ -119,5 +119,9 @@
     <fragment
         android:id="@+id/adminVoucherDetail"
         android:name="com.example.e2tech.AdminVoucherDetail"
-        android:label="AdminVoucherDetail" />
+        android:label="AdminVoucherDetail" >
+        <action
+            android:id="@+id/action_adminVoucherDetail_to_adminVoucherListFragment"
+            app:destination="@id/adminVoucherListFragment" />
+    </fragment>
 </navigation>

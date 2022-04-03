@@ -10,6 +10,7 @@ import androidx.activity.result.contract.ActivityResultContract;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
 import android.text.TextUtils;
 import android.util.Log;
@@ -115,7 +116,6 @@ public class AdminVoucherDetail extends Fragment implements View.OnClickListener
         });
 
 
-
         storage = FirebaseStorage.getInstance();
         db = FirebaseFirestore.getInstance();
         storageReference = storage.getReference();
@@ -135,11 +135,10 @@ public class AdminVoucherDetail extends Fragment implements View.OnClickListener
                 if (imgUri != null) {
                     updateImage();
                 } else {
-                    Toast.makeText(getActivity(), "You must select image first", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity(), "You must select image first!", Toast.LENGTH_SHORT).show();
                 }
             }
         });
-
 
 
         return root;
@@ -162,19 +161,19 @@ public class AdminVoucherDetail extends Fragment implements View.OnClickListener
                             map.put("img_url", downloadUrl.toString());
 
 
-                            db.collection("Promotions").document(voucher.getCode()).update(map).addOnCompleteListener(new OnCompleteListener() {
+                            db.collection("Promotions").document(voucher.getId()).update(map).addOnCompleteListener(new OnCompleteListener() {
                                 @Override
                                 public void onComplete(@NonNull Task task) {
                                     if (task.isComplete()) {
-                                        Toast.makeText(getActivity(), "Voucher has been updated!", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(getActivity(), "Voucher image has been updated!", Toast.LENGTH_SHORT).show();
                                     } else {
                                         Toast.makeText(getActivity(), "Error" + task.getException(), Toast.LENGTH_SHORT).show();
-
                                     }
                                 }
                             });
 
-                        }});
+                        }
+                    });
                 }
             }
         });
@@ -184,59 +183,52 @@ public class AdminVoucherDetail extends Fragment implements View.OnClickListener
 
     @Override
     public void onClick(View view) {
-        if (view.getId()==R.id.btn_admin_product_detail_update) {
-            updateProduct();
-        }
-    }
-
-    private void updateProduct() {
-
-        String code = edtVoucherCode.getText().toString();
-        String description = edtVoucherDescription.getText().toString();
-        String discountStr = edtVoucherDiscount.getText().toString();
+        if (view.getId() == R.id.btn_admin_voucher_detail_update) {
+            String code = edtVoucherCode.getText().toString();
+            String description = edtVoucherDescription.getText().toString();
+            String discountStr = edtVoucherDiscount.getText().toString();
 
 
-        if (TextUtils.isEmpty(code)) {
-            edtVoucherCode.setError("Voucher code is empty!");
-            edtVoucherCode.setFocusable(true);
-            return;
-        }
-
-        if (TextUtils.isEmpty(description)) {
-            edtVoucherDescription.setError("Description is empty!");
-            edtVoucherDescription.setFocusable(true);
-            return;
-        }
-
-        if (TextUtils.isEmpty(discountStr)) {
-            edtVoucherDiscount.setError("Discount value is empty!");
-            edtVoucherDiscount.setFocusable(true);
-            return;
-        }
-
-        voucher.setCode(code);
-        voucher.setDiscount(Integer.parseInt(discountStr));
-        voucher.setDescription(description);
-
-        HashMap map = new HashMap();
-        map.put("code", code);
-        map.put("discount", Integer.parseInt(discountStr));
-        map.put("description", description);
-
-
-        db.collection("Promotions").document(voucher.getCode()).update(map).addOnCompleteListener(new OnCompleteListener() {
-            @Override
-            public void onComplete(@NonNull Task task) {
-                if (task.isComplete()) {
-                    Toast.makeText(getActivity(), "Updated", Toast.LENGTH_LONG).show();
-                } else {
-                    Toast.makeText(getActivity(), "Error" + task.getException(), Toast.LENGTH_LONG).show();
-
-                }
+            if (TextUtils.isEmpty(code)) {
+                edtVoucherCode.setError("Voucher code is empty!");
+                edtVoucherCode.setFocusable(true);
+                return;
             }
-        });
+
+            if (TextUtils.isEmpty(description)) {
+                edtVoucherDescription.setError("Description is empty!");
+                edtVoucherDescription.setFocusable(true);
+                return;
+            }
+
+            if (TextUtils.isEmpty(discountStr)) {
+                edtVoucherDiscount.setError("Discount value is empty!");
+                edtVoucherDiscount.setFocusable(true);
+                return;
+            }
+
+            voucher.setCode(code);
+            voucher.setDiscount(Integer.parseInt(discountStr));
+            voucher.setDescription(description);
+
+            HashMap map = new HashMap();
+            map.put("code", code);
+            map.put("discount", Integer.parseInt(discountStr));
+            map.put("description", description);
 
 
-
+            Log.d("Voucher id", voucher.getId());
+            db.collection("Promotions").document(voucher.getId()).update(map).addOnCompleteListener(new OnCompleteListener() {
+                @Override
+                public void onComplete(@NonNull Task task) {
+                    if (task.isComplete()) {
+                        Toast.makeText(getActivity(), "Voucher has been updated!", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(getActivity(), "Error" + task.getException(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+            Navigation.findNavController(view).navigate(R.id.adminVoucherListFragment);
+        }
     }
 }

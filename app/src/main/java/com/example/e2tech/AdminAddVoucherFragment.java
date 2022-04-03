@@ -140,7 +140,7 @@ public class AdminAddVoucherFragment extends Fragment {
                                     }
                                 }
                             });
-                    Navigation.findNavController(view).navigate(R.id.adminAboutFragment);
+                    Navigation.findNavController(view).navigate(R.id.adminVoucherListFragment);
                 }
             }
         });
@@ -148,7 +148,7 @@ public class AdminAddVoucherFragment extends Fragment {
         binding.btnAdminCancelAddVoucher.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Navigation.findNavController(view).navigate(R.id.adminAboutFragment);
+                Navigation.findNavController(view).navigate(R.id.adminVoucherListFragment);
             }
         });
 
