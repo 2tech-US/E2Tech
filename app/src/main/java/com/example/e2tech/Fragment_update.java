@@ -188,6 +188,10 @@ public class Fragment_update extends Fragment {
                                         edtAge.setError("Please enter a valid age!");
                                         edtAge.requestFocus();
                                         return;
+                                    } else if (TextUtils.isEmpty(edtName.getText().toString())) {
+                                        edtName.setError("Please enter your name!");
+                                        edtName.requestFocus();
+                                        return;
                                     } else if (TextUtils.isEmpty(emailStr)) {
                                         edtEmail.setError("Please enter your email!");
                                         edtEmail.requestFocus();
