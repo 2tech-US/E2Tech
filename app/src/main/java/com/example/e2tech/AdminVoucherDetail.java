@@ -229,6 +229,18 @@ public class AdminVoucherDetail extends Fragment implements View.OnClickListener
                 }
             });
             Navigation.findNavController(view).navigate(R.id.adminVoucherListFragment);
+        } else if (view.getId() == R.id.btn_admin_voucher_detail_delete) {
+            db.collection("Promotions").document(voucher.getId()).delete().addOnCompleteListener(new OnCompleteListener() {
+                @Override
+                public void onComplete(@NonNull Task task) {
+                    if (task.isComplete()) {
+                        Toast.makeText(getActivity(), "Voucher has been deleted!", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(getActivity(), "Error" + task.getException(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+            Navigation.findNavController(view).navigate(R.id.adminVoucherListFragment);
         }
     }
 }
