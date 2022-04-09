@@ -64,11 +64,7 @@ public class AdminAddVoucherFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        //return inflater.inflate(R.layout.fragment_admin_add_product, container, false);
-
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentAdminAddVoucherBinding.inflate(inflater, container, false);
         db = FirebaseFirestore.getInstance();
         storage = FirebaseStorage.getInstance();
@@ -77,7 +73,6 @@ public class AdminAddVoucherFragment extends Fragment {
         ActivityResultLauncher<String> launcher = registerForActivityResult(new ActivityResultContracts.GetContent(), new ActivityResultCallback<Uri>() {
             @Override
             public void onActivityResult(Uri result) {
-//                binding.imgAdminProductDetail.setImageURI(result);
                 binding.imgAdminAddVoucher.setImageURI(result);
                 imgUri = result;
                 if (imgUri != null) {
@@ -90,15 +85,70 @@ public class AdminAddVoucherFragment extends Fragment {
         binding.btnAdminAddVoucher.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                addNewVoucher();
-                Navigation.findNavController(view).navigate(R.id.adminAboutFragment);
+                String code = binding.edtAdminAddVoucherCode.getText().toString();
+                String description = binding.edtAdminAddVoucherDescription.getText().toString();
+                String discountStr = binding.edtAdminAddVoucherDiscount.getText().toString();
+
+
+                if (TextUtils.isEmpty(code)) {
+                    binding.edtAdminAddVoucherCode.setError("Voucher code is empty!");
+                    binding.edtAdminAddVoucherCode.setFocusable(true);
+                    return;
+                }
+
+                if (TextUtils.isEmpty(description)) {
+                    binding.edtAdminAddVoucherDescription.setError("Description is empty!");
+                    binding.edtAdminAddVoucherDescription.setFocusable(true);
+                    return;
+                }
+
+                if (TextUtils.isEmpty(discountStr)) {
+                    binding.edtAdminAddVoucherDiscount.setError("Discount value is empty!");
+                    binding.edtAdminAddVoucherDiscount.setFocusable(true);
+                    return;
+                }
+
+
+                if (imgUrl.equals("")) {
+                    Toast.makeText(getActivity(), "Please select image first", Toast.LENGTH_SHORT).show();
+                } else {
+                    binding.adminAddVoucherProgressbar.setVisibility(View.VISIBLE);
+                    voucher = new VoucherModel();
+
+                    voucher.setCode(code);
+                    voucher.setDiscount(Integer.parseInt(discountStr));
+                    voucher.setDescription(description);
+                    voucher.setImg_url(imgUrl);
+
+                    Map<String, Object> map = new HashMap();
+                    map.put("code", code);
+                    map.put("discount", Integer.parseInt(discountStr));
+                    map.put("description", description);
+                    map.put("img_url", imgUrl);
+
+                    db.collection("Promotions")
+                            .add(map)
+                            .addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+                                @Override
+                                public void onComplete(@NonNull Task<DocumentReference> task) {
+                                    if (task.isSuccessful()) {
+                                        binding.adminAddVoucherProgressbar.setVisibility(View.GONE);
+                                        Toast.makeText(getActivity(), "Add new voucher successfully!", Toast.LENGTH_SHORT).show();
+                                    } else {
+                                        binding.adminAddVoucherProgressbar.setVisibility(View.GONE);
+                                        Toast.makeText(getActivity(), "Add new voucher failed!", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
+                    Navigation.findNavController(view).navigate(R.id.adminVoucherListFragment);
+                }
             }
         });
 
         binding.btnAdminCancelAddVoucher.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Navigation.findNavController(view).navigate(R.id.adminAboutFragment);
+                Navigation.findNavController(view).navigate(R.id.adminVoucherListFragment);
             }
         });
 
@@ -125,72 +175,11 @@ public class AdminAddVoucherFragment extends Fragment {
                         public void onSuccess(Uri uri) {
                             final Uri downloadUrl = uri;
                             imgUrl = downloadUrl.toString();
-                        }});
+                        }
+                    });
                 }
             }
         });
-
-    }
-
-    private void addNewVoucher() {
-
-        String code = binding.edtAdminAddVoucherCode.getText().toString();
-        String description = binding.edtAdminAddVoucherDescription.getText().toString();
-        String discountStr = binding.edtAdminAddVoucherDiscount.getText().toString();
-
-
-        if (TextUtils.isEmpty(code)) {
-            binding.edtAdminAddVoucherCode.setError("Voucher code is empty!");
-            binding.edtAdminAddVoucherCode.setFocusable(true);
-            return;
-        }
-
-        if (TextUtils.isEmpty(description)) {
-            binding.edtAdminAddVoucherDescription.setError("Description is empty!");
-            binding.edtAdminAddVoucherDescription.setFocusable(true);
-            return;
-        }
-
-        if (TextUtils.isEmpty(discountStr)) {
-            binding.edtAdminAddVoucherDiscount.setError("Discount value is empty!");
-            binding.edtAdminAddVoucherDiscount.setFocusable(true);
-            return;
-        }
-
-
-        if (imgUrl.equals("")) {
-            Toast.makeText(getActivity(), "Please select image first", Toast.LENGTH_LONG).show();
-        }
-
-        binding.adminAddVoucherProgressbar.setVisibility(View.VISIBLE);
-        voucher = new VoucherModel();
-
-        voucher.setCode(code);
-        voucher.setDiscount(Double.parseDouble(discountStr));
-        voucher.setDescription(description);
-        voucher.setImg_url(imgUrl);
-
-        Map<String, Object> map = new HashMap();
-        map.put("code", code);
-        map.put("discount", Double.parseDouble(discountStr));
-        map.put("description", description);
-        map.put("img_url", imgUrl);
-
-        db.collection("Promotions")
-                .add(map)
-                .addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentReference> task) {
-                        if (task.isSuccessful()) {
-                            binding.adminAddVoucherProgressbar.setVisibility(View.GONE);
-                            Toast.makeText(getActivity(), "Add new voucher successfully!", Toast.LENGTH_SHORT).show();
-                        } else {
-                            binding.adminAddVoucherProgressbar.setVisibility(View.GONE);
-                            Toast.makeText(getActivity(), "Add new voucher failed!", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
-
 
     }
 }

@@ -4,6 +4,7 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="../../../../../../../../layout/custom_preview.xml" value="0.30885416666666665" />
+        <entry key="../../../../../layout/custom_preview.xml" value="0.21822916666666667" />
         <entry key="..\:/Data/KHTN/Nam_3/hoc_ky_2/MobileAndroid/project/E2Tech/app/src/main/res/drawable-v24/bg_color.xml" value="0.1" />
         <entry key="..\:/Data/KHTN/Nam_3/hoc_ky_2/MobileAndroid/project/E2Tech/app/src/main/res/drawable-v24/ic_baseline_search_24.xml" value="0.1" />
         <entry key="..\:/Data/KHTN/Nam_3/hoc_ky_2/MobileAndroid/project/E2Tech/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.2703125" />
@@ -121,6 +122,7 @@
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.18703703703703703" />
         <entry key="app/src/main/res/layout/activity_register.xml" value="0.22981073592397447" />
         <entry key="app/src/main/res/layout/activity_splash_screen.xml" value="0.203125" />
+        <entry key="app/src/main/res/layout/admin_product_item.xml" value="0.203125" />
         <entry key="app/src/main/res/layout/cart_item.xml" value="0.335" />
         <entry key="app/src/main/res/layout/category_item_home.xml" value="0.13697916666666668" />
         <entry key="app/src/main/res/layout/catetory_item_category.xml" value="0.28229166666666666" />
@@ -129,14 +131,20 @@
         <entry key="app/src/main/res/layout/fragment_admin_order.xml" value="0.28229166666666666" />
         <entry key="app/src/main/res/layout/fragment_admin_product.xml" value="0.28229166666666666" />
         <entry key="app/src/main/res/layout/fragment_admin_product_detail.xml" value="0.28229166666666666" />
+        <entry key="app/src/main/res/layout/fragment_admin_product_list.xml" value="0.203125" />
+        <entry key="app/src/main/res/layout/fragment_admin_voucher_detail.xml" value="0.203125" />
+        <entry key="app/src/main/res/layout/fragment_admin_voucher_list.xml" value="0.203125" />
         <entry key="app/src/main/res/layout/fragment_cart.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_category.xml" value="0.13697916666666668" />
+        <entry key="app/src/main/res/layout/fragment_change_password.xml" value="0.203125" />
         <entry key="app/src/main/res/layout/fragment_detail.xml" value="0.28229166666666666" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.18703703703703703" />
         <entry key="app/src/main/res/layout/fragment_infor.xml" value="0.203125" />
         <entry key="app/src/main/res/layout/fragment_me.xml" value="0.203125" />
+        <entry key="app/src/main/res/layout/fragment_my_vouchers.xml" value="0.203125" />
         <entry key="app/src/main/res/layout/fragment_oder_detail.xml" value="0.28229166666666666" />
         <entry key="app/src/main/res/layout/fragment_update.xml" value="0.203125" />
+        <entry key="app/src/main/res/layout/my_vouchers_line.xml" value="0.203125" />
         <entry key="app/src/main/res/layout/popular_item_home.xml" value="0.13697916666666668" />
         <entry key="app/src/main/res/layout/search_item.xml" value="0.335" />
         <entry key="app/src/main/res/layout/slider_banner_item_layout.xml" value="0.203125" />

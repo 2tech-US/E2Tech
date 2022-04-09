@@ -133,7 +133,12 @@ public class Fragment_update extends Fragment {
                     edtAddress.setHint(address);
                     edtAge.setHint(age);
                     edtPhone.setHint(phone);
-                    Glide.with(getActivity()).load(userProfile.getImg_url()).error(R.drawable.profile_pic).into(avatar);
+
+                    if(TextUtils.isEmpty(userProfile.getImg_url().toString())) {
+                        Glide.with(getActivity()).load(R.drawable.profile_pic).into(avatar);
+                    } else {
+                        Glide.with(getActivity()).load(userProfile.getImg_url()).into(avatar);
+                    }
 
                     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                     if (user != null) {
@@ -187,6 +192,10 @@ public class Fragment_update extends Fragment {
                                     } else if (Integer.parseInt(ageStr) < 6 || Integer.parseInt(ageStr) > 105) {
                                         edtAge.setError("Please enter a valid age!");
                                         edtAge.requestFocus();
+                                        return;
+                                    } else if (TextUtils.isEmpty(edtName.getText().toString())) {
+                                        edtName.setError("Please enter your name!");
+                                        edtName.requestFocus();
                                         return;
                                     } else if (TextUtils.isEmpty(emailStr)) {
                                         edtEmail.setError("Please enter your email!");

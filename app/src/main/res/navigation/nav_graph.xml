@@ -53,6 +53,12 @@
             android:id="@+id/action_meFragment_to_fragment_infor"
             app:destination="@id/fragment_infor" />
         <action
+            android:id="@+id/action_meFragment_to_changePassFragment"
+            app:destination="@id/changePassFragment" />
+        <action
+            android:id="@+id/action_meFragment_to_myVouchersFragment"
+            app:destination="@id/myVouchersFragment" />
+        <action
             android:id="@+id/action_meFragment_to_orderHistory"
             app:destination="@id/orderHistory" />
     </fragment>
@@ -139,6 +145,18 @@
             android:id="@+id/action_oderDetail_to_cartFragment"
             app:destination="@id/cartFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/changePassFragment"
+        android:name="com.example.e2tech.ChangePassFragment"
+        android:label="ChangePassFragment" >
+        <action
+            android:id="@+id/action_changePassFragment_to_meFragment"
+            app:destination="@id/meFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/myVouchersFragment"
+        android:name="com.example.e2tech.MyVouchersFragment"
+        android:label="MyVouchersFragment" />
     <fragment
         android:id="@+id/orderHistory"
         android:name="com.example.e2tech.orderhistory.OrderHistory"

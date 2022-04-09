@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -71,6 +72,14 @@
                 android:layout_marginTop="10dp"
                 android:text="Favorite product"
                 app:icon="@drawable/outline_favorite_24" />
+
+            <Button
+                android:id="@+id/btnMyVouchers"
+                android:layout_width="match_parent"
+                android:layout_height="65dp"
+                android:layout_marginTop="10dp"
+                app:icon="@drawable/ic_baseline_assistant_24"
+                android:text="My Vouchers"/>
 
             <Button
                 android:id="@+id/btnChangePass"
