@@ -1,37 +1,32 @@
-package com.example.e2tech;
+package com.example.e2tech.orderhistory;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.viewpager2.widget.ViewPager2;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.e2tech.Adapters.AdminOrderVPAdapter;
+import com.example.e2tech.R;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link AdminOrderFragment#newInstance} factory method to
+ * Use the {@link OrderHistory#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class AdminOrderFragment extends Fragment {
+public class OrderHistory extends Fragment {
 
-    AdminOrderVPAdapter viewPagerAdapter;
+    OrderVPAdapter viewPagerAdapter;
     TabLayout tabLayout;
     ViewPager2 viewPager2;
     private String[] titles = new String[]{"Waiting", "Processing", "Delivering", "Done"};
 
-    public AdminOrderFragment() {
+    public OrderHistory() {
         // Required empty public constructor
     }
 
@@ -44,8 +39,8 @@ public class AdminOrderFragment extends Fragment {
      * @return A new instance of fragment AdminOrderFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static AdminOrderFragment newInstance(String param1, String param2) {
-        AdminOrderFragment fragment = new AdminOrderFragment();
+    public static OrderHistory newInstance(String param1, String param2) {
+        OrderHistory fragment = new OrderHistory();
         Bundle args = new Bundle();
 
         fragment.setArguments(args);
@@ -64,17 +59,13 @@ public class AdminOrderFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View root = inflater.inflate(R.layout.fragment_admin_order, container, false);
+        View root = inflater.inflate(R.layout.order_history_main, container, false);
 
         viewPager2 = root.findViewById(R.id.admin_order_view_pager);
         tabLayout = root.findViewById(R.id.admin_order_tab_layout);
-        viewPagerAdapter = new AdminOrderVPAdapter(getActivity());
+        viewPagerAdapter = new OrderVPAdapter(getActivity());
 
         viewPager2.setAdapter(viewPagerAdapter);
-
-
-        LocalBroadcastManager.getInstance(getActivity())
-                .registerReceiver(mMessageReceiver,new IntentFilter("order update"));
 
         new TabLayoutMediator(tabLayout, viewPager2,(tab, position) -> tab.setText(titles[position])).attach();
 
@@ -86,13 +77,4 @@ public class AdminOrderFragment extends Fragment {
 
         return root;
     }
-
-    public BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            viewPagerAdapter.notifyDataSetChanged();
-            Log.v("refresh", "ressesfefs");
-        }
-    };
-
 }

@@ -7,11 +7,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -19,46 +21,48 @@ import com.bumptech.glide.Glide;
 import com.example.e2tech.Models.CategoryModel;
 import com.example.e2tech.Models.OrderModel;
 import com.example.e2tech.R;
+import com.example.e2tech.orderhistory.OrderDetailDialog;
 
 import java.util.List;
 
-public class AdminOrderAdapter extends RecyclerView.Adapter<AdminOrderAdapter.ViewHolder> {
+public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> {
 
     Context context;
     List<OrderModel> orders;
 
-    public AdminOrderAdapter(Context context, List<OrderModel> orders) {
+    public OrderAdapter(Context context, List<OrderModel> orders) {
         this.context = context;
         this.orders = orders;
     }
 
     @NonNull
     @Override
-    public AdminOrderAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public OrderAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.order_admin_item, parent, false);
-        final AdminOrderAdapter.ViewHolder holder = new AdminOrderAdapter.ViewHolder(view);
+        final OrderAdapter.ViewHolder holder = new OrderAdapter.ViewHolder(view);
 
 
         return holder;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull AdminOrderAdapter.ViewHolder holder, @SuppressLint("RecyclerView") int position) {
+    public void onBindViewHolder(@NonNull OrderAdapter.ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         holder.tvID.setText(orders.get(position).getId());
         holder.tvProductNames.setText(orders.get(position).getNameProducts());
-        holder.tvAddress.setText("Địa chỉ: " + orders.get(position).getAddress());
-        holder.tvTotal.setText("Tổng tiền: " + Integer.toString(orders.get(position).getTotal()));
-        holder.tvQuantity.setText("Số lượng: " + Integer.toString(orders.get(position).getQuantity()));
+        holder.tvTotal.setText(Integer.toString(orders.get(position).getTotal()));
+        holder.tvQuantity.setText(Integer.toString(orders.get(position).getQuantity()));
         holder.tvDate.setText(orders.get(position).getCreateAt());
-//        holder.imgProducts.setImageResource(R.drawable.iphone_12_pro_max);
-        Glide.with(context).load(orders.get(position).getProductList().get(0).getImg_url()).into(holder.imgProducts);
+        holder.imgProducts.setImageResource(R.drawable.iphone_12_pro_max);
+        //Glide.with(context).load(orders.get(position).getImg_url()).into(holder.imgProduct);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Bundle productBundle = new Bundle();
-                productBundle.putSerializable("order", orders.get(position));
-                Navigation.findNavController(view).navigate(R.id.adminOrderDetail, productBundle);
-//                Toast.makeText(context, "click" + Integer.toString(position), Toast.LENGTH_LONG).show();
+                productBundle.putString("orderId", orders.get(position).getId());
+                OrderDetailDialog orderDetailDialog = new OrderDetailDialog();
+                orderDetailDialog.setArguments(productBundle);
+                orderDetailDialog.show(((AppCompatActivity) context).getSupportFragmentManager(), "orderDetailDialog");
+
             }
         });
     }

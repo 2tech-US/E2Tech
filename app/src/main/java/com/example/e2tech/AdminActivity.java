@@ -15,12 +15,13 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class AdminActivity extends AppCompatActivity {
 
     BottomNavigationView bottomNavigationView;
     NavController navController;
-
+    FirebaseAuth auth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +76,11 @@ public class AdminActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onDestroy() {
+        FirebaseAuth.getInstance().signOut();
+        super.onDestroy();
+    }
 
     @Override
     public boolean onSupportNavigateUp() {

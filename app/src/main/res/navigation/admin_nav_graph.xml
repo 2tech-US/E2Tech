@@ -81,22 +81,43 @@
         android:id="@+id/adminWaitingOrderFragment"
         android:name="com.example.e2tech.AdminWaitingOrderFragment"
         android:label="fragment_admin_waiting_order"
-        tools:layout="@layout/fragment_admin_waiting_order" />
+        tools:layout="@layout/fragment_admin_waiting_order" >
+        <action
+            android:id="@+id/action_adminWaitingOrderFragment_to_adminOrderDetail"
+            app:destination="@id/adminOrderDetail" />
+    </fragment>
     <fragment
         android:id="@+id/adminProcessingOrderFragment"
         android:name="com.example.e2tech.AdminProcessingOrderFragment"
         android:label="fragment_admin_processing_order"
-        tools:layout="@layout/fragment_admin_processing_order" />
+        tools:layout="@layout/fragment_admin_processing_order" >
+        <action
+            android:id="@+id/action_adminProcessingOrderFragment_to_adminOrderDetail"
+            app:destination="@id/adminOrderDetail" />
+    </fragment>
     <fragment
         android:id="@+id/adminDeliveringOrderFragment"
         android:name="com.example.e2tech.AdminDeliveringOrderFragment"
         android:label="fragment_admin_delivering_order"
-        tools:layout="@layout/fragment_admin_delivering_order" />
+        tools:layout="@layout/fragment_admin_delivering_order" >
+        <action
+            android:id="@+id/action_adminDeliveringOrderFragment_to_adminOrderDetail"
+            app:destination="@id/adminOrderDetail" />
+    </fragment>
     <fragment
         android:id="@+id/adminDoneOrderFragment"
         android:name="com.example.e2tech.AdminDoneOrderFragment"
         android:label="fragment_admin_done_order"
-        tools:layout="@layout/fragment_admin_done_order" />
+        tools:layout="@layout/fragment_admin_done_order" >
+        <action
+            android:id="@+id/action_adminDoneOrderFragment_to_adminOrderDetail"
+            app:destination="@id/adminOrderDetail" />
+    </fragment>
+    <fragment
+        android:id="@+id/adminOrderDetail"
+        android:name="com.example.e2tech.AdminOrderDetail"
+        android:label="fragment_admin_order_detail"
+        tools:layout="@layout/fragment_admin_order_detail" />
     <fragment
         android:id="@+id/adminAddVoucherFragment"
         android:name="com.example.e2tech.AdminAddVoucherFragment"

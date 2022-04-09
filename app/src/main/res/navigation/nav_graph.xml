@@ -22,6 +22,9 @@
         <action
             android:id="@+id/action_homeFragment_to_detailFragment"
             app:destination="@id/detailFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_shopFragment"
+            app:destination="@id/shopFragment" />
     </fragment>
     <fragment
         android:id="@+id/categoryFragment"
@@ -55,6 +58,9 @@
         <action
             android:id="@+id/action_meFragment_to_myVouchersFragment"
             app:destination="@id/myVouchersFragment" />
+        <action
+            android:id="@+id/action_meFragment_to_orderHistory"
+            app:destination="@id/orderHistory" />
     </fragment>
     <fragment
         android:id="@+id/detailFragment"
@@ -151,6 +157,10 @@
         android:id="@+id/myVouchersFragment"
         android:name="com.example.e2tech.MyVouchersFragment"
         android:label="MyVouchersFragment" />
+    <fragment
+        android:id="@+id/orderHistory"
+        android:name="com.example.e2tech.orderhistory.OrderHistory"
+        android:label="OrderHistory" />
 
 
 </navigation>
