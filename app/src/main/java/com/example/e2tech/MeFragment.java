@@ -135,6 +135,7 @@ public class MeFragment extends Fragment {
 //                        Glide.with(getActivity()).load(userProfile.getImg_url()).into(avatar);
 //                    }
                     Glide.with(getActivity()).load(userProfile.getImg_url()).error(R.drawable.profile_pic).into(avatar);
+
                 }
             }
 
