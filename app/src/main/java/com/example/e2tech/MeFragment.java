@@ -12,6 +12,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -116,10 +117,14 @@ public class MeFragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 UserModel userProfile = snapshot.getValue(UserModel.class);
 
-                if(userProfile != null) {
+                if (userProfile != null) {
                     String username = userProfile.getUsername();
                     txtUsername.setText(username);
-                    Glide.with(getActivity()).load(userProfile.getImg_url()).error(R.drawable.profile_pic).into(avatar);
+                    if (TextUtils.isEmpty(userProfile.getImg_url().toString())) {
+                        Glide.with(getActivity()).load(R.drawable.profile_pic).into(avatar);
+                    } else {
+                        Glide.with(getActivity()).load(userProfile.getImg_url()).into(avatar);
+                    }
                 }
             }
 
