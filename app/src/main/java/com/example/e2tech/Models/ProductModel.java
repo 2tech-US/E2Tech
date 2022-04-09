@@ -40,6 +40,32 @@ public class ProductModel extends ViewModel implements Serializable {
     int numberSold;
 
 
+    public long getBuyCount() {
+        return buyCount;
+    }
+
+    public void setBuyCount(long buyCount) {
+        this.buyCount = buyCount;
+    }
+
+    public ProductModel(String name, int price, String description, double rating, double discount, String type, String img_url, String company, int remain, int numberOfReview, int numberOfPoint, int numberSold) {
+        this.name = name;
+        this.price = price;
+        this.description = description;
+        this.rating = rating;
+        this.discount = discount;
+        this.type = type;
+        this.img_url = img_url;
+        this.company = company;
+        this.remain = remain;
+        this.numberOfReview = numberOfReview;
+        this.numberOfPoint = numberOfPoint;
+        this.numberSold = numberSold;
+    }
+
+    long buyCount;
+
+
     public int getRemain() {
         return remain;
     }
