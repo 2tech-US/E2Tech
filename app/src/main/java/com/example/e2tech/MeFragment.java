@@ -129,7 +129,7 @@ public class MeFragment extends Fragment {
                 if (userProfile != null) {
                     String username = userProfile.getUsername();
                     txtUsername.setText(username);
-                    if (TextUtils.isEmpty(userProfile.getImg_url().toString())) {
+                    if (TextUtils.isEmpty(userProfile.getImg_url())) {
                         Glide.with(getActivity()).load(R.drawable.profile_pic).into(avatar);
                     } else {
                         Glide.with(getActivity()).load(userProfile.getImg_url()).into(avatar);
