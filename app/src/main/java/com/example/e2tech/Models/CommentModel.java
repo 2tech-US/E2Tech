@@ -10,17 +10,19 @@ public class CommentModel {
     int rating;
     String content;
     String name;
+    String image;
 
     public CommentModel() {
 
     }
 
-    public CommentModel(String name, String email, Timestamp createdAt, int rating, String content) {
+    public CommentModel(String name, String email, Timestamp createdAt, int rating, String content,String image) {
         this.name = name;
         this.email = email;
         this.createdAt = createdAt;
         this.rating = rating;
         this.content = content;
+        this.image = image;
     }
 
     public String getEmail() {

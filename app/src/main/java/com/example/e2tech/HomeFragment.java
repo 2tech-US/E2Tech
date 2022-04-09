@@ -67,6 +67,8 @@ public class HomeFragment extends Fragment {
 
 
     TextView tvSeeAll;
+    TextView tvSeeAllFavorite;
+
     NavController navController;
 
     RecyclerView favoriteRecyclerView;
@@ -164,6 +166,14 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 navController.navigate(R.id.action_homeFragment_to_categoryFragment);
+            }
+        });
+
+        tvSeeAllFavorite = root.findViewById(R.id.home_see_all_favorite);
+        tvSeeAllFavorite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                navController.navigate(R.id.action_homeFragment_to_shopFragment);
             }
         });
 

@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
+import android.widget.RatingBar;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
@@ -32,6 +34,8 @@ public class CommentFragment extends Fragment {
     CommentAdapter commentAdapter;
     List<CommentModel> commentModelList;
 
+    int[] rating;
+    ProgressBar[] progressBars;
 
     public CommentFragment() {
         // Required empty public constructor
@@ -59,6 +63,16 @@ public class CommentFragment extends Fragment {
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
 
+        rating = new int[5];
+        progressBars = new ProgressBar[5];
+
+        int[] progressBarsID = {R.id.progress_1,R.id.progress_2,R.id.progress_3,R.id.progress_4,R.id.progress_5};
+
+        for(int i = 0 ; i < 5 ;i++) {
+            rating[i] = 0;
+            progressBars[i] = root.findViewById(progressBarsID[i]);
+        }
+
         this.settingCommentAdapter(root);
 
         String productId;
@@ -75,15 +89,20 @@ public class CommentFragment extends Fragment {
 
                                 commentModel.setCreatedAt((Timestamp) documentSnapshot.get("createAt",behavior));
                                 commentModelList.add(commentModel);
+                                rating[commentModel.getRating()-1]++;
                             }
                             commentAdapter.notifyDataSetChanged();
+                            if(!task.getResult().isEmpty()) {
+                                for (int i = 0; i < 5; i++) {
+                                    progressBars[i].setProgress(rating[i] * 100 / task.getResult().size());
+                                }
+                            }
 
                         } else {
                             Toast.makeText(getActivity(), "Error" + task.getException(), Toast.LENGTH_LONG).show();
                         }
                     });
         }
-
 
         return root;
     }
