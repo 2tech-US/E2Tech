@@ -134,8 +134,10 @@ public class Fragment_update extends Fragment {
                     edtAge.setHint(age);
                     edtPhone.setHint(phone);
 
-                    if(TextUtils.isEmpty(userProfile.getImg_url().toString())) {
+                    if(TextUtils.isEmpty(userProfile.getImg_url())) {
+//                        Glide.with(getActivity()).load(userProfile.getImg_url()).error(R.drawable.profile_pic).into(avatar);
                         Glide.with(getActivity()).load(R.drawable.profile_pic).into(avatar);
+
                     } else {
                         Glide.with(getActivity()).load(userProfile.getImg_url()).into(avatar);
                     }
