@@ -133,7 +133,12 @@ public class Fragment_update extends Fragment {
                     edtAddress.setHint(address);
                     edtAge.setHint(age);
                     edtPhone.setHint(phone);
-                    Glide.with(getActivity()).load(userProfile.getImg_url()).error(R.drawable.profile_pic).into(avatar);
+
+                    if(TextUtils.isEmpty(userProfile.getImg_url().toString())) {
+                        Glide.with(getActivity()).load(R.drawable.profile_pic).into(avatar);
+                    } else {
+                        Glide.with(getActivity()).load(userProfile.getImg_url()).into(avatar);
+                    }
 
                     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                     if (user != null) {
