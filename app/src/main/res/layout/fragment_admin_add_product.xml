@@ -7,7 +7,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="8dp"
+        android:padding="18dp"
         android:orientation="vertical">
 
         <ImageView
@@ -30,7 +30,7 @@
                 android:layout_gravity="center"
                 android:layout_marginHorizontal="10dp"
                 android:textAllCaps="false"
-                android:text="Select Image" />
+                android:text="Chọn ảnh" />
 
         </LinearLayout>
 
@@ -42,7 +42,7 @@
             android:layout_marginTop="8dp"
             android:textSize="24sp"
             android:textStyle="bold"
-            android:hint="Product name"
+            android:hint="Tên sản phẩm"
             android:layout_gravity="center" />
 
         <ProgressBar
@@ -59,8 +59,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Price: "
-                android:textStyle="bold"
+                android:text="Giá: "
+                android:textColor="@color/black"
                 android:textSize="20sp"/>
             <EditText
                 android:id="@+id/edt_admin_product_add_price"
@@ -84,9 +84,9 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textStyle="bold"
                 android:textSize="20sp"
-                android:text="Discount: "/>
+                android:textColor="@color/black"
+                android:text="Giảm: "/>
             <EditText
                 android:id="@+id/edt_admin_product_add_discount"
                 android:layout_width="wrap_content"
@@ -107,9 +107,9 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textStyle="bold"
             android:textSize="20sp"
-            android:text="Description"/>
+            android:textColor="@color/black"
+            android:text="Mô tả:"/>
 
         <EditText
             android:id="@+id/edt_admin_product_add_description"
@@ -117,7 +117,7 @@
             android:layout_height="100dp"
             android:layout_marginHorizontal="4dp"
             android:ems="10"
-            android:hint="Type description here..."
+            android:hint="Mô tả..."
             android:gravity="start|top"
             android:inputType="textMultiLine" />
 
@@ -130,11 +130,11 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textStyle="bold"
                 android:textSize="20sp"
                 android:textAlignment="viewEnd"
                 android:paddingEnd="4dp"
-                android:text="Quantity: "/>
+                android:textColor="@color/black"
+                android:text="Số lượng: "/>
 
             <EditText
                 android:id="@+id/edt_admin_product_add_quantity"
@@ -154,11 +154,11 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textStyle="bold"
                 android:textSize="20sp"
                 android:textAlignment="viewEnd"
                 android:paddingEnd="4dp"
-                android:text="Type: "/>
+                android:textColor="@color/black"
+                android:text="Loại: "/>
 
             <Spinner
                 android:id="@+id/spinner_admin_add_type_product"
@@ -175,11 +175,11 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textStyle="bold"
                 android:textSize="20sp"
                 android:textAlignment="viewEnd"
                 android:paddingEnd="4dp"
-                android:text="Company: "/>
+                android:textColor="@color/black"
+                android:text="Hãng: "/>
 
             <EditText
                 android:id="@+id/edt_admin_product_add_company"
@@ -202,7 +202,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginHorizontal="8dp"
-                android:text="Add product"/>
+                android:text="Thêm sản phẩm"/>
 
         </LinearLayout>
 
