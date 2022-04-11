@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,11 +8,9 @@
     tools:context=".CartFragment">
 
     <LinearLayout
-        android:id="@+id/constraint2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:weightSum="4">
+        android:orientation="vertical">
 
 
         <androidx.recyclerview.widget.RecyclerView
@@ -21,7 +19,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="7dp"
             android:layout_marginRight="7dp"
-            android:layout_weight="4"/>
+            android:nestedScrollingEnabled="false" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -32,12 +30,12 @@
                 android:id="@+id/textView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="5sp"
+                android:layout_margin="5dp"
                 android:background="@drawable/rounded_corner"
                 android:padding="10dp"
                 android:text="Tổng tiền: 0 VND"
                 android:textAlignment="center"
-                android:textColor="#113F67"
+                android:textColor="@color/blue_admin"
                 android:textSize="28sp"
                 android:textStyle="bold" />
 
@@ -47,7 +45,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_margin="5dp"
-                android:background="#113F67"
+                android:background="@color/blue_admin"
                 android:text="Thanh toán"
                 android:textColor="@color/white"
                 android:textStyle="bold" />
@@ -58,4 +56,4 @@
     </LinearLayout>
 
 
-</FrameLayout>
+</androidx.core.widget.NestedScrollView>

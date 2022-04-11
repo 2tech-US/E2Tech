@@ -51,7 +51,8 @@ public class OrderDetail extends Fragment {
     Button btnOrder;
 
     List<CartModel> cartModelList;
-    int totalBill;
+    float totalBill;
+
     String username;
     String userPhone;
     String userAddress;

@@ -22,6 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.e2tech.Adapters.CartAdapter;
+import com.example.e2tech.Interface.OnCartItemChange;
 import com.example.e2tech.Models.CartModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -42,7 +43,7 @@ import java.util.Objects;
  * Use the {@link CartFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class CartFragment extends Fragment {
+public class CartFragment extends Fragment implements OnCartItemChange {
 
     FirebaseFirestore db;
     FirebaseAuth auth;
@@ -53,13 +54,9 @@ public class CartFragment extends Fragment {
     int totalBill = 0;
     CartAdapter cartAdapter;
     List<CartModel> cartModelList;
-
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
@@ -113,7 +110,7 @@ public class CartFragment extends Fragment {
                 .registerReceiver(mMessageReceiver,new IntentFilter("MyTotalAmount"));
 
         cartModelList = new ArrayList<>();
-        cartAdapter = new CartAdapter(getActivity(), cartModelList);
+        cartAdapter = new CartAdapter(getActivity(), cartModelList, this);
         recyclerView.setAdapter(cartAdapter);
 
         db.collection("Users").document(Objects.requireNonNull(auth.getCurrentUser()).getUid()).collection("Cart").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -160,4 +157,13 @@ public class CartFragment extends Fragment {
             overToTalAmount.setText("Tổng tiền: " + totalAmount + " VND");
         }
     };
+
+    public void onCartItemChange(int data) {
+        totalBill = data;
+
+        DecimalFormat decimalFormat = new DecimalFormat("#,###,###");
+        String totalAmount = decimalFormat.format(totalBill);
+
+        overToTalAmount.setText("Tổng tiền: " + totalAmount + " VND");
+    }
 }
