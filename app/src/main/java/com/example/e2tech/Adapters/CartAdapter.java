@@ -15,6 +15,7 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.e2tech.Interface.OnCartItemChange;
 import com.example.e2tech.Models.CartModel;
 import com.example.e2tech.R;
 import com.google.firebase.auth.FirebaseAuth;
@@ -23,6 +24,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
+import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Objects;
 
@@ -34,9 +36,13 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
     FirebaseAuth mAuth;
     FirebaseFirestore db;
 
-    public CartAdapter(Context context, List<CartModel> cartModelList) {
+    OnCartItemChange listener;
+    DecimalFormat decimalFormat = new DecimalFormat("#,###,###");
+
+    public CartAdapter(Context context, List<CartModel> cartModelList, OnCartItemChange listener) {
         this.context = context;
         this.cartModelList = cartModelList;
+        this.listener = listener;
     }
 
     @NonNull
@@ -51,15 +57,21 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
         Glide.with(context).load(cartModelList.get(position).getProductImageURL()).into(holder.productImage);
 
         holder.name.setText(cartModelList.get(position).getProductName());
-        holder.price.setText(String.valueOf(cartModelList.get(position).getProductPrice()));
+
+        String price = decimalFormat.format(cartModelList.get(position).getProductPrice());
+        holder.price.setText(price + " VND");
         holder.quantity.setText(String.valueOf(cartModelList.get(position).getTotalQuantity()));
         int priceCount = cartModelList.get(position).getProductPrice() * cartModelList.get(position).getTotalQuantity();
-        holder.totalPrice.setText(String.valueOf(priceCount));
+        String priceCountString = decimalFormat.format(priceCount);
+        holder.totalPrice.setText(priceCountString + " VND");
 
         totalPrice += priceCount;
-        Intent intent = new Intent("MyTotalAmount");
-        intent.putExtra("totalAmount", totalPrice);
-        LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+//        Intent intent = new Intent("MyTotalAmount");
+//        intent.putExtra("totalAmount", totalPrice);
+//        LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+        if (listener != null) {
+            listener.onCartItemChange(totalPrice);
+        }
 
         holder.removeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,7 +79,8 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
                 if (cartModelList.get(position).getTotalQuantity() > 1) {
                     cartModelList.get(position).setTotalQuantity(cartModelList.get(position).getTotalQuantity() - 1);
                     holder.quantity.setText(String.valueOf(cartModelList.get(position).getTotalQuantity()));
-                    holder.totalPrice.setText(String.valueOf(cartModelList.get(position).getProductPrice() * (cartModelList.get(position).getTotalQuantity())));
+                    String priceCountString =  decimalFormat.format( cartModelList.get(position).getProductPrice() * (cartModelList.get(position).getTotalQuantity()));
+                    holder.totalPrice.setText(priceCountString + " VND");
 
                     CollectionReference cartRef = db.collection("Users").document(Objects.requireNonNull(mAuth.getCurrentUser()).getUid())
                             .collection("Cart");
@@ -81,8 +94,11 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
                     });
 
                     totalPrice -= cartModelList.get(position).getProductPrice();
-                    intent.putExtra("totalAmount", totalPrice);
-                    LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+//                    intent.putExtra("totalAmount", totalPrice);
+//                    LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+                    if (listener != null) {
+                        listener.onCartItemChange(totalPrice);
+                    }
 
                 }
             }
@@ -92,7 +108,8 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
             public void onClick(View v) {
                 cartModelList.get(position).setTotalQuantity(cartModelList.get(position).getTotalQuantity() + 1);
                 holder.quantity.setText(String.valueOf(cartModelList.get(position).getTotalQuantity()));
-                holder.totalPrice.setText(String.valueOf(cartModelList.get(position).getProductPrice() * (cartModelList.get(position).getTotalQuantity())));
+                String priceCountString =  decimalFormat.format( cartModelList.get(position).getProductPrice() * (cartModelList.get(position).getTotalQuantity()));
+                holder.totalPrice.setText(priceCountString + " VND");
 
                 CollectionReference cartRef = db.collection("Users").document(Objects.requireNonNull(mAuth.getCurrentUser()).getUid())
                         .collection("Cart");
@@ -106,8 +123,11 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
                 });
 
                 totalPrice += cartModelList.get(position).getProductPrice();
-                intent.putExtra("totalAmount", totalPrice);
-                LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+//                intent.putExtra("totalAmount", totalPrice);
+//                LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+                if (listener != null) {
+                    listener.onCartItemChange(totalPrice);
+                }
             }
         });
         holder.deleteBtn.setOnClickListener(new View.OnClickListener() {
@@ -129,9 +149,12 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
                     totalPrice -= cartModelList.get(i).getProductPrice() * cartModelList.get(i).getTotalQuantity();
                 }
 
-                Intent intent = new Intent("MyTotalAmount");
-                intent.putExtra("totalAmount", totalPrice);
-                LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+//                Intent intent = new Intent("MyTotalAmount");
+//                intent.putExtra("totalAmount", totalPrice);
+//                LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+                if (listener != null) {
+                    listener.onCartItemChange(totalPrice);
+                }
 
                 cartModelList.remove(position);
                 notifyItemRemoved(position);
