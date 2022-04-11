@@ -18,6 +18,7 @@ import com.example.e2tech.Models.OrderModel;
 import com.example.e2tech.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -33,6 +34,7 @@ public class OrderDeliveryList extends Fragment {
 
     Button btnAddProduct;
     FirebaseFirestore db;
+    FirebaseAuth mAuth;
     String status = "waiting";
 
 
@@ -64,6 +66,7 @@ public class OrderDeliveryList extends Fragment {
         orderList = new ArrayList<>();
 
         db = FirebaseFirestore.getInstance();
+        mAuth = FirebaseAuth.getInstance();
 
         recyclerView = root.findViewById(R.id.admin_order_recycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
@@ -73,7 +76,7 @@ public class OrderDeliveryList extends Fragment {
 
         // get orders from firebase
         db.collection("Orders")
-                .whereEqualTo("status", status)
+                .whereEqualTo("status", status).whereEqualTo("orderBy", mAuth.getCurrentUser().getUid())
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                                            @Override

@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.example.e2tech.Models.CartModel;
 import com.example.e2tech.Models.UserModel;
+import com.example.e2tech.Models.VoucherModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
@@ -29,6 +30,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.text.DecimalFormat;
 import java.util.HashMap;
@@ -46,22 +49,17 @@ public class OrderDetail extends Fragment {
     FirebaseUser user;
     FirebaseAuth auth;
 
-    EditText edtName, edtPhone, edtAddress, edtNote;
-    TextView txtTotal, txtOderNumber;
-    Button btnOrder;
+    EditText edtName, edtPhone, edtAddress, edtNote, edtVoucher;
+    TextView txtTotal, txtOderNumber, txtDiscount;
+    Button btnOrder, btnVoucher;
 
     List<CartModel> cartModelList;
-    int totalBill;
+    float totalBill;
+    float reduction;
+
     String username;
     String userPhone;
     String userAddress;
-
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
 
     public OrderDetail() {
         // Required empty public constructor
@@ -79,8 +77,6 @@ public class OrderDetail extends Fragment {
     public static OrderDetail newInstance(String param1, String param2) {
         OrderDetail fragment = new OrderDetail();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -108,13 +104,15 @@ public class OrderDetail extends Fragment {
         edtName = root.findViewById(R.id.edt_name);
         edtPhone = root.findViewById(R.id.edt_phone_number);
         edtNote = root.findViewById(R.id.edt_note);
+        edtVoucher = root.findViewById(R.id.edt_voucher);
 
         txtTotal = root.findViewById(R.id.txt_total);
         txtOderNumber = root.findViewById(R.id.txt_oder_number);
+        txtDiscount = root.findViewById(R.id.txt_discount);
         DecimalFormat decimalFormat = new DecimalFormat("#,###,###");
         String totalAmount = decimalFormat.format(totalBill);
-        txtTotal.setText(String.valueOf(totalAmount));
-        txtOderNumber.setText(String.valueOf(totalAmount));
+        txtTotal.setText(String.valueOf(totalAmount) + " VND");
+        txtOderNumber.setText(String.valueOf(totalAmount) + " VND");
 
         db = FirebaseFirestore.getInstance();
         auth = FirebaseAuth.getInstance();
@@ -139,8 +137,19 @@ public class OrderDetail extends Fragment {
                     navController.navigate(R.id.action_oderDetail_to_cartFragment);
 
                 }
+            }
+        });
 
-
+        btnVoucher = root.findViewById(R.id.btn_voucher);
+        btnVoucher.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String voucher = edtVoucher.getText().toString();
+                if (voucher.isEmpty()) {
+                    Toast.makeText(getContext(), "Please enter voucher code", Toast.LENGTH_SHORT).show();
+                } else {
+                    applyVoucher(voucher);
+                }
             }
         });
 
@@ -165,6 +174,42 @@ public class OrderDetail extends Fragment {
         });
 
         return root;
+    }
+
+    private void applyVoucher(String voucher) {
+        // check voucher exist
+
+        db.collection("Promotions").whereEqualTo("code", voucher).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    if (task.getResult().isEmpty()) {
+                        Toast.makeText(getContext(), "Voucher code is not exist!", Toast.LENGTH_SHORT).show();
+                    }
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        VoucherModel voucherModel = document.toObject(VoucherModel.class);
+                        int discount = voucherModel.getDiscount();
+                        reduction = (totalBill * discount) / 100;
+                        // round reduction
+                        int roundedReduction = ((int) reduction + 500) / 1000 * 1000;
+                        float total = totalBill - roundedReduction;
+                        DecimalFormat decimalFormat = new DecimalFormat("#,###,###");
+                        String totalAmount = decimalFormat.format(total);
+                        String totalReduction = decimalFormat.format(roundedReduction);
+                        txtDiscount.setText(totalReduction + " VND");
+                        txtTotal.setText(String.valueOf(totalAmount + " VND"));
+                        Toast.makeText(getContext(), "Voucher is applied", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(getContext(), "Voucher is not available", Toast.LENGTH_SHORT).show();
+                }
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(getContext(), "Voucher is not available", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void removeCart() {
