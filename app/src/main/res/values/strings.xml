@@ -3,20 +3,20 @@
     <string name="action_home">Home</string>
     <string name="action_favorite">Favorite</string>
     <string name="action_my_page">My Page</string>
-    <string name="home_text">Home</string>
+    <string name="home_text">Trang chủ</string>
     <string name="like_text">Like</string>
     <string name="search_text">Search</string>
     <string name="shop_text">Shop</string>
-    <string name="category_text">Category</string>
-    <string name="cart_text">Cart</string>
-    <string name="me_text">Me</string>
+    <string name="category_text">Danh mục</string>
+    <string name="cart_text">Giỏ hàng</string>
+    <string name="me_text">Cá nhân</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_splash_screen">SplashScreen</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
-    <string name="categories">Categories</string>
-    <string name="see_all">See all</string>
+    <string name="categories">Danh mục</string>
+    <string name="see_all">Xem thêm</string>
     <string name="laptop">Laptop</string>
     <string name="cell_phone">Cell Phone</string>
     <string name="tablet">Tablet</string>
@@ -25,13 +25,13 @@
     <string name="storage">Storage</string>
     <string name="computer_component">Computer Component</string>
     <string name="wifi_networking">Wifi Networking</string>
-    <string name="popular">Popular Products</string>
+    <string name="popular">Sản phẩm nổi bật</string>
     <string name="lorem_product_name">HighTeam Phone 11</string>
     <string name="lorem_product_price">897.02 USD</string>
     <string name="available">Available</string>
     <string name="description_text">Description</string>
     <string name="lorem_product_description">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s</string>
-    <string name="favorite">Favorite</string>
+    <string name="favorite">Yêu thích</string>
 
     <!--    Facebook Auth-->
 

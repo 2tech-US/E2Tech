@@ -17,6 +17,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginHorizontal="10dp"
             android:orientation="vertical">
 
             <LinearLayout
@@ -46,7 +47,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="65dp"
                 android:layout_marginTop="20dp"
-                android:text="Personal Information"
+                android:text="Thông tin cá nhân"
                 app:icon="@drawable/outline_account_circle_24"/>
 
             <Button
@@ -54,7 +55,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="65dp"
                 android:layout_marginTop="10dp"
-                android:text="Cart"
+                android:text="Giỏ hàng"
                 app:icon="@drawable/outline_shopping_cart_24" />
 
             <Button
@@ -62,7 +63,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="65dp"
                 android:layout_marginTop="10dp"
-                android:text="purchase history"
+                android:text="Lịch sử mua hàng"
                 app:icon="@drawable/ic_baseline_history_24" />
 
             <Button
@@ -70,7 +71,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="65dp"
                 android:layout_marginTop="10dp"
-                android:text="Favorite product"
+                android:text="Sản phẩm yêu thích"
                 app:icon="@drawable/outline_favorite_24" />
 
             <Button
@@ -79,7 +80,7 @@
                 android:layout_height="65dp"
                 android:layout_marginTop="10dp"
                 app:icon="@drawable/ic_baseline_assistant_24"
-                android:text="My Vouchers"/>
+                android:text="Mã khuyến mãi"/>
 
             <Button
                 android:id="@+id/btnChangePass"
@@ -87,7 +88,7 @@
                 android:layout_height="65dp"
                 android:layout_marginTop="10dp"
                 app:icon="@drawable/ic_baseline_change_circle_24"
-                android:text="Change Password"/>
+                android:text="Đổi mật khẩu"/>
 
             <Button
                 android:id="@+id/btn_logout"
@@ -95,7 +96,7 @@
                 android:layout_height="65dp"
                 android:layout_marginTop="10dp"
                 app:icon="@drawable/ic_baseline_logout_24"
-                android:text="Log out"
+                android:text="Đăng xuất"
                 android:layout_marginBottom="20dp"/>
 
 

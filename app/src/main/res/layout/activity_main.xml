@@ -21,9 +21,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
                     app:layout_scrollFlags="scroll|enterAlways|snap"
-                    app:logo="@mipmap/logo"
                     app:menu="@menu/toolbar_top_menu"
                     app:title="E2Tech" />
+                <!--                    app:logo="@mipmap/logo"-->
 
 <!--                <androidx.appcompat.widget.SearchView-->
 <!--                    android:id="@+id/searchBar"-->
