@@ -157,7 +157,7 @@ public class CartFragment extends Fragment {
             DecimalFormat decimalFormat = new DecimalFormat("#,###,###");
             String totalAmount = decimalFormat.format(totalBill);
 
-            overToTalAmount.setText("Total bill : " + totalAmount + " VND");
+            overToTalAmount.setText("Tổng tiền: " + totalAmount + " VND");
         }
     };
 }

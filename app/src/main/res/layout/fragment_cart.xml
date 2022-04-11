@@ -7,13 +7,6 @@
     android:background="@color/card_3"
     tools:context=".CartFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <!--    <TextView-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="match_parent"-->
-    <!--        android:layout_gravity="center"-->
-    <!--        android:text="Cart" />-->
-
     <LinearLayout
         android:id="@+id/constraint2"
         android:layout_width="match_parent"
@@ -42,20 +35,20 @@
                 android:layout_margin="5sp"
                 android:background="@drawable/rounded_corner"
                 android:padding="10dp"
-                android:text="Total bill: 0 VND"
+                android:text="Tổng tiền: 0 VND"
                 android:textAlignment="center"
                 android:textColor="#113F67"
                 android:textSize="28sp"
                 android:textStyle="bold" />
 
-            <androidx.appcompat.widget.AppCompatButton
+            <Button
                 android:id="@+id/checkoutBtn"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_margin="5dp"
                 android:background="#113F67"
-                android:text="Checkout"
+                android:text="Thanh toán"
                 android:textColor="@color/white"
                 android:textStyle="bold" />
 

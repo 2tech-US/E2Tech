@@ -23,6 +23,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
+import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Objects;
 
@@ -47,14 +48,18 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") int position) {
+        DecimalFormat decimalFormat = new DecimalFormat("#,###,###");
 
         Glide.with(context).load(cartModelList.get(position).getProductImageURL()).into(holder.productImage);
 
         holder.name.setText(cartModelList.get(position).getProductName());
-        holder.price.setText(String.valueOf(cartModelList.get(position).getProductPrice()));
+
+        String price = decimalFormat.format(cartModelList.get(position).getProductPrice());
+        holder.price.setText(price + " VND");
         holder.quantity.setText(String.valueOf(cartModelList.get(position).getTotalQuantity()));
         int priceCount = cartModelList.get(position).getProductPrice() * cartModelList.get(position).getTotalQuantity();
-        holder.totalPrice.setText(String.valueOf(priceCount));
+        String priceCountString = decimalFormat.format(priceCount);
+        holder.totalPrice.setText(priceCountString + " VND");
 
         totalPrice += priceCount;
         Intent intent = new Intent("MyTotalAmount");

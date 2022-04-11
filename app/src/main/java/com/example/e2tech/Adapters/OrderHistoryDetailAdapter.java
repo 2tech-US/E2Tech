@@ -14,6 +14,7 @@ import com.bumptech.glide.Glide;
 import com.example.e2tech.Models.CartModel;
 import com.example.e2tech.R;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 public class OrderHistoryDetailAdapter extends RecyclerView.Adapter<OrderHistoryDetailAdapter.ViewHolder> {
@@ -36,7 +37,9 @@ public class OrderHistoryDetailAdapter extends RecyclerView.Adapter<OrderHistory
         Glide.with(context).load(cartModelList.get(position).getProductImageURL()).into(holder.productImage);
 
         holder.name.setText(cartModelList.get(position).getProductName());
-        holder.price.setText(String.valueOf(cartModelList.get(position).getProductPrice()));
+        DecimalFormat decimalFormat = new DecimalFormat("#,###,###");
+        String totalAmount = decimalFormat.format(cartModelList.get(position).getProductPrice());
+        holder.price.setText(totalAmount);
         holder.quantity.setText(String.valueOf(cartModelList.get(position).getTotalQuantity()));
     }
 
