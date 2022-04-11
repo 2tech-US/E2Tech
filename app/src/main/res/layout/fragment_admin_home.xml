@@ -37,28 +37,30 @@
                     android:layout_height="match_parent"
                     android:orientation="vertical"
                     android:gravity="left"
-                    android:background="@color/teal_700"
+                    android:background="@color/light_blue_600"
                     android:padding="8dp">
 
                     <com.makeramen.roundedimageview.RoundedImageView
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:layout_margin="8dp"
-                        android:src="@drawable/ic_baseline_show_chart_24"/>
+                        android:background="@drawable/bg_circle_white"
+                        android:src="@drawable/ic_baseline_show_chart_24"
+                        />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/tv_admin_home_total_sale"
                         android:layout_marginTop="20dp"
-                        android:layout_marginLeft="8dp"
-                        android:text="200000đ"/>
+                        android:layout_marginLeft="8dp" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Total Sales"
-                        android:textSize="10sp"/>
+                        android:text="Tổng Doanh thu"
+                        android:textStyle="bold"
+                        android:textSize="12sp"/>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
@@ -80,28 +82,29 @@
                     android:layout_height="match_parent"
                     android:orientation="vertical"
                     android:gravity="left"
-                    android:background="@color/teal_700"
+                    android:background="@color/light_blue_600"
                     android:padding="8dp">
 
                     <com.makeramen.roundedimageview.RoundedImageView
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:layout_margin="8dp"
-                        android:src="@drawable/ic_baseline_show_chart_24"/>
+                        android:background="@drawable/bg_circle_white"
+                        android:src="@drawable/outline_shopping_cart_24"/>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/tv_admin_home_total_order"
                         android:layout_marginTop="20dp"
-                        android:layout_marginLeft="8dp"
-                        android:text="200000đ"/>
+                        android:layout_marginLeft="8dp" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Total Orders"
-                        android:textSize="10sp"/>
+                        android:text="Tổng đơn đặt hàng"
+                        android:textStyle="bold"
+                        android:textSize="11sp"/>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
@@ -123,28 +126,29 @@
                     android:layout_height="match_parent"
                     android:orientation="vertical"
                     android:gravity="left"
-                    android:background="@color/teal_700"
+                    android:background="@color/light_blue_600"
                     android:padding="8dp">
 
                     <com.makeramen.roundedimageview.RoundedImageView
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:layout_margin="8dp"
-                        android:src="@drawable/ic_baseline_show_chart_24"/>
+                        android:background="@drawable/bg_circle_white"
+                        android:src="@drawable/ic_baseline_pending_actions_24"/>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/tv_admin_home_pending_order"
                         android:layout_marginTop="20dp"
-                        android:layout_marginLeft="8dp"
-                        android:text="200000đ"/>
+                        android:layout_marginLeft="8dp" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Pending Orders"
-                        android:textSize="8sp"/>
+                        android:text="Đơn đang đặt"
+                        android:textStyle="bold"
+                        android:textSize="10sp"/>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
@@ -166,28 +170,29 @@
                     android:layout_height="match_parent"
                     android:orientation="vertical"
                     android:gravity="left"
-                    android:background="@color/teal_700"
+                    android:background="@color/light_blue_600"
                     android:padding="8dp">
 
                     <com.makeramen.roundedimageview.RoundedImageView
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:layout_margin="8dp"
-                        android:src="@drawable/ic_baseline_show_chart_24"/>
+                        android:background="@drawable/bg_circle_white"
+                        android:src="@drawable/ic_baseline_today_24"/>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/tv_admin_home_today_order"
                         android:layout_marginTop="20dp"
-                        android:layout_marginLeft="8dp"
-                        android:text="200000đ"/>
+                        android:layout_marginLeft="8dp" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Today Orders"
-                        android:textSize="10sp"/>
+                        android:text="Số đơn hôm nay"
+                        android:textStyle="bold"
+                        android:textSize="12sp"/>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
@@ -202,7 +207,7 @@
             android:textSize="20sp"
             android:textStyle="bold"
             android:layout_marginTop="10dp"
-            android:text="Order Overview"/>
+            android:text="Tổng quan"/>
 
         <com.github.mikephil.charting.charts.LineChart
             android:id="@+id/admin_chart_total_sale"
@@ -218,7 +223,7 @@
             android:textSize="20sp"
             android:textStyle="bold"
             android:layout_marginTop="10dp"
-            android:text="Top Selling Product"/>
+            android:text="Top Sản phẩm"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/admin_home_top_product_recycler_view"

@@ -39,6 +39,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.core.OrderBy;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -195,18 +196,12 @@ public class AdminHomeFragment extends Fragment {
 
 
 
-
-
-        Log.v("OnStart", "onstart trigger");
-
-
         db.collection("Orders")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         totalOrders = task.getResult().getDocuments().size();
-                        //Log.v("total", String.valueOf(totalOrders));
                         tvTotalOrder.setText(String.valueOf(totalOrders));
 
                         for (QueryDocumentSnapshot documentSnapshot: task.getResult()) {
@@ -225,15 +220,6 @@ public class AdminHomeFragment extends Fragment {
                             Date orderDate = new Date(Long.parseLong(createAt));
                             String strDate = sdf.format(orderDate);
 
-//                            Log.v("Date", strDate);
-//                            Log.v("ngay", String.valueOf(orderDate.getDate()));
-//                            Log.v("thang", String.valueOf(orderDate.getMonth() + 1));
-//                            Log.v("nam", String.valueOf(orderDate.getYear() + 1900));
-//
-//
-//                            Log.v("ngay calendar", String.valueOf(cal.get(Calendar.DAY_OF_MONTH)));
-//                            Log.v("thang calendar", String.valueOf(cal.get(Calendar.MONTH)+1));
-//                            Log.v("nam calendar", String.valueOf(cal.get(Calendar.YEAR)));
 
                             if (orderDate.getYear()+ 1900 == cal.get(Calendar.YEAR) && orderDate.getMonth() + 1 == cal.get(Calendar.MONTH)+1 && orderDate.getDate() == cal.get(Calendar.DAY_OF_MONTH)) {
                                 todayOrders++;
@@ -248,26 +234,25 @@ public class AdminHomeFragment extends Fragment {
                                 Long tempSaleAtMonth = totalSalesByMonths.get(month) + tempTotalMoney;
                                 totalSalesByMonths.set(month, tempSaleAtMonth);
 
-//                                totalSalesByMonth[month] += tempTotalMoney;
                             }
                         }
-                        tvTotalSale.setText(String.valueOf(totalSales));
+                        DecimalFormat decimalFormat = new DecimalFormat("###,###,###");
+                        String totalSaleStr = decimalFormat.format(totalSales);
+//                        tvTotalSale.setText(String.valueOf(totalSales));
+                        tvTotalSale.setText(totalSaleStr);
+
                         tvPendingOrder.setText(String.valueOf(pendingOrders));
                         tvTodayOrder.setText(String.valueOf(todayOrders));
 
 
                         for (int i = 1; i<totalSalesByMonths.size(); i++) {
-                            //Log.v("thang " + String.valueOf(i), String.valueOf(orderByMonths.get(i)));
                             Long prev = totalSalesByMonths.get(i-1);
                             Long cur = totalSalesByMonths.get(i) + prev;
                             totalSalesByMonths.set(i, cur);
                         }
                         for (int i = 1; i<=12; i++) {
-//                            entries2.add(new Entry(i,orderByMonths.get(i)));
                             entries2.get(i).setY(orderByMonths.get(i));
                             entries.get(i).setY(totalSalesByMonths.get(i)/1000000);
-                            Log.v("sale" + String.valueOf(i), String.valueOf(totalSalesByMonths.get(i)));
-
                         }
                         saleChart.notifyDataSetChanged();
                         saleChart.invalidate();

@@ -25,4 +25,5 @@
     <color name="red">#C50E01</color>
     <color name="green">#4AC51D</color>
     <color name="my_red">#FF0000</color>
+    <color name="blue_admin">#0272C5</color>
 </resources>

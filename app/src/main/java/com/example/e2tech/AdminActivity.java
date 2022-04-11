@@ -41,14 +41,13 @@ public class AdminActivity extends AppCompatActivity {
         navController.addOnDestinationChangedListener(new NavController.OnDestinationChangedListener() {
             @Override
             public void onDestinationChanged(@NonNull NavController navController, @NonNull NavDestination navDestination, @Nullable Bundle bundle) {
-//                if (navDestination.getId() == R.id.detailFragment || navDestination.getId() == R.id.fragment_infor
-//                        || navDestination.getId() == R.id.fragment_update) {
+                if (navDestination.getId() == R.id.adminHomeFragment) {
 //                    bottomNavigationView.setVisibility(View.GONE);
 //                    getSupportActionBar().hide();
-//                } else {
+                } else {
 //                    bottomNavigationView.setVisibility(View.VISIBLE);
-//                    getSupportActionBar().hide();
-//                }
+//                    getSupportActionBar().show();
+                }
             }
         });
 
