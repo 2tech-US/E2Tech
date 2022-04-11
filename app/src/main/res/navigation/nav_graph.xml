@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.example.e2tech.HomeFragment"
-        android:label="fragment_home"
+        android:label="Trang chủ"
         tools:layout="@layout/fragment_home" >
         <action
             android:id="@+id/action_homeFragment_to_categoryFragment"
@@ -29,7 +29,7 @@
     <fragment
         android:id="@+id/categoryFragment"
         android:name="com.example.e2tech.CategoryFragment"
-        android:label="fragment_category"
+        android:label="Danh mục"
         tools:layout="@layout/fragment_category" >
         <action
             android:id="@+id/action_categoryFragment_to_shopFragment"
@@ -38,7 +38,7 @@
     <fragment
         android:id="@+id/cartFragment"
         android:name="com.example.e2tech.CartFragment"
-        android:label="fragment_cart"
+        android:label="Giỏ hàng"
         tools:layout="@layout/fragment_cart" >
         <action
             android:id="@+id/action_cartFragment_to_oderDetail"
@@ -47,7 +47,7 @@
     <fragment
         android:id="@+id/meFragment"
         android:name="com.example.e2tech.MeFragment"
-        android:label="fragment_me"
+        android:label="Cá nhân"
         tools:layout="@layout/fragment_me" >
         <action
             android:id="@+id/action_meFragment_to_fragment_infor"
@@ -65,7 +65,7 @@
     <fragment
         android:id="@+id/detailFragment"
         android:name="com.example.e2tech.DetailFragment"
-        android:label="fragment_detail"
+        android:label="Chi tiết"
         tools:layout="@layout/fragment_detail" >
         <argument
             android:name="id"
@@ -90,14 +90,14 @@
     <fragment
         android:id="@+id/searchFragment"
         android:name="com.example.e2tech.SearchFragment"
-        android:label="fragment_search"
+        android:label="Tìm kiếm"
         tools:layout="@layout/fragment_search" />
     <action android:id="@+id/action_global_searchFragment" app:destination="@id/searchFragment"/>
 
     <fragment
         android:id="@+id/fragment_infor"
         android:name="com.example.e2tech.Fragment_infor"
-        android:label="Fragment_infor" >
+        android:label="Thông tin cá nhân" >
         <action
             android:id="@+id/action_fragment_infor_to_meFragment"
             app:destination="@id/meFragment" />
@@ -108,7 +108,7 @@
     <fragment
         android:id="@+id/fragment_update"
         android:name="com.example.e2tech.Fragment_update"
-        android:label="Fragment_update" >
+        android:label="Cập nhật thông tin" >
         <action
             android:id="@+id/action_fragment_update_to_fragment_infor"
             app:destination="@id/fragment_infor" />
@@ -119,7 +119,7 @@
     <fragment
         android:id="@+id/shopFragment"
         android:name="com.example.e2tech.ShopFragment"
-        android:label="ShopFragment" >
+        android:label="Danh sách sản phẩm" >
         <action
             android:id="@+id/action_shopFragment_to_detailFragment"
             app:destination="@id/detailFragment" />
@@ -130,16 +130,16 @@
     <dialog
         android:id="@+id/commentDialogFragment"
         android:name="com.example.e2tech.CommentDialogFragment"
-        android:label="CommentDialogFragment" />
+        android:label="Bình luận" />
     <fragment
         android:id="@+id/commentFragment"
         android:name="com.example.e2tech.CommentFragment"
-        android:label="fragment_comment"
+        android:label="Bình luận"
         tools:layout="@layout/fragment_comment" />
     <fragment
         android:id="@+id/orderDetail"
         android:name="com.example.e2tech.OrderDetail"
-        android:label="fragment_order_detail"
+        android:label="Chi tiết đơn hàng"
         tools:layout="@layout/fragment_oder_detail">
         <action
             android:id="@+id/action_oderDetail_to_cartFragment"
@@ -148,7 +148,7 @@
     <fragment
         android:id="@+id/changePassFragment"
         android:name="com.example.e2tech.ChangePassFragment"
-        android:label="ChangePassFragment" >
+        android:label="Đổi mật khẩu" >
         <action
             android:id="@+id/action_changePassFragment_to_meFragment"
             app:destination="@id/meFragment" />
@@ -156,11 +156,11 @@
     <fragment
         android:id="@+id/myVouchersFragment"
         android:name="com.example.e2tech.MyVouchersFragment"
-        android:label="MyVouchersFragment" />
+        android:label="Voucher của tôi" />
     <fragment
         android:id="@+id/orderHistory"
         android:name="com.example.e2tech.orderhistory.OrderHistory"
-        android:label="OrderHistory" />
+        android:label="Lịch sử đặt hàng" />
 
 
 </navigation>
