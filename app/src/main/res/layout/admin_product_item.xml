@@ -5,17 +5,15 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
-    android:padding="8dp"
-    >
-
+    android:padding="8dp">
 
     <ImageView
         android:id="@+id/img_admin_product_item_list_screen"
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:layout_alignParentTop="true"
-        android:scaleType="fitCenter"
         android:padding="5dp"
+        android:scaleType="fitCenter"
         tools:srcCompat="@tools:sample/avatars" />
 
     <TextView

@@ -15,25 +15,25 @@
             android:id="@+id/admin_tab_waiting"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Waiting" />
+            android:text="Chờ      xác nhận" />
 
         <com.google.android.material.tabs.TabItem
             android:id="@+id/admin_tab_processing"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Processing" />
+            android:text="Đang       xử lý" />
 
         <com.google.android.material.tabs.TabItem
             android:id="@+id/admin_tab_delivering"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Delivering" />
+            android:text="Đang giao" />
 
         <com.google.android.material.tabs.TabItem
             android:id="@+id/admin_tab_done"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Done" />
+            android:text="Đã giao" />
 
     </com.google.android.material.tabs.TabLayout>
 

@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/adminHomeFragment"
         android:name="com.example.e2tech.AdminHomeFragment"
-        android:label="fragment_admin_home"
+        android:label="Trang chủ"
         tools:layout="@layout/fragment_admin_home" >
         <action
             android:id="@+id/action_adminHomeFragment_to_adminProductFragment"
@@ -23,7 +23,7 @@
     <fragment
         android:id="@+id/adminProductFragment"
         android:name="com.example.e2tech.AdminProductFragment"
-        android:label="fragment_admin_product"
+        android:label="Danh Mục"
         tools:layout="@layout/fragment_admin_product" >
         <action
             android:id="@+id/action_adminProductFragment_to_adminProductListFragment"
@@ -35,21 +35,21 @@
     <fragment
         android:id="@+id/adminOrderFragment"
         android:name="com.example.e2tech.AdminOrderFragment"
-        android:label="fragment_admin_order"
+        android:label="Đơn hàng"
         tools:layout="@layout/fragment_admin_order" />
     <fragment
         android:id="@+id/adminAboutFragment"
         android:name="com.example.e2tech.AdminAboutFragment"
-        android:label="fragment_admin_about"
+        android:label="Thông tin shop"
         tools:layout="@layout/fragment_admin_about" >
         <action
-            android:id="@+id/action_adminAboutFragment_to_adminAddVoucherFragment"
-            app:destination="@id/adminAddVoucherFragment" />
+            android:id="@+id/action_adminAboutFragment_to_adminVoucherListFragment"
+            app:destination="@id/adminVoucherListFragment" />
     </fragment>
     <fragment
         android:id="@+id/adminProductListFragment"
         android:name="com.example.e2tech.AdminProductListFragment"
-        android:label="fragment_admin_product_list"
+        android:label="Danh sách sản phẩm"
         tools:layout="@layout/fragment_admin_product_list" >
         <argument
             android:name="category"
@@ -65,22 +65,22 @@
     <fragment
         android:id="@+id/adminProductDetail"
         android:name="com.example.e2tech.AdminProductDetail"
-        android:label="fragment_admin_product_detail"
+        android:label="Chi tiết"
         tools:layout="@layout/fragment_admin_product_detail" />
     <fragment
         android:id="@+id/adminAddProductFragment"
         android:name="com.example.e2tech.AdminAddProductFragment"
-        android:label="fragment_admin_add_product"
+        android:label="Thêm sản phẩm"
         tools:layout="@layout/fragment_admin_add_product" />
     <fragment
         android:id="@+id/adminAddCategoryFragment"
         android:name="com.example.e2tech.AdminAddCategoryFragment"
-        android:label="fragment_admin_add_category"
+        android:label="Thêm danh mục"
         tools:layout="@layout/fragment_admin_add_category" />
     <fragment
         android:id="@+id/adminWaitingOrderFragment"
         android:name="com.example.e2tech.AdminWaitingOrderFragment"
-        android:label="fragment_admin_waiting_order"
+        android:label="Đơn chờ xác nhận"
         tools:layout="@layout/fragment_admin_waiting_order" >
         <action
             android:id="@+id/action_adminWaitingOrderFragment_to_adminOrderDetail"
@@ -89,7 +89,7 @@
     <fragment
         android:id="@+id/adminProcessingOrderFragment"
         android:name="com.example.e2tech.AdminProcessingOrderFragment"
-        android:label="fragment_admin_processing_order"
+        android:label="Đơn đang xử lý"
         tools:layout="@layout/fragment_admin_processing_order" >
         <action
             android:id="@+id/action_adminProcessingOrderFragment_to_adminOrderDetail"
@@ -98,7 +98,7 @@
     <fragment
         android:id="@+id/adminDeliveringOrderFragment"
         android:name="com.example.e2tech.AdminDeliveringOrderFragment"
-        android:label="fragment_admin_delivering_order"
+        android:label="Đơn đang giao"
         tools:layout="@layout/fragment_admin_delivering_order" >
         <action
             android:id="@+id/action_adminDeliveringOrderFragment_to_adminOrderDetail"
@@ -107,7 +107,7 @@
     <fragment
         android:id="@+id/adminDoneOrderFragment"
         android:name="com.example.e2tech.AdminDoneOrderFragment"
-        android:label="fragment_admin_done_order"
+        android:label="Đơn đã giao"
         tools:layout="@layout/fragment_admin_done_order" >
         <action
             android:id="@+id/action_adminDoneOrderFragment_to_adminOrderDetail"
@@ -116,14 +116,33 @@
     <fragment
         android:id="@+id/adminOrderDetail"
         android:name="com.example.e2tech.AdminOrderDetail"
-        android:label="fragment_admin_order_detail"
+        android:label="Chi tiết đơn hàng"
         tools:layout="@layout/fragment_admin_order_detail" />
     <fragment
         android:id="@+id/adminAddVoucherFragment"
         android:name="com.example.e2tech.AdminAddVoucherFragment"
-        android:label="AdminAddVoucherFragment" >
+        android:label="Thêm voucher" >
         <action
-            android:id="@+id/action_adminAddVoucherFragment_to_adminAboutFragment"
-            app:destination="@id/adminAboutFragment" />
+            android:id="@+id/action_adminAddVoucherFragment_to_adminVoucherListFragment"
+            app:destination="@id/adminVoucherListFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/adminVoucherListFragment"
+        android:name="com.example.e2tech.AdminVoucherListFragment"
+        android:label="Danh sách voucher" >
+        <action
+            android:id="@+id/action_adminVoucherListFragment_to_adminAddVoucherFragment"
+            app:destination="@id/adminAddVoucherFragment" />
+        <action
+            android:id="@+id/action_adminVoucherListFragment_to_adminVoucherDetail"
+            app:destination="@id/adminVoucherDetail" />
+    </fragment>
+    <fragment
+        android:id="@+id/adminVoucherDetail"
+        android:name="com.example.e2tech.AdminVoucherDetail"
+        android:label="Chi tiết voucher" >
+        <action
+            android:id="@+id/action_adminVoucherDetail_to_adminVoucherListFragment"
+            app:destination="@id/adminVoucherListFragment" />
     </fragment>
 </navigation>

@@ -12,6 +12,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,6 +26,7 @@ import com.example.e2tech.Activities.LoginActivity;
 import com.facebook.login.LoginManager;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserInfo;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -42,7 +44,7 @@ public class MeFragment extends Fragment {
     private FirebaseUser user;
     private DatabaseReference reference;
     private String userID;
-    Button btnLogout;
+    Button btnLogout, btnChangePass, btnMyVouchers;
     private CircleImageView avatar;
 
     @Override
@@ -50,7 +52,21 @@ public class MeFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_me, container, false);
         btnInfor = (Button) view.findViewById(R.id.btnInfor);
+        btnChangePass = (Button) view.findViewById(R.id.btnChangePass);
+        btnMyVouchers = (Button) view.findViewById(R.id.btnMyVouchers);
         avatar = (CircleImageView) view.findViewById(R.id.profile_image);
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            for (UserInfo profile : user.getProviderData()) {
+                String providerId = profile.getProviderId();
+                if (providerId.equals("facebook.com") | providerId.equals("google.com")) {
+                    btnChangePass.setVisibility(View.GONE);
+                } else if (providerId.equals("password")) {
+                    btnChangePass.setVisibility(View.VISIBLE);
+                }
+            }
+        }
         btnLogout = view.findViewById(R.id.btn_logout);
         btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,7 +86,22 @@ public class MeFragment extends Fragment {
             public void onClick(View view) {
                 NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment);
                 navController.navigate(R.id.action_meFragment_to_fragment_infor);
-                
+            }
+        });
+
+        btnMyVouchers.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment);
+                navController.navigate(R.id.action_meFragment_to_myVouchersFragment);
+            }
+        });
+
+        btnChangePass.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment);
+                navController.navigate(R.id.action_meFragment_to_changePassFragment);
             }
         });
 
@@ -95,10 +126,16 @@ public class MeFragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 UserModel userProfile = snapshot.getValue(UserModel.class);
 
-                if(userProfile != null) {
+                if (userProfile != null) {
                     String username = userProfile.getUsername();
                     txtUsername.setText(username);
+//                    if (TextUtils.isEmpty(userProfile.getImg_url().toString())) {
+//                        Glide.with(getActivity()).load(R.drawable.profile_pic).into(avatar);
+//                    } else {
+//                        Glide.with(getActivity()).load(userProfile.getImg_url()).into(avatar);
+//                    }
                     Glide.with(getActivity()).load(userProfile.getImg_url()).error(R.drawable.profile_pic).into(avatar);
+
                 }
             }
 
