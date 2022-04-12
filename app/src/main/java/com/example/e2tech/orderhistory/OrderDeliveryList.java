@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.e2tech.Adapters.OrderAdapter;
+import com.example.e2tech.Interface.OnOrderDeleted;
 import com.example.e2tech.Models.OrderModel;
 import com.example.e2tech.R;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -25,7 +26,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
-public class OrderDeliveryList extends Fragment {
+public class OrderDeliveryList extends Fragment implements OnOrderDeleted {
 
     RecyclerView recyclerView;
     OrderAdapter orderAdapter;
@@ -70,10 +71,8 @@ public class OrderDeliveryList extends Fragment {
 
         recyclerView = root.findViewById(R.id.admin_order_recycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
-        orderAdapter = new OrderAdapter(getActivity(), orderList);
+        orderAdapter = new OrderAdapter(getActivity(), orderList, this);
         recyclerView.setAdapter(orderAdapter);
-
-
         // get orders from firebase
         db.collection("Orders")
                 .whereEqualTo("status", status).whereEqualTo("orderBy", mAuth.getCurrentUser().getUid())
@@ -107,7 +106,7 @@ public class OrderDeliveryList extends Fragment {
                                                    }
 
                                                } else {
-                                                   Toast.makeText(getActivity(), "Error getting documents.", Toast.LENGTH_SHORT).show();
+                                                   Toast.makeText(getActivity(), "Lỗi không lấy được dữ liệu", Toast.LENGTH_SHORT).show();
                                                }
                                            }
                                        }
@@ -118,5 +117,16 @@ public class OrderDeliveryList extends Fragment {
         orderAdapter.notifyDataSetChanged();
 
         return root;
+    }
+
+    @Override
+    public void onOrderDeleted(String orderId) {
+        for (int i = 0; i < orderList.size(); i++) {
+            if (orderList.get(i).getId().equals(orderId)) {
+                orderList.remove(i);
+                orderAdapter.notifyDataSetChanged();
+                break;
+            }
+        }
     }
 }
