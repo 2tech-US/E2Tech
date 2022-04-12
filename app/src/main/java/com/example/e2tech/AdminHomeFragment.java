@@ -206,7 +206,9 @@ public class AdminHomeFragment extends Fragment {
 
                         for (QueryDocumentSnapshot documentSnapshot: task.getResult()) {
                             String status = documentSnapshot.get("status").toString();
-                            long tempTotalMoney = Long.parseLong(documentSnapshot.get("total").toString());
+//                            long tempTotalMoney = Long.parseLong(documentSnapshot.get("total").toString());
+                            long tempTotalMoney = documentSnapshot.getLong("total");
+
                             if (status.equals("done")) {
                                 totalSales += tempTotalMoney;
                             } else {
