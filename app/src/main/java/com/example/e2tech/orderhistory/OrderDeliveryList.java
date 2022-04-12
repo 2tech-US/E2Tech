@@ -84,9 +84,28 @@ public class OrderDeliveryList extends Fragment {
                                                if (task.isSuccessful()) {
                                                    for (QueryDocumentSnapshot document : task.getResult()) {
                                                        OrderModel orderModel = document.toObject(OrderModel.class);
-                                                       orderList.add(orderModel);
+                                                       // get image from firebase
+                                                       db.collection("Orders")
+                                                               .document(document.getId()).
+                                                               collection("Items")
+                                                               .get()
+                                                               .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                                                   @Override
+                                                                   public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                                       if (task.isSuccessful()) {
+                                                                           for (QueryDocumentSnapshot document : task.getResult()) {
+                                                                               String image = document.getString("productImageURL");
+                                                                               orderModel.setImage(document.getString("productImageURL"));
+                                                                               orderList.add(orderModel);
+                                                                               orderAdapter.notifyDataSetChanged();
+                                                                               break;
+                                                                           }
+
+                                                                       }
+                                                                   }
+                                                               });
                                                    }
-                                                   orderAdapter.notifyDataSetChanged();
+
                                                } else {
                                                    Toast.makeText(getActivity(), "Error getting documents.", Toast.LENGTH_SHORT).show();
                                                }

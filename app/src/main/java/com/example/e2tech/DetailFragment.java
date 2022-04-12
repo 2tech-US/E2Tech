@@ -179,7 +179,7 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
                             @Override
                             public void onSuccess(DocumentReference documentReference) {
                                 documentReference.update("id", documentReference.getId());
-                                Toast.makeText(requireContext(), "Added to cart", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getContext(), "Added to cart", Toast.LENGTH_SHORT).show();
                             }
                         });
                     } else {

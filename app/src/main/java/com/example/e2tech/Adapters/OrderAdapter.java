@@ -52,7 +52,8 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
         holder.tvTotal.setText(Integer.toString(orders.get(position).getTotal()));
         holder.tvQuantity.setText(Integer.toString(orders.get(position).getQuantity()));
         holder.tvDate.setText(orders.get(position).getCreateAt());
-        holder.imgProducts.setImageResource(R.drawable.iphone_12_pro_max);
+//        holder.imgProducts.setImageResource(R.drawable.iphone_12_pro_max);
+        Glide.with(context).load(orders.get(position).getImage()).into(holder.imgProducts);
         //Glide.with(context).load(orders.get(position).getImg_url()).into(holder.imgProduct);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
