@@ -66,7 +66,11 @@
         android:id="@+id/adminProductDetail"
         android:name="com.example.e2tech.AdminProductDetail"
         android:label="fragment_admin_product_detail"
-        tools:layout="@layout/fragment_admin_product_detail" />
+        tools:layout="@layout/fragment_admin_product_detail" >
+        <action
+            android:id="@+id/action_adminProductDetail_to_adminProductListFragment"
+            app:destination="@id/adminProductListFragment" />
+    </fragment>
     <fragment
         android:id="@+id/adminAddProductFragment"
         android:name="com.example.e2tech.AdminAddProductFragment"

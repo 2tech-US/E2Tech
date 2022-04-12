@@ -10,6 +10,7 @@ import androidx.activity.result.contract.ActivityResultContract;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
 import android.text.TextUtils;
 import android.util.Log;
@@ -87,7 +88,6 @@ public class AdminProductDetail extends Fragment implements View.OnClickListener
         binding = FragmentAdminProductDetailBinding.inflate(getLayoutInflater());
 
 
-
         // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.fragment_admin_product_detail, container, false);
 
@@ -120,7 +120,6 @@ public class AdminProductDetail extends Fragment implements View.OnClickListener
         });
 
 
-
         storage = FirebaseStorage.getInstance();
         db = FirebaseFirestore.getInstance();
         storageReference = storage.getReference();
@@ -146,7 +145,6 @@ public class AdminProductDetail extends Fragment implements View.OnClickListener
         });
 
 
-
         return root;
     }
 
@@ -155,7 +153,6 @@ public class AdminProductDetail extends Fragment implements View.OnClickListener
 //        intent.setType("image/*");
 //        intent.setAction(Intent.ACTION_GET_CONTENT);
 //        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
-
 
 
     }
@@ -198,7 +195,8 @@ public class AdminProductDetail extends Fragment implements View.OnClickListener
                                 }
                             });
 
-                        }});
+                        }
+                    });
                 }
             }
         });
@@ -208,77 +206,80 @@ public class AdminProductDetail extends Fragment implements View.OnClickListener
 
     @Override
     public void onClick(View view) {
-        if (view.getId()==R.id.btn_admin_product_detail_update) {
-            updateProduct();
-        }
-    }
-
-    private void updateProduct() {
-
-        String name = edtName.getText().toString();
-        String description = edtDescription.getText().toString();
-        String priceStr = edtPrice.getText().toString();
-        String discountStr = edtDiscount.getText().toString();
-        String remainStr = edtRemain.getText().toString();
+        if (view.getId() == R.id.btn_admin_product_detail_update) {
+            String name = edtName.getText().toString();
+            String description = edtDescription.getText().toString();
+            String priceStr = edtPrice.getText().toString();
+            String discountStr = edtDiscount.getText().toString();
+            String remainStr = edtRemain.getText().toString();
 
 
-        if (TextUtils.isEmpty(name)) {
-            edtName.setError("Product name is empty");
-            edtName.setFocusable(true);
-            return;
-        }
-
-        if (TextUtils.isEmpty(priceStr)) {
-            edtPrice.setError("Price is empty");
-            edtPrice.setFocusable(true);
-            return;
-        }
-
-        if (TextUtils.isEmpty(description)) {
-            edtDescription.setError("Price is empty");
-            edtDescription.setFocusable(true);
-            return;
-        }
-
-        if (TextUtils.isEmpty(discountStr)) {
-            edtDiscount.setError("Price is empty");
-            edtDiscount.setFocusable(true);
-            return;
-        }
-
-        if (TextUtils.isEmpty(remainStr)) {
-            edtRemain.setError("Price is empty");
-            edtRemain.setFocusable(true);
-            return;
-        }
-
-        product.setName(name);
-        product.setPrice(Integer.parseInt(priceStr));
-        product.setDiscount(Double.parseDouble(discountStr));
-        product.setRemain(Integer.parseInt(remainStr));
-        product.setDescription(description);
-
-        HashMap map = new HashMap();
-        map.put("name", name);
-        map.put("discount", Double.parseDouble(discountStr));
-        map.put("price", Integer.parseInt(priceStr));
-        map.put("remain", Integer.parseInt(remainStr));
-        map.put("description", description);
-
-
-        db.collection("Products").document(product.getId()).update(map).addOnCompleteListener(new OnCompleteListener() {
-            @Override
-            public void onComplete(@NonNull Task task) {
-                if (task.isComplete()) {
-                    Toast.makeText(getActivity(), "Updated", Toast.LENGTH_LONG).show();
-                } else {
-                    Toast.makeText(getActivity(), "Error" + task.getException(), Toast.LENGTH_LONG).show();
-
-                }
+            if (TextUtils.isEmpty(name)) {
+                edtName.setError("Product name is empty");
+                edtName.setFocusable(true);
+                return;
             }
-        });
+
+            if (TextUtils.isEmpty(priceStr)) {
+                edtPrice.setError("Price is empty");
+                edtPrice.setFocusable(true);
+                return;
+            }
+
+            if (TextUtils.isEmpty(description)) {
+                edtDescription.setError("Price is empty");
+                edtDescription.setFocusable(true);
+                return;
+            }
+
+            if (TextUtils.isEmpty(discountStr)) {
+                edtDiscount.setError("Price is empty");
+                edtDiscount.setFocusable(true);
+                return;
+            }
+
+            if (TextUtils.isEmpty(remainStr)) {
+                edtRemain.setError("Price is empty");
+                edtRemain.setFocusable(true);
+                return;
+            }
+
+            product.setName(name);
+            product.setPrice(Integer.parseInt(priceStr));
+            product.setDiscount(Double.parseDouble(discountStr));
+            product.setRemain(Integer.parseInt(remainStr));
+            product.setDescription(description);
+
+            HashMap map = new HashMap();
+            map.put("name", name);
+            map.put("discount", Double.parseDouble(discountStr));
+            map.put("price", Integer.parseInt(priceStr));
+            map.put("remain", Integer.parseInt(remainStr));
+            map.put("description", description);
 
 
+            db.collection("Products").document(product.getId()).update(map).addOnCompleteListener(new OnCompleteListener() {
+                @Override
+                public void onComplete(@NonNull Task task) {
+                    if (task.isComplete()) {
+                        Toast.makeText(getActivity(), "Product has been updated!", Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(getActivity(), "Error" + task.getException(), Toast.LENGTH_LONG).show();
 
+                    }
+                }
+            });
+        } else if (view.getId() == R.id.btn_admin_product_detail_delete) {
+            db.collection("Products").document(product.getId()).delete().addOnCompleteListener(new OnCompleteListener() {
+                @Override
+                public void onComplete(@NonNull Task task) {
+                    if (task.isComplete()) {
+                        Toast.makeText(getActivity(), "Product has been deleted!", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(getActivity(), "Error" + task.getException(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+        }
     }
 }
