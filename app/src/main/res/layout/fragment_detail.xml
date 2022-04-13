@@ -63,6 +63,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
+                android:textColor="@color/black"
                 android:text="@string/lorem_product_name"
                 android:textSize="25sp" />
 
@@ -135,7 +136,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="15dp"
-                    android:text="Brand:"
+                    android:text="Thương Hiệu:"
                     android:textSize="15sp"
                     android:textStyle="bold" />
 
@@ -158,7 +159,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="15dp"
-                    android:text="Category:"
+                    android:text="Loại:"
                     android:textSize="15sp"
                     android:textStyle="bold" />
 
@@ -203,7 +204,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="5dp"
-                        android:text="Product Reviews"
+                        android:text="Đánh giá"
                         android:textSize="20sp"
                         android:textStyle="bold" />
 
@@ -229,6 +230,12 @@
                     android:textColor="@color/yellow"
                     android:textSize="15sp" />
             </RelativeLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/detail_usercomment_recyclerview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp" />
 
             <Button
                 android:id="@+id/btn_add_to_cart"
