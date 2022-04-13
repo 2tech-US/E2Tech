@@ -28,8 +28,8 @@
     <string name="popular">Sản phẩm nổi bật</string>
     <string name="lorem_product_name">HighTeam Phone 11</string>
     <string name="lorem_product_price">897.02 USD</string>
-    <string name="available">Available</string>
-    <string name="description_text">Description</string>
+    <string name="available">Còn hàng</string>
+    <string name="description_text">Mổ tả sản phẩm</string>
     <string name="lorem_product_description">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s</string>
     <string name="favorite">Yêu thích</string>
 

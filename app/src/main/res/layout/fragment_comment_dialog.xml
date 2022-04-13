@@ -12,15 +12,16 @@
         android:background="@drawable/bg_yellow_corner_only_top_20"
         android:gravity="center"
         android:padding="12dp"
-        android:text="Send Your Review"
+        android:text="Đánh giá"
         android:textSize="20sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:layout_marginBottom="5dp"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="Rating This Product"
+        android:text="Hãy chọn số sao"
         android:textSize="20sp" />
 
     <LinearLayout
@@ -73,7 +74,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Write Your Comment About This Product"
+        android:text="Bạn nghĩ gì về sản phẩm này"
         android:gravity="center"
         android:textSize="16sp"/>
 
@@ -100,7 +101,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="CANCEL"
+            android:text="Hủy"
             android:background="@drawable/bg_grey_corner_10"
             />
         <Space
@@ -112,7 +113,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="SEND"
+            android:text="Gửi"
             android:background="@drawable/bg_yellow_corner_10"
             />
         
