@@ -33,7 +33,7 @@
                 android:layout_below="@id/welcome2"
                 android:layout_marginStart="35dp"
                 android:layout_marginTop="120dp"
-                android:text="Type your email to reset password" />
+                android:text="Nhập email để tạo lại mật khẩu" />
 
             <EditText
                 android:id="@+id/edt_email_reset"
@@ -57,7 +57,7 @@
                 android:layout_marginTop="15dp"
                 android:layout_marginRight="30dp"
                 android:padding="4dp"
-                android:text="Reset"
+                android:text="Tạo lại mật khẩu"
                 android:textAllCaps="false"
                 android:textColor="@android:color/background_light"
                 android:textSize="24sp" />

@@ -141,7 +141,7 @@ public class MeFragment extends Fragment {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(getContext(), "Something wrong happened!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Có lỗi xảy ra", Toast.LENGTH_SHORT).show();
             }
         });
         return view;

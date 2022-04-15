@@ -124,7 +124,7 @@ public class AdminAddCategoryFragment extends Fragment {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful() && task.getResult().size()>0) {
 
-                            Toast.makeText(getActivity(), "This title is existed", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getActivity(), "Tên này đã tồn tại", Toast.LENGTH_LONG).show();
                         } else {
                             db.collection("Categories")
                                     .add(map)
@@ -133,10 +133,10 @@ public class AdminAddCategoryFragment extends Fragment {
                                         public void onComplete(@NonNull Task<DocumentReference> task) {
                                             if (task.isSuccessful()) {
                                                 binding.progressBarAddCategory.setVisibility(View.GONE);
-                                                Toast.makeText(getActivity(), "Add new product successfully", Toast.LENGTH_LONG).show();
+                                                Toast.makeText(getActivity(), "Thêm thành công", Toast.LENGTH_LONG).show();
                                             } else {
                                                 binding.progressBarAddCategory.setVisibility(View.GONE);
-                                                Toast.makeText(getActivity(), "Add new product fail", Toast.LENGTH_LONG).show();
+                                                Toast.makeText(getActivity(), "Thêm sản phẩm bị lỗi", Toast.LENGTH_LONG).show();
                                             }
                                         }
                                     });

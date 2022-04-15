@@ -48,6 +48,7 @@ public class AdminOrderAdapter extends RecyclerView.Adapter<AdminOrderAdapter.Vi
         holder.tvAddress.setText("Địa chỉ: " + orders.get(position).getAddress());
         holder.tvTotal.setText("Tổng tiền: " + Integer.toString(orders.get(position).getTotal()));
         holder.tvQuantity.setText("Số lượng: " + Integer.toString(orders.get(position).getQuantity()));
+        holder.tvProductNames.setText(orders.get(position).getNameProducts());
         holder.tvDate.setText(orders.get(position).getCreateAt());
 //        holder.imgProducts.setImageResource(R.drawable.iphone_12_pro_max);
         Glide.with(context).load(orders.get(position).getProductList().get(0).getImg_url()).into(holder.imgProducts);
@@ -79,6 +80,7 @@ public class AdminOrderAdapter extends RecyclerView.Adapter<AdminOrderAdapter.Vi
             tvAddress = itemView.findViewById(R.id.tv_admin_order_item_address_list);
             tvQuantity = itemView.findViewById(R.id.tv_admin_order_item_quantity_list);
             tvID = itemView.findViewById(R.id.tv_admin_order_item_id_list);
+            tvProductNames = itemView.findViewById(R.id.tv_admin_order_item_name);
             imgProducts = itemView.findViewById(R.id.img_admin_order_item_image_products_list);
         }
     }

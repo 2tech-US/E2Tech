@@ -209,7 +209,7 @@ public class AdminAddProductFragment extends Fragment {
         }
 
         if (imgUrl.equals("")) {
-            Toast.makeText(getActivity(), "Please select image first", Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(), "Vui lòng chọn ảnh trước", Toast.LENGTH_LONG).show();
         }
 
         binding.adminAddProductProgressbar.setVisibility(View.VISIBLE);
@@ -242,10 +242,10 @@ public class AdminAddProductFragment extends Fragment {
                     public void onComplete(@NonNull Task<DocumentReference> task) {
                         if (task.isSuccessful()) {
                             binding.adminAddProductProgressbar.setVisibility(View.GONE);
-                            Toast.makeText(getActivity(), "Add new product successfully", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getActivity(), "Thêm sản phẩm thành công", Toast.LENGTH_LONG).show();
                         } else {
                             binding.adminAddProductProgressbar.setVisibility(View.GONE);
-                            Toast.makeText(getActivity(), "Add new product fail", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getActivity(), "Thêm sản phẩm gặp lỗi", Toast.LENGTH_LONG).show();
                         }
                     }
                 });

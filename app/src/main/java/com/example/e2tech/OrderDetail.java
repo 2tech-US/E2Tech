@@ -128,7 +128,7 @@ public class OrderDetail extends Fragment {
                 String note = edtNote.getText().toString();
 
                 if (name.isEmpty() || phone.isEmpty() || address.isEmpty()) {
-                    Toast.makeText(getContext(), "Please fill all fields! The note is not required", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Vui lòng nhập đầy đủ thông tin! Có thể bỏ qua note", Toast.LENGTH_SHORT).show();
                 } else {
                     submitOrder(name, phone, address, note);
                     removeCart();
@@ -146,7 +146,7 @@ public class OrderDetail extends Fragment {
             public void onClick(View v) {
                 String voucher = edtVoucher.getText().toString();
                 if (voucher.isEmpty()) {
-                    Toast.makeText(getContext(), "Please enter voucher code", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Vui lòng nhập mã voucher", Toast.LENGTH_SHORT).show();
                 } else {
                     applyVoucher(voucher);
                 }
@@ -169,7 +169,7 @@ public class OrderDetail extends Fragment {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(getContext(), "Cannot get user information!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Không lấy được thông tin user", Toast.LENGTH_SHORT).show();
             }
         });
 

@@ -168,6 +168,7 @@ public class AdminWaitingOrderFragment extends Fragment {
                                                 } else {
                                                     nameProducts = "NOTHING HERE";
                                                 }
+                                                Log.v("Name order", nameProducts);
                                                 OrderModel order = new OrderModel(receiverName, address, strDate, id, note, phone, status, orderBy, userName, nameProducts, fee_ship, subTotal, total, quantity, productList);
 
 

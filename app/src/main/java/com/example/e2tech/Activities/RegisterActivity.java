@@ -182,7 +182,7 @@ public class RegisterActivity extends AppCompatActivity {
                                         @Override
                                         public void onComplete(@NonNull Task<Void> task) {
                                             if (task.isSuccessful()) {
-                                                Toast.makeText(RegisterActivity.this, "Hi " + user.getDisplayName(), Toast.LENGTH_LONG).show();
+//                                                Toast.makeText(RegisterActivity.this, "Hi " + user.getDisplayName(), Toast.LENGTH_LONG).show();
                                                 progressBar.setVisibility(View.GONE);
                                                 Intent loginIntent = new Intent(RegisterActivity.this, LoginActivity.class);
                                                 loginIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);

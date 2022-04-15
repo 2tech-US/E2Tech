@@ -34,15 +34,20 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="ID: SOOJFPFOJSOFJS"/>
-
+                <TextView
+                    android:id="@+id/tv_admin_order_item_date_list"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="32323"/>
             </LinearLayout>
 
 
-
             <TextView
-                android:id="@+id/tv_admin_order_item_date_list"
+                android:id="@+id/tv_admin_order_item_name"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:text="32323"/>
+
 
             <LinearLayout
                 android:layout_width="match_parent"

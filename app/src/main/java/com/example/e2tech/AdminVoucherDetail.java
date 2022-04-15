@@ -135,7 +135,7 @@ public class AdminVoucherDetail extends Fragment implements View.OnClickListener
                 if (imgUri != null) {
                     updateImage();
                 } else {
-                    Toast.makeText(getActivity(), "You must select image first!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Vui lòng chọn ảnh trước", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -165,7 +165,7 @@ public class AdminVoucherDetail extends Fragment implements View.OnClickListener
                                 @Override
                                 public void onComplete(@NonNull Task task) {
                                     if (task.isComplete()) {
-                                        Toast.makeText(getActivity(), "Voucher image has been updated!", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(getActivity(), "Ảnh voucher đã được cập nhật", Toast.LENGTH_SHORT).show();
                                     } else {
                                         Toast.makeText(getActivity(), "Error" + task.getException(), Toast.LENGTH_SHORT).show();
                                     }
@@ -222,7 +222,7 @@ public class AdminVoucherDetail extends Fragment implements View.OnClickListener
                 @Override
                 public void onComplete(@NonNull Task task) {
                     if (task.isComplete()) {
-                        Toast.makeText(getActivity(), "Voucher has been updated!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), "Voucher đã được cập nhật", Toast.LENGTH_SHORT).show();
                     } else {
                         Toast.makeText(getActivity(), "Error" + task.getException(), Toast.LENGTH_SHORT).show();
                     }
@@ -234,7 +234,7 @@ public class AdminVoucherDetail extends Fragment implements View.OnClickListener
                 @Override
                 public void onComplete(@NonNull Task task) {
                     if (task.isComplete()) {
-                        Toast.makeText(getActivity(), "Voucher has been deleted!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), "Voucher đã được xóa", Toast.LENGTH_SHORT).show();
                     } else {
                         Toast.makeText(getActivity(), "Error" + task.getException(), Toast.LENGTH_SHORT).show();
                     }

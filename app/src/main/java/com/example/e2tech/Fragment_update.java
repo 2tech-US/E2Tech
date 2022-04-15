@@ -147,11 +147,11 @@ public class Fragment_update extends Fragment {
                             String providerId = profile.getProviderId();
 
                             if (providerId.equals("facebook.com") | providerId.equals("google.com")) {
-                                Log.d("Signed_in_method", "FB or GG method!");
+//                                Log.d("Signed_in_method", "FB or GG method!");
                                 edtPassword.setEnabled(false);
                                 edtPassword.setBackgroundColor(Color.rgb(181, 180, 179));
                             } else if (providerId.equals("password")) {
-                                Log.d("Signed_in_method", "Email password method!");
+//                                Log.d("Signed_in_method", "Email password method!");
                                 edtPassword.setEnabled(true);
                             }
 
@@ -165,40 +165,40 @@ public class Fragment_update extends Fragment {
                                     String emailStr = edtEmail.getText().toString().trim();
 
                                     if (TextUtils.isEmpty(ageStr)) {
-                                        edtAge.setHint("Enter your age...");
+                                        edtAge.setHint("Nhập tuổi...");
                                         edtAge.requestFocus();
                                         return;
                                     }
                                     if (TextUtils.isEmpty(phoneStr)) {
-                                        edtPhone.setHint("Enter your phone number...");
+                                        edtPhone.setHint("Nhập sđt...");
                                         edtPhone.requestFocus();
                                         return;
                                     }
 
                                     if (imgUrl.equals("")) {
-                                        Toast.makeText(getActivity(), "Please select image first", Toast.LENGTH_LONG).show();
+                                        Toast.makeText(getActivity(), "Vui lòng chọn ảnh trước", Toast.LENGTH_LONG).show();
                                     }
 
                                     if (TextUtils.isEmpty(addressStr)) {
-                                        edtAddress.setHint("Enter your address...");
+                                        edtAddress.setHint("Nhập địa chỉ...");
                                         edtAddress.requestFocus();
                                         return;
                                     }
 
                                     if ((TextUtils.isEmpty(passwordStr) || (!passwordStr.equalsIgnoreCase(pass))) && providerId.equals("password")) {
-                                        edtPassword.setError("Please enter the right password to confirm update!");
+                                        edtPassword.setError("Vui lòng nhập password để xác nhận cập nhật");
                                         edtPassword.requestFocus();
                                         return;
                                     } else if (Integer.parseInt(ageStr) < 6 || Integer.parseInt(ageStr) > 105) {
-                                        edtAge.setError("Please enter a valid age!");
+                                        edtAge.setError("Vui lòng nhập tuổi phù hợp");
                                         edtAge.requestFocus();
                                         return;
                                     } else if (TextUtils.isEmpty(edtName.getText().toString())) {
-                                        edtName.setError("Please enter your name!");
+                                        edtName.setError("Vui lòng nhập tên của bạn");
                                         edtName.requestFocus();
                                         return;
                                     } else if (TextUtils.isEmpty(emailStr)) {
-                                        edtEmail.setError("Please enter your email!");
+                                        edtEmail.setError("Vui lòng nhập email");
                                         edtEmail.requestFocus();
                                         return;
                                     } else {
@@ -238,9 +238,9 @@ public class Fragment_update extends Fragment {
                                                     @Override
                                                     public void onComplete(@NonNull Task<DocumentReference> task) {
                                                         if (task.isSuccessful()) {
-                                                            Toast.makeText(getActivity(), "Add avatar successfully", Toast.LENGTH_SHORT).show();
+                                                            Toast.makeText(getActivity(), "Thêm avatar thành công", Toast.LENGTH_SHORT).show();
                                                         } else {
-                                                            Toast.makeText(getActivity(), "Add avatar fail", Toast.LENGTH_SHORT).show();
+                                                            Toast.makeText(getActivity(), "Bị lỗi", Toast.LENGTH_SHORT).show();
                                                         }
                                                     }
                                                 });
@@ -251,7 +251,7 @@ public class Fragment_update extends Fragment {
                                                     public void onSuccess(Object o) {
                                                         NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment);
                                                         navController.navigate(R.id.action_fragment_update_to_meFragment);
-                                                        Toast.makeText(getActivity(), "Update successful!", Toast.LENGTH_SHORT).show();
+                                                        Toast.makeText(getActivity(), "Cập nhật thành công", Toast.LENGTH_SHORT).show();
                                                     }
                                                 });
                                     }
@@ -264,7 +264,7 @@ public class Fragment_update extends Fragment {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(getContext(), "Something wrong happened!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Có lỗi đâu đó", Toast.LENGTH_SHORT).show();
             }
         });
 
