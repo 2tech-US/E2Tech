@@ -73,7 +73,7 @@ public class PopularAdapter extends RecyclerView.Adapter<PopularAdapter.ViewHold
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.tvName.setText(productList.get(position).getName());
-        holder.tvPrice.setText(Integer.toString(productList.get(position).getPrice()));
+        holder.tvPrice.setText(Integer.toString(productList.get(position).getPrice())+ " VNĐ");
         Glide.with(context).load(productList.get(position).getImg_url()).into(holder.imgProduct);
     }
 

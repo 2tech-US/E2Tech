@@ -207,6 +207,8 @@ public class CommentDialogFragment extends DialogFragment implements View.OnClic
         dataToSave.put("email", user != null ? user.getEmail() : null);
         dataToSave.put("createAt", Timestamp.now());
         dataToSave.put("name", user != null ? user.getDisplayName() : null);
+        if(user.getPhotoUrl() != null)
+            dataToSave.put("img_url",user.getPhotoUrl().toString());
 //        dataToSave.put("image",user !=null ? user.getAvatar : null);
 
         mDocRef.set(dataToSave).addOnCompleteListener(new OnCompleteListener<Void>() {

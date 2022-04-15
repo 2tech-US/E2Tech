@@ -226,7 +226,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
-                    android:text="See All ▶"
+                    android:text="Xem thêm ▶"
                     android:textColor="@color/yellow"
                     android:textSize="15sp" />
             </RelativeLayout>

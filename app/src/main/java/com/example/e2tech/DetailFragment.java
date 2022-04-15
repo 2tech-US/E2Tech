@@ -311,7 +311,8 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
     private void fetchViewByData(ProductModel product) {
         tvProductName.setText(product.getName());
         tvProductPrice.setText(product.getPrice() + " VNĐ");
-        tvProductDescription.setText(R.string.lorem_product_description);
+        if(product.getDescription() != null)
+            tvProductDescription.setText(product.getDescription());
         tvProductBrand.setText(product.getCompany());
         tvProductCategory.setText(product.getType());
 
