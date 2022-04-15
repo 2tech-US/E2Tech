@@ -234,8 +234,9 @@
                 android:id="@+id/btn_add_to_cart"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Add To Cart"
-                android:layout_gravity="center"/>
+                android:text="Thêm vào giỏ hàng"
+                android:layout_gravity="center"
+                android:layout_marginBottom="10dp"/>
 
         </LinearLayout>
 
