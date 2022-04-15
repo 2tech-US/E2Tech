@@ -14,7 +14,7 @@
         android:layout_marginStart="162dp"
         android:layout_marginTop="48dp"
         android:layout_marginEnd="161dp"
-        android:text="New Category"
+        android:text="Danh mục mới"
         android:textStyle="bold"
         android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -51,7 +51,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Title:"
+                android:text="Tên danh mục:"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
@@ -59,8 +59,7 @@
                 android:id="@+id/edt_admin_category_add_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="4dp"
-                android:hint="category title.." />
+                android:layout_marginLeft="4dp" />
         </LinearLayout>
 
         <LinearLayout
@@ -75,14 +74,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="10dp"
-                android:text="Add" />
+                android:text="Thêm mới" />
 
             <Button
                 android:id="@+id/btn_admin_category_cancel_add_screen"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="10dp"
-                android:text="Cancel" />
+                android:backgroundTint="@color/my_gray"
+                android:text="Hủy" />
 
 
         </LinearLayout>
@@ -97,7 +97,7 @@
         android:layout_marginStart="165dp"
         android:layout_marginTop="15dp"
         android:layout_marginEnd="152dp"
-        android:text="Button"
+        android:text="Chọn ảnh"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/img_category_add" />

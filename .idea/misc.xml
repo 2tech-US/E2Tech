@@ -27,10 +27,17 @@
         <entry key="..\:/Data/KHTN/Nam_3/hoc_ky_2/MobileAndroid/project/E2Tech/app/src/main/res/layout/activity_main.xml" value="0.25" />
         <entry key="..\:/Data/KHTN/Nam_3/hoc_ky_2/MobileAndroid/project/E2Tech/app/src/main/res/layout/activity_register.xml" value="0.25" />
         <entry key="..\:/Data/KHTN/Nam_3/hoc_ky_2/MobileAndroid/project/E2Tech/app/src/main/res/layout/activity_splash_screen.xml" value="0.25416666666666665" />
+        <entry key="..\:/Data/KHTN/Nam_3/hoc_ky_2/MobileAndroid/project/E2Tech/app/src/main/res/layout/admin_category_item.xml" value="0.15172101449275363" />
+        <entry key="..\:/Data/KHTN/Nam_3/hoc_ky_2/MobileAndroid/project/E2Tech/app/src/main/res/layout/admin_popular_item.xml" value="0.20153985507246377" />
+        <entry key="..\:/Data/KHTN/Nam_3/hoc_ky_2/MobileAndroid/project/E2Tech/app/src/main/res/layout/admin_product_in_order_item.xml" value="0.25416666666666665" />
+        <entry key="..\:/Data/KHTN/Nam_3/hoc_ky_2/MobileAndroid/project/E2Tech/app/src/main/res/layout/admin_product_item.xml" value="0.264" />
         <entry key="..\:/Data/KHTN/Nam_3/hoc_ky_2/MobileAndroid/project/E2Tech/app/src/main/res/layout/admin_product_item.xml" value="0.14855072463768115" />
         <entry key="..\:/Data/KHTN/Nam_3/hoc_ky_2/MobileAndroid/project/E2Tech/app/src/main/res/layout/cart_item.xml" value="0.25416666666666665" />
         <entry key="..\:/Data/KHTN/Nam_3/hoc_ky_2/MobileAndroid/project/E2Tech/app/src/main/res/layout/category_item_home.xml" value="0.25416666666666665" />
         <entry key="..\:/Data/KHTN/Nam_3/hoc_ky_2/MobileAndroid/project/E2Tech/app/src/main/res/layout/catetory_item_category.xml" value="0.25416666666666665" />
+        <entry key="..\:/Data/KHTN/Nam_3/hoc_ky_2/MobileAndroid/project/E2Tech/app/src/main/res/layout/comment_item.xml" value="0.25416666666666665" />
+        <entry key="..\:/Data/KHTN/Nam_3/hoc_ky_2/MobileAndroid/project/E2Tech/app/src/main/res/layout/dialog_order_detail.xml" value="0.25416666666666665" />
+        <entry key="..\:/Data/KHTN/Nam_3/hoc_ky_2/MobileAndroid/project/E2Tech/app/src/main/res/layout/dialog_order_item.xml" value="0.25416666666666665" />
         <entry key="..\:/Data/KHTN/Nam_3/hoc_ky_2/MobileAndroid/project/E2Tech/app/src/main/res/layout/fragment_admin_about.xml" value="0.25416666666666665" />
         <entry key="..\:/Data/KHTN/Nam_3/hoc_ky_2/MobileAndroid/project/E2Tech/app/src/main/res/layout/fragment_admin_add_category.xml" value="0.25" />
         <entry key="..\:/Data/KHTN/Nam_3/hoc_ky_2/MobileAndroid/project/E2Tech/app/src/main/res/layout/fragment_admin_add_product.xml" value="0.24094202898550723" />
@@ -39,25 +46,40 @@
         <entry key="..\:/Data/KHTN/Nam_3/hoc_ky_2/MobileAndroid/project/E2Tech/app/src/main/res/layout/fragment_admin_done_order.xml" value="0.19519927536231885" />
         <entry key="..\:/Data/KHTN/Nam_3/hoc_ky_2/MobileAndroid/project/E2Tech/app/src/main/res/layout/fragment_admin_home.xml" value="0.25416666666666665" />
         <entry key="..\:/Data/KHTN/Nam_3/hoc_ky_2/MobileAndroid/project/E2Tech/app/src/main/res/layout/fragment_admin_order.xml" value="0.25416666666666665" />
+        <entry key="..\:/Data/KHTN/Nam_3/hoc_ky_2/MobileAndroid/project/E2Tech/app/src/main/res/layout/fragment_admin_order_detail.xml" value="0.13949275362318841" />
         <entry key="..\:/Data/KHTN/Nam_3/hoc_ky_2/MobileAndroid/project/E2Tech/app/src/main/res/layout/fragment_admin_processing_order.xml" value="0.19519927536231885" />
         <entry key="..\:/Data/KHTN/Nam_3/hoc_ky_2/MobileAndroid/project/E2Tech/app/src/main/res/layout/fragment_admin_product.xml" value="0.25416666666666665" />
         <entry key="..\:/Data/KHTN/Nam_3/hoc_ky_2/MobileAndroid/project/E2Tech/app/src/main/res/layout/fragment_admin_product_detail.xml" value="0.25416666666666665" />
         <entry key="..\:/Data/KHTN/Nam_3/hoc_ky_2/MobileAndroid/project/E2Tech/app/src/main/res/layout/fragment_admin_product_list.xml" value="0.25416666666666665" />
         <entry key="..\:/Data/KHTN/Nam_3/hoc_ky_2/MobileAndroid/project/E2Tech/app/src/main/res/layout/fragment_admin_voucher_detail.xml" value="0.25416666666666665" />
+        <entry key="..\:/Data/KHTN/Nam_3/hoc_ky_2/MobileAndroid/project/E2Tech/app/src/main/res/layout/fragment_admin_voucher_list.xml" value="0.25416666666666665" />
         <entry key="..\:/Data/KHTN/Nam_3/hoc_ky_2/MobileAndroid/project/E2Tech/app/src/main/res/layout/fragment_admin_waiting_order.xml" value="0.19519927536231885" />
-        <entry key="..\:/Data/KHTN/Nam_3/hoc_ky_2/MobileAndroid/project/E2Tech/app/src/main/res/layout/fragment_cart.xml" value="0.1" />
+        <entry key="..\:/Data/KHTN/Nam_3/hoc_ky_2/MobileAndroid/project/E2Tech/app/src/main/res/layout/fragment_cart.xml" value="0.2" />
         <entry key="..\:/Data/KHTN/Nam_3/hoc_ky_2/MobileAndroid/project/E2Tech/app/src/main/res/layout/fragment_category.xml" value="0.1" />
-        <entry key="..\:/Data/KHTN/Nam_3/hoc_ky_2/MobileAndroid/project/E2Tech/app/src/main/res/layout/fragment_detail.xml" value="0.1" />
+        <entry key="..\:/Data/KHTN/Nam_3/hoc_ky_2/MobileAndroid/project/E2Tech/app/src/main/res/layout/fragment_change_password.xml" value="0.25416666666666665" />
+        <entry key="..\:/Data/KHTN/Nam_3/hoc_ky_2/MobileAndroid/project/E2Tech/app/src/main/res/layout/fragment_comment.xml" value="0.4" />
+        <entry key="..\:/Data/KHTN/Nam_3/hoc_ky_2/MobileAndroid/project/E2Tech/app/src/main/res/layout/fragment_comment_dialog.xml" value="0.25416666666666665" />
+        <entry key="..\:/Data/KHTN/Nam_3/hoc_ky_2/MobileAndroid/project/E2Tech/app/src/main/res/layout/fragment_detail.xml" value="0.264" />
         <entry key="..\:/Data/KHTN/Nam_3/hoc_ky_2/MobileAndroid/project/E2Tech/app/src/main/res/layout/fragment_home.xml" value="0.2" />
+        <entry key="..\:/Data/KHTN/Nam_3/hoc_ky_2/MobileAndroid/project/E2Tech/app/src/main/res/layout/fragment_infor.xml" value="0.25416666666666665" />
         <entry key="..\:/Data/KHTN/Nam_3/hoc_ky_2/MobileAndroid/project/E2Tech/app/src/main/res/layout/fragment_me.xml" value="0.2" />
+        <entry key="..\:/Data/KHTN/Nam_3/hoc_ky_2/MobileAndroid/project/E2Tech/app/src/main/res/layout/fragment_my_vouchers.xml" value="0.25416666666666665" />
+        <entry key="..\:/Data/KHTN/Nam_3/hoc_ky_2/MobileAndroid/project/E2Tech/app/src/main/res/layout/fragment_oder_detail.xml" value="0.25416666666666665" />
+        <entry key="..\:/Data/KHTN/Nam_3/hoc_ky_2/MobileAndroid/project/E2Tech/app/src/main/res/layout/fragment_search.xml" value="0.264" />
         <entry key="..\:/Data/KHTN/Nam_3/hoc_ky_2/MobileAndroid/project/E2Tech/app/src/main/res/layout/fragment_shop.xml" value="0.25416666666666665" />
-        <entry key="..\:/Data/KHTN/Nam_3/hoc_ky_2/MobileAndroid/project/E2Tech/app/src/main/res/layout/order_admin_item.xml" value="0.22554347826086957" />
+        <entry key="..\:/Data/KHTN/Nam_3/hoc_ky_2/MobileAndroid/project/E2Tech/app/src/main/res/layout/fragment_update.xml" value="0.264" />
+        <entry key="..\:/Data/KHTN/Nam_3/hoc_ky_2/MobileAndroid/project/E2Tech/app/src/main/res/layout/my_vouchers_line.xml" value="0.25416666666666665" />
+        <entry key="..\:/Data/KHTN/Nam_3/hoc_ky_2/MobileAndroid/project/E2Tech/app/src/main/res/layout/order_admin_item.xml" value="0.536" />
+        <entry key="..\:/Data/KHTN/Nam_3/hoc_ky_2/MobileAndroid/project/E2Tech/app/src/main/res/layout/order_history_main.xml" value="0.25416666666666665" />
         <entry key="..\:/Data/KHTN/Nam_3/hoc_ky_2/MobileAndroid/project/E2Tech/app/src/main/res/layout/popular_item_home.xml" value="0.1" />
         <entry key="..\:/Data/KHTN/Nam_3/hoc_ky_2/MobileAndroid/project/E2Tech/app/src/main/res/layout/slider_banner_item_layout.xml" value="0.25" />
         <entry key="..\:/Data/KHTN/Nam_3/hoc_ky_2/MobileAndroid/project/E2Tech/app/src/main/res/menu/admin_bottom_menu.xml" value="0.25416666666666665" />
         <entry key="..\:/Data/KHTN/Nam_3/hoc_ky_2/MobileAndroid/project/E2Tech/app/src/main/res/menu/admin_drawer_menu.xml" value="0.25416666666666665" />
         <entry key="..\:/Data/KHTN/Nam_3/hoc_ky_2/MobileAndroid/project/E2Tech/app/src/main/res/menu/bottom_nav_menu.xml" value="0.1" />
         <entry key="..\:/Data/KHTN/Nam_3/hoc_ky_2/MobileAndroid/project/E2Tech/app/src/main/res/menu/toolbar_top_menu.xml" value="0.25416666666666665" />
+        <entry key="..\:/Data/KHTN/Nam_3/hoc_ky_2/MobileAndroid/project/E2Tech/app/src/main/res/mipmap-anydpi-v26/app_logo.xml" value="0.2703125" />
+        <entry key="..\:/Data/KHTN/Nam_3/hoc_ky_2/MobileAndroid/project/E2Tech/app/src/main/res/mipmap-anydpi-v26/app_logo_round.xml" value="0.2703125" />
+        <entry key="..\:/Data/KHTN/Nam_3/hoc_ky_2/MobileAndroid/project/E2Tech/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.2703125" />
         <entry key="..\:/Users/bestm/Desktop/E2Tech/app/src/main/res/drawable-v24/bg_grey_corner_10.xml" value="0.137" />
         <entry key="..\:/Users/bestm/Desktop/E2Tech/app/src/main/res/drawable-v24/bg_white_corner_10_border_grey.xml" value="0.137" />
         <entry key="..\:/Users/bestm/Desktop/E2Tech/app/src/main/res/drawable-v24/bg_yellow_corner_10.xml" value="0.137" />

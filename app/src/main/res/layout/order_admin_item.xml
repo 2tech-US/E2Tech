@@ -42,9 +42,7 @@
             <TextView
                 android:id="@+id/tv_admin_order_item_date_list"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="01/01/2001"/>
+                android:layout_height="wrap_content"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -55,13 +53,13 @@
                     android:id="@+id/tv_admin_order_item_quantity_list"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Quantity: "/>
+                    android:text="Số lượng: "/>
 
                 <TextView
                     android:id="@+id/tv_admin_order_item_total_list"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Total: "
+                    android:text="Tổng: "
                     android:layout_marginLeft="40dp"/>
             </LinearLayout>
 
@@ -69,7 +67,8 @@
                 android:id="@+id/tv_admin_order_item_address_list"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Address: "/>
+                android:textSize="12sp"
+                android:text="Địa chỉ: "/>
 
 
         </LinearLayout>

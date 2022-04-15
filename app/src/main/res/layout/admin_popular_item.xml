@@ -25,7 +25,6 @@
             android:id="@+id/admin_pop_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Popular Products"
             android:textAlignment="center"
             android:textSize="19sp"
             android:textStyle="bold"/>
@@ -34,7 +33,6 @@
             android:id="@+id/admin_pop_price"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:text="price"
             android:layout_gravity="center"
             android:textAlignment="center"
             android:singleLine="true"/>
