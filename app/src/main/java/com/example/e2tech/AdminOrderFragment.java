@@ -29,7 +29,7 @@ public class AdminOrderFragment extends Fragment {
     AdminOrderVPAdapter viewPagerAdapter;
     TabLayout tabLayout;
     ViewPager2 viewPager2;
-    private String[] titles = new String[]{"Waiting", "Processing", "Delivering", "Done"};
+    private String[] titles = new String[]{"Chờ xác nhận", "Đang xử lý", "Đang giao", "Đã giao"};
 
     public AdminOrderFragment() {
         // Required empty public constructor

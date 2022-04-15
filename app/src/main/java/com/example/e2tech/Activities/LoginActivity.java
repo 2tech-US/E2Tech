@@ -464,7 +464,7 @@ public class LoginActivity extends AppCompatActivity {
                     FirebaseUser user = mAuth.getCurrentUser();
                     if (user.isEmailVerified()) {
                         progressBar.setVisibility(View.GONE);
-                        Toast.makeText(LoginActivity.this, "Registered User " + user.getDisplayName(), Toast.LENGTH_LONG).show();
+//                        Toast.makeText(LoginActivity.this, "Registered User " + user.getDisplayName(), Toast.LENGTH_LONG).show();
                         Intent mainIntent = new Intent(LoginActivity.this, AdminActivity.class);
                         mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(mainIntent);
