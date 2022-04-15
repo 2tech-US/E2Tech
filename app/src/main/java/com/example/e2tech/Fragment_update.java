@@ -1,6 +1,8 @@
 package com.example.e2tech;
 
 
+import android.app.Activity;
+import android.content.Context;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
@@ -65,12 +67,19 @@ public class Fragment_update extends Fragment {
     private DatabaseReference dbreference;
     private StorageReference storageReference;
     private String userID;
+    private Activity mainActivity;
 
     FirebaseStorage storage;
     FirebaseFirestore db;
     Uri imgUri;
     String imgUrl = "";
 
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mainActivity = getActivity();
+    }
 
     @Nullable
     @Override
@@ -95,6 +104,7 @@ public class Fragment_update extends Fragment {
         db = FirebaseFirestore.getInstance();
         storage = FirebaseStorage.getInstance();
 
+        mainActivity = getActivity();
 
         ActivityResultLauncher<String> launcher = registerForActivityResult(new ActivityResultContracts.GetContent(), new ActivityResultCallback<Uri>() {
             @Override
@@ -135,9 +145,9 @@ public class Fragment_update extends Fragment {
                     edtPhone.setHint(phone);
 
                     if(TextUtils.isEmpty(userProfile.getImg_url())) {
-                        Glide.with(getActivity()).load(R.drawable.profile_pic).into(avatar);
+                        Glide.with(mainActivity).load(R.drawable.profile_pic).into(avatar);
                     } else {
-                        Glide.with(getActivity()).load(userProfile.getImg_url()).into(avatar);
+                        Glide.with(mainActivity).load(userProfile.getImg_url()).into(avatar);
                     }
 
                     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
