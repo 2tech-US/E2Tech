@@ -55,10 +55,6 @@
             <!--        android:layout_marginHorizontal="5dp"-->
             <!--        />-->
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Danh sách đánh giá" />
         </LinearLayout>
 
 
@@ -207,6 +203,14 @@
                 android:progressTint="#FFF600" />
 
         </RelativeLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:textColor="@color/black"
+            android:text="Danh sách đánh giá"
+            android:paddingHorizontal="12dp"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/comment_usercomment_recyclerview"
