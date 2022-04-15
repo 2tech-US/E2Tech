@@ -7,32 +7,36 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentActivity;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.e2tech.Interface.OnOrderDeleted;
 import com.example.e2tech.Models.CategoryModel;
 import com.example.e2tech.Models.OrderModel;
 import com.example.e2tech.R;
+import com.example.e2tech.orderhistory.OrderDeliveryList;
 import com.example.e2tech.orderhistory.OrderDetailDialog;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> {
 
     Context context;
     List<OrderModel> orders;
+    OnOrderDeleted listener;
 
-    public OrderAdapter(Context context, List<OrderModel> orders) {
+    public OrderAdapter(Context context, List<OrderModel> orders, OnOrderDeleted listener) {
         this.context = context;
         this.orders = orders;
+        this.listener = listener;
     }
 
     @NonNull
@@ -47,19 +51,19 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull OrderAdapter.ViewHolder holder, @SuppressLint("RecyclerView") int position) {
-        holder.tvID.setText(orders.get(position).getId());
-        holder.tvProductNames.setText(orders.get(position).getNameProducts());
-        holder.tvTotal.setText(Integer.toString(orders.get(position).getTotal()));
-        holder.tvQuantity.setText(Integer.toString(orders.get(position).getQuantity()));
-        holder.tvDate.setText(orders.get(position).getCreateAt());
-        holder.imgProducts.setImageResource(R.drawable.iphone_12_pro_max);
+        holder.tvID.setText("ID: " + orders.get(position).getId());
+        holder.tvTotal.setText("Tổng: " + Integer.toString(orders.get(position).getTotal()));
+        holder.tvQuantity.setText("Số lượng: " + Integer.toString(orders.get(position).getQuantity()));
+        holder.tvDate.setText("Ngày đặt: " + orders.get(position).getCreateAt());
+        holder.tvAddress.setText("Địa chỉ: " + orders.get(position).getAddress());
+        Glide.with(context).load(orders.get(position).getImage()).into(holder.imgProducts);
         //Glide.with(context).load(orders.get(position).getImg_url()).into(holder.imgProduct);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Bundle productBundle = new Bundle();
                 productBundle.putString("orderId", orders.get(position).getId());
-                OrderDetailDialog orderDetailDialog = new OrderDetailDialog();
+                OrderDetailDialog orderDetailDialog = new OrderDetailDialog(listener);
                 orderDetailDialog.setArguments(productBundle);
                 orderDetailDialog.show(((AppCompatActivity) context).getSupportFragmentManager(), "orderDetailDialog");
 
@@ -74,12 +78,11 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        TextView tvProductNames, tvTotal, tvDate, tvAddress, tvQuantity, tvID;
+        TextView tvTotal, tvDate, tvAddress, tvQuantity, tvID;
         ImageView imgProducts;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            tvProductNames = itemView.findViewById(R.id.tv_admin_order_item_names_list);
             tvTotal = itemView.findViewById(R.id.tv_admin_order_item_total_list);
             tvDate = itemView.findViewById(R.id.tv_admin_order_item_date_list);
             tvAddress = itemView.findViewById(R.id.tv_admin_order_item_address_list);

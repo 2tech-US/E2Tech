@@ -184,7 +184,7 @@ public class OrderDetail extends Fragment {
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
                     if (task.getResult().isEmpty()) {
-                        Toast.makeText(getContext(), "Voucher code is not exist!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), "Mã giảm giá không tồn tại!", Toast.LENGTH_SHORT).show();
                     }
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         VoucherModel voucherModel = document.toObject(VoucherModel.class);
@@ -198,16 +198,16 @@ public class OrderDetail extends Fragment {
                         String totalReduction = decimalFormat.format(roundedReduction);
                         txtDiscount.setText(totalReduction + " VND");
                         txtTotal.setText(String.valueOf(totalAmount + " VND"));
-                        Toast.makeText(getContext(), "Voucher is applied", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), "Đã áp dụng mã giảm giá", Toast.LENGTH_SHORT).show();
                     }
                 } else {
-                    Toast.makeText(getContext(), "Voucher is not available", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Mã giảm giá không hợp lệ", Toast.LENGTH_SHORT).show();
                 }
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Toast.makeText(getContext(), "Voucher is not available", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Mã giảm giá không hợp lệ", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -245,13 +245,13 @@ public class OrderDetail extends Fragment {
                     db.collection("Orders").document(timestamp).collection("Items").document(cartModel.getProductId()).set(cartModel);
                 }
                 progressDialog.dismiss();
-                Toast.makeText(getContext(), "Order Placed", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Đặt hàng thành công", Toast.LENGTH_LONG).show();
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
                 progressDialog.dismiss();
-                Toast.makeText(getContext(), "Failed to place order", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Đặt hàng thất bại", Toast.LENGTH_LONG).show();
             }
         });
     }

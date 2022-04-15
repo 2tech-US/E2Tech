@@ -137,10 +137,13 @@
         <entry key="app/src/main/res/layout/fragment_admin_about.xml" value="0.28229166666666666" />
         <entry key="app/src/main/res/layout/fragment_admin_add_product.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_admin_add_voucher.xml" value="0.203125" />
+        <entry key="app/src/main/res/layout/fragment_admin_done_order.xml" value="0.37604166666666666" />
         <entry key="app/src/main/res/layout/fragment_admin_home.xml" value="0.28229166666666666" />
         <entry key="app/src/main/res/layout/fragment_admin_order.xml" value="0.28229166666666666" />
+        <entry key="app/src/main/res/layout/fragment_admin_order_detail.xml" value="0.37604166666666666" />
         <entry key="app/src/main/res/layout/fragment_admin_product.xml" value="0.28229166666666666" />
         <entry key="app/src/main/res/layout/fragment_admin_product_detail.xml" value="0.28229166666666666" />
+        <entry key="app/src/main/res/layout/fragment_admin_waiting_order.xml" value="0.37604166666666666" />
         <entry key="app/src/main/res/layout/fragment_cart.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_category.xml" value="0.13697916666666668" />
         <entry key="app/src/main/res/layout/fragment_detail.xml" value="0.28229166666666666" />
