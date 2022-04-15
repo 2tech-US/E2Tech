@@ -1,6 +1,7 @@
 package com.example.e2tech;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -46,6 +47,13 @@ public class MeFragment extends Fragment {
     private String userID;
     Button btnLogout, btnChangePass, btnMyVouchers;
     private CircleImageView avatar;
+    private Activity mainActivity;
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mainActivity = getActivity();
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -134,7 +142,7 @@ public class MeFragment extends Fragment {
 //                    } else {
 //                        Glide.with(getActivity()).load(userProfile.getImg_url()).into(avatar);
 //                    }
-                    Glide.with(getActivity()).load(userProfile.getImg_url()).error(R.drawable.profile_pic).into(avatar);
+                    Glide.with(mainActivity).load(userProfile.getImg_url()).error(R.drawable.profile_pic).into(avatar);
 
                 }
             }
