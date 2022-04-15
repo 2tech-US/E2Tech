@@ -24,7 +24,9 @@ import com.example.e2tech.R;
 import com.example.e2tech.orderhistory.OrderDeliveryList;
 import com.example.e2tech.orderhistory.OrderDetailDialog;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> {
@@ -54,7 +56,13 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
         holder.tvID.setText("ID: " + orders.get(position).getId());
         holder.tvTotal.setText("Tổng: " + Integer.toString(orders.get(position).getTotal()));
         holder.tvQuantity.setText("Số lượng: " + Integer.toString(orders.get(position).getQuantity()));
-        holder.tvDate.setText("Ngày đặt: " + orders.get(position).getCreateAt());
+        // date format
+        long currentDateTime = System.currentTimeMillis();
+        String createAt = orders.get(position).getCreateAt();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy hh:mm");
+        Date orderDate = new Date(Long.parseLong(createAt));
+        String strDate = sdf.format(orderDate);
+        holder.tvDate.setText("Ngày đặt: " + strDate);
         holder.tvAddress.setText("Địa chỉ: " + orders.get(position).getAddress());
         Glide.with(context).load(orders.get(position).getImage()).into(holder.imgProducts);
         //Glide.with(context).load(orders.get(position).getImg_url()).into(holder.imgProduct);
