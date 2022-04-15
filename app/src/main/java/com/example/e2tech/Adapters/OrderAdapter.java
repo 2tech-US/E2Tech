@@ -51,12 +51,11 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull OrderAdapter.ViewHolder holder, @SuppressLint("RecyclerView") int position) {
-        holder.tvID.setText(orders.get(position).getId());
-        holder.tvProductNames.setText(orders.get(position).getNameProducts());
-        holder.tvTotal.setText(Integer.toString(orders.get(position).getTotal()));
-        holder.tvQuantity.setText(Integer.toString(orders.get(position).getQuantity()));
-        holder.tvDate.setText(orders.get(position).getCreateAt());
-//        holder.imgProducts.setImageResource(R.drawable.iphone_12_pro_max);
+        holder.tvID.setText("ID: " + orders.get(position).getId());
+        holder.tvTotal.setText("Tổng: " + Integer.toString(orders.get(position).getTotal()));
+        holder.tvQuantity.setText("Số lượng: " + Integer.toString(orders.get(position).getQuantity()));
+        holder.tvDate.setText("Ngày đặt: " + orders.get(position).getCreateAt());
+        holder.tvAddress.setText("Địa chỉ: " + orders.get(position).getAddress());
         Glide.with(context).load(orders.get(position).getImage()).into(holder.imgProducts);
         //Glide.with(context).load(orders.get(position).getImg_url()).into(holder.imgProduct);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -79,12 +78,11 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        TextView tvProductNames, tvTotal, tvDate, tvAddress, tvQuantity, tvID;
+        TextView tvTotal, tvDate, tvAddress, tvQuantity, tvID;
         ImageView imgProducts;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            tvProductNames = itemView.findViewById(R.id.tv_admin_order_item_names_list);
             tvTotal = itemView.findViewById(R.id.tv_admin_order_item_total_list);
             tvDate = itemView.findViewById(R.id.tv_admin_order_item_date_list);
             tvAddress = itemView.findViewById(R.id.tv_admin_order_item_address_list);
