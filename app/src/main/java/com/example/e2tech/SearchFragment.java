@@ -90,7 +90,7 @@ public class SearchFragment extends Fragment {
         searchAdapter = new SearchAdapter(getActivity(), productList);
         searchRecyclerView.setAdapter(searchAdapter);
 
-        db.collection("PopularProducts").orderBy("name")
+        db.collection("Products").orderBy("name")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -140,7 +140,6 @@ public class SearchFragment extends Fragment {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 //                searchProduct(charSequence.toString());
-                Log.v("TOANTOAN", "\n\n\n" + charSequence.toString());
                 searchAdapter.getFilter().filter(charSequence);
             }
 
