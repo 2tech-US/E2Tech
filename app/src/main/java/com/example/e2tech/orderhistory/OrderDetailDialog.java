@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -12,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.e2tech.Adapters.OrderHistoryDetailAdapter;
+import com.example.e2tech.Interface.OnOrderDeleted;
 import com.example.e2tech.Models.CartModel;
 import com.example.e2tech.R;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -26,12 +29,19 @@ import java.util.Objects;
 
 public class OrderDetailDialog extends DialogFragment {
     RecyclerView orderDetailList;
+    Button deleteOrderBtn;
+
     OrderHistoryDetailAdapter orderDetailAdapter;
     List<CartModel> cartModelList;
     String orderId;
 
     FirebaseFirestore db;
 
+    OnOrderDeleted listener;
+
+    public OrderDetailDialog(OnOrderDeleted listener) {
+        this.listener = listener;
+    }
 
 
     @Nullable
@@ -60,6 +70,23 @@ public class OrderDetailDialog extends DialogFragment {
         orderDetailAdapter = new OrderHistoryDetailAdapter(getContext(), cartModelList);
         orderDetailList.setAdapter(orderDetailAdapter);
         orderDetailList.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        deleteOrderBtn = view.findViewById(R.id.delete_order_btn);
+        deleteOrderBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                db.collection("Orders").document(orderId).delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            dismiss();
+                            Toast.makeText(getContext(), "Hủy đơn thành công", Toast.LENGTH_SHORT).show();
+                            listener.onOrderDeleted(orderId);
+                        }
+                    }
+                });
+            }
+        });
         return view;
     }
 }

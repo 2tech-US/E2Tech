@@ -20,7 +20,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center_horizontal"
-                android:text="My Profile"
+                android:text="Hồ sơ của tôi"
                 android:textStyle="bold"
                 android:textSize="30sp" />
         </LinearLayout>
@@ -28,7 +28,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Account"
+            android:text="Tài khoản"
             android:textStyle="bold"
             android:textSize="20sp"
             android:layout_margin="10dp"/>
@@ -92,7 +92,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:text="Personal information"
+            android:text="Thông tin cá nhân"
             android:textStyle="bold"
             android:textSize="20sp"/>
 
@@ -103,7 +103,7 @@
             android:layout_margin="10dp"
             android:drawableLeft="@drawable/ic_baseline_account_box_24"
             android:gravity="center_horizontal"
-            android:hint="Your Name"
+            android:hint="Tên của bạn"
             android:background="@drawable/custom_textview"
             android:textSize="20sp" />
 
@@ -111,7 +111,7 @@
             android:id="@+id/tvAge"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Your age"
+            android:hint="Tuổi của bạn"
             android:gravity="center_horizontal"
             android:background="@drawable/custom_textview"
             android:drawableLeft="@drawable/ic_baseline_age_24"
@@ -124,7 +124,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/custom_textview"
-            android:hint="Your Gender"
+            android:hint="Giới tính"
             android:gravity="center_horizontal"
             android:drawableLeft="@drawable/ic_baseline_gender_24"
             android:textSize="20sp"
@@ -135,7 +135,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/custom_textview"
-            android:hint="Your Address"
+            android:hint="Địa chỉ"
             android:gravity="center_horizontal"
             android:drawableLeft="@drawable/ic_baseline_address_24"
             android:textSize="20sp"
@@ -146,7 +146,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/custom_textview"
-            android:hint="Your Phone Number"
+            android:hint="Số điện thoại"
             android:gravity="center_horizontal"
             android:drawableLeft="@drawable/ic_baseline_phone_24"
             android:textSize="20sp"
@@ -157,7 +157,7 @@
             android:id="@+id/btnUpdateInfor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Udate Information"
+            android:text="Cập nhật thông tin"
             android:textSize="15sp"
             android:layout_marginRight="10dp"
             android:layout_marginLeft="10dp"

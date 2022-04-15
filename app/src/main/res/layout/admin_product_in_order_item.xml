@@ -21,6 +21,7 @@
         android:layout_height="wrap_content"
         android:layout_toRightOf="@id/img_admin_order_detail_product_item"
         android:text="Bí mật sâu kính nhất"
+        android:textColor="@color/black"
         android:textSize="16sp"
         android:textStyle="bold" />
 
@@ -28,24 +29,22 @@
         android:id="@+id/tv_admin_order_detail_product_item_quantity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@id/tv_admin_order_detail_product_item_name"
         android:layout_marginTop="10dp"
         android:layout_toRightOf="@id/img_admin_order_detail_product_item"
-        android:layout_below="@id/tv_admin_order_detail_product_item_name"
         android:text="x1"
-        android:textSize="16sp"
-        android:textStyle="bold"/>
+        android:textSize="16sp" />
 
     <TextView
         android:id="@+id/tv_admin_order_detail_product_item_price"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="20dp"
-        android:layout_toRightOf="@id/tv_admin_order_detail_product_item_quantity"
         android:layout_below="@id/tv_admin_order_detail_product_item_name"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_toRightOf="@id/tv_admin_order_detail_product_item_quantity"
         android:text="95000"
-        android:textSize="16sp"
-        android:textStyle="bold"/>
+        android:textSize="16sp" />
 
     <TextView
         android:layout_width="wrap_content"

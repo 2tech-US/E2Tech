@@ -138,7 +138,7 @@ public class CartFragment extends Fragment implements OnCartItemChange {
                     NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment);
                     navController.navigate(R.id.action_cartFragment_to_oderDetail, extras);
                 } else {
-                    Toast.makeText(getActivity(), "Cart is Empty", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Giỏ hàng đang trống", Toast.LENGTH_SHORT).show();
                 }
             }
         });

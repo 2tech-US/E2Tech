@@ -190,7 +190,7 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
                             @Override
                             public void onSuccess(DocumentReference documentReference) {
                                 documentReference.update("id", documentReference.getId());
-                                Toast.makeText(requireContext(), "Added to cart", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getContext(), "Đã thêm vào giỏ hàng", Toast.LENGTH_SHORT).show();
                             }
                         });
                     } else {
@@ -201,7 +201,7 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
                             int price = Integer.parseInt(document.get("productPrice").toString());
                             int newQuantity = quantity + 1;
                             cartRef.document(id).update("totalQuantity", newQuantity);
-                            Toast.makeText(requireContext(), "Added to cart", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(requireContext(), "Đã thêm vào giỏ hàng", Toast.LENGTH_SHORT).show();
                         }
                     }
                 }

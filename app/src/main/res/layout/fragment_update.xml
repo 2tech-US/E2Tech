@@ -25,7 +25,7 @@
             android:id="@+id/update_avatar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Change Profile picture"
+            android:text="Thay đổi ảnh đại diện"
             android:textStyle="italic"
             android:layout_gravity="center_horizontal"
             android:textSize="15sp"
@@ -36,14 +36,14 @@
             android:layout_height="wrap_content"
             android:text="Email"
             android:textSize="20sp"
-            android:textStyle="bold"
+            android:textColor="@color/black"
             android:layout_margin="10dp"/>
 
         <EditText
             android:id="@+id/update_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Your email..."
+            android:hint="Email của bạn..."
             android:textStyle="bold"
             android:background="@drawable/custom_textview"
             android:layout_marginLeft="10dp"
@@ -53,9 +53,9 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Password"
+            android:text="Mật khẩu"
             android:textSize="20sp"
-            android:textStyle="bold"
+            android:textColor="@color/black"
             android:layout_margin="10dp"/>
 
         <EditText
@@ -70,8 +70,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Name"
-            android:textStyle="bold"
+            android:text="Họ tên"
+            android:textColor="@color/black"
             android:textSize="20sp"
             android:layout_margin="10dp"/>
 
@@ -79,7 +79,7 @@
             android:id="@+id/update_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Your name..."
+            android:hint="Họ tên..."
             android:background="@drawable/custom_textview"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"/>
@@ -87,8 +87,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Age"
-            android:textStyle="bold"
+            android:text="Tuổi"
+            android:textColor="@color/black"
             android:textSize="20sp"
             android:layout_margin="10dp"/>
 
@@ -96,7 +96,7 @@
             android:id="@+id/update_age"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Your age..."
+            android:hint="Tuổi..."
             android:background="@drawable/custom_textview"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
@@ -105,16 +105,16 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Phone"
+            android:text="Số điện thoại"
             android:textSize="20sp"
-            android:textStyle="bold"
+            android:textColor="@color/black"
             android:layout_margin="10dp"/>
 
         <EditText
             android:id="@+id/update_phone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Your phone number..."
+            android:hint="Sđt của bạn..."
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:background="@drawable/custom_textview"
@@ -123,16 +123,16 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Address"
+            android:text="Địa chỉ"
             android:textSize="20sp"
-            android:textStyle="bold"
+            android:textColor="@color/black"
             android:layout_margin="10dp"/>
 
         <EditText
             android:id="@+id/update_address"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Your address..."
+            android:hint="Địa chỉ..."
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:background="@drawable/custom_textview" />
@@ -140,9 +140,9 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Gender"
+            android:text="Giới tính"
             android:textSize="20sp"
-            android:textStyle="bold"
+            android:textColor="@color/black"
             android:layout_margin="10dp"/>
 
         <RadioGroup
@@ -158,7 +158,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="60dp"
                 android:layout_weight="1"
-                android:text="Male"
+                android:text="Nam"
                 android:checked="true"/>
 
             <RadioButton
@@ -166,14 +166,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Female" />
+                android:text="Nữ" />
         </RadioGroup>
 
         <Button
             android:id="@+id/btnSaveUpdate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Save"
+            android:text="Lưu thông tin"
             android:layout_margin="20dp"
             android:textSize="20sp"
             android:layout_gravity="center_horizontal"

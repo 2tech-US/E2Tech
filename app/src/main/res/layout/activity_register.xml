@@ -19,8 +19,8 @@
             android:layout_alignParentTop="true"
             android:layout_marginTop="50dp"
             android:gravity="center"
-            android:text="Sign Up Here"
-
+            android:text="Đăng kí tài khoản"
+            android:textColor="@color/light_blue_600"
             android:textSize="28sp"
             android:textStyle="bold|italic" />
 
@@ -31,7 +31,8 @@
             android:layout_below="@id/teacher"
             android:layout_marginStart="35dp"
             android:layout_marginTop="40dp"
-            android:text="Name" />
+            android:text="Tên đăng nhập"
+            android:textColor="@color/black" />
 
         <EditText
             android:id="@+id/register_name"
@@ -42,7 +43,7 @@
             android:layout_marginLeft="30dp"
             android:layout_marginTop="10dp"
             android:layout_marginRight="30dp"
-            android:hint="Your Name..."
+
             android:inputType="text"
             android:padding="8dp" />
 
@@ -53,6 +54,7 @@
             android:layout_below="@id/register_name"
             android:layout_marginStart="35dp"
             android:layout_marginTop="10dp"
+            android:textColor="@color/black"
             android:text="Email" />
 
         <EditText
@@ -65,7 +67,6 @@
             android:layout_marginTop="10dp"
             android:layout_marginRight="30dp"
 
-            android:hint="Email..."
             android:inputType="textEmailAddress"
             android:padding="8dp" />
 
@@ -76,7 +77,8 @@
             android:layout_below="@id/register_email"
             android:layout_marginStart="35dp"
             android:layout_marginTop="10dp"
-            android:text="Password" />
+            android:textColor="@color/black"
+            android:text="Mật khẩu" />
 
         <EditText
             android:id="@+id/register_password"
@@ -87,7 +89,6 @@
             android:layout_marginLeft="30dp"
             android:layout_marginTop="10dp"
             android:layout_marginRight="30dp"
-            android:hint="Password..."
             android:inputType="textPassword"
             android:padding="8dp" />
 
@@ -98,7 +99,8 @@
             android:layout_below="@id/register_password"
             android:layout_marginStart="35dp"
             android:layout_marginTop="10dp"
-            android:text="Password Retype" />
+            android:textColor="@color/black"
+            android:text="Mật khẩu xác nhận" />
 
         <EditText
             android:id="@+id/register_password2"
@@ -109,7 +111,6 @@
             android:layout_marginLeft="30dp"
             android:layout_marginTop="10dp"
             android:layout_marginRight="30dp"
-            android:hint="Password Retype..."
             android:inputType="textPassword"
             android:padding="8dp" />
 
@@ -121,9 +122,8 @@
             android:layout_marginLeft="30dp"
             android:layout_marginTop="30dp"
             android:layout_marginRight="30dp"
-
             android:padding="4dp"
-            android:text="Create Account"
+            android:text="Tạo tài khoản"
             android:textAllCaps="false"
             android:textColor="@android:color/background_light"
             android:textSize="24sp" />
@@ -138,11 +138,10 @@
             android:layout_marginTop="10dp"
             android:layout_marginEnd="23dp"
             android:layout_marginBottom="20dp"
-            android:text=" Already Have a Account?Sign In"
-            android:textAlignment="center"
-
-            android:textSize="17sp"
-            android:textStyle="bold" />
+            android:text="Bạn đã có tài khoản? Đăng nhập tại đây"
+            android:textAlignment="viewEnd"
+            android:textColor="@color/black"
+            android:textSize="13sp" />
 
         <ProgressBar
             android:id="@+id/register_progressbar"

@@ -204,6 +204,14 @@ public class LoginActivity extends AppCompatActivity {
         };
 
         btnSignInGoogle = findViewById(R.id.btnLoginGoogle);
+        for (int i = 0; i < btnSignInGoogle.getChildCount(); i++) {
+            View v = btnSignInGoogle.getChildAt(i);
+            if (v instanceof TextView) {
+                TextView tv = (TextView) v;
+                tv.setText("Đăng nhập với Google");
+            }
+        }
+
         // Configure Google Sign In
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
