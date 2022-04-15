@@ -1,7 +1,6 @@
 package com.example.e2tech.Models;
 
 import com.google.firebase.Timestamp;
-import com.google.type.DateTime;
 
 public class CommentModel {
     String id;
@@ -10,19 +9,19 @@ public class CommentModel {
     int rating;
     String content;
     String name;
-    String image;
+    String img_url;
 
     public CommentModel() {
 
     }
 
-    public CommentModel(String name, String email, Timestamp createdAt, int rating, String content,String image) {
+    public CommentModel(String name, String email, Timestamp createdAt, int rating, String content,String img_url) {
         this.name = name;
         this.email = email;
         this.createdAt = createdAt;
         this.rating = rating;
         this.content = content;
-        this.image = image;
+        this.img_url = img_url;
     }
 
     public String getEmail() {
@@ -71,6 +70,15 @@ public class CommentModel {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+
+    public String getImg_url() {
+        return img_url;
+    }
+
+    public void setImg_url(String img_url) {
+        this.img_url = img_url;
     }
 
 }
