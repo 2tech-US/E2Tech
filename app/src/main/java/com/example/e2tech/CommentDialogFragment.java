@@ -136,11 +136,9 @@ public class CommentDialogFragment extends DialogFragment implements View.OnClic
 
         for (int i = rating; i < ivRatings.length; i++) {
             ivRatings[i].setImageResource(R.drawable.ic_baseline_star_24_grey);
-
         }
 
     }
-
     private void updateProductDocument(String productId,int rating) {
         mDocRef = db.collection("Products").document(productId);
 
@@ -151,8 +149,14 @@ public class CommentDialogFragment extends DialogFragment implements View.OnClic
         db.runTransaction(transaction -> {
             DocumentSnapshot snapshot = transaction.get(mDocRef);
 
-            long numberOfReview =  snapshot.getLong("numberOfReview");
-            long numberOfPoint = snapshot.getLong("numberOfPoint");
+            long numberOfReview = 0;
+            long numberOfPoint = 0;
+            if(snapshot.contains("numberOfReview")) {
+                numberOfReview =  snapshot.getLong("numberOfReview");
+            }
+            if(snapshot.contains("numberOfPoint")) {
+                numberOfPoint =  snapshot.getLong("numberOfPoint");
+            }
 
             numberOfReview+=1;
             numberOfPoint+=rating;
@@ -203,6 +207,8 @@ public class CommentDialogFragment extends DialogFragment implements View.OnClic
         dataToSave.put("email", user != null ? user.getEmail() : null);
         dataToSave.put("createAt", Timestamp.now());
         dataToSave.put("name", user != null ? user.getDisplayName() : null);
+        if(user.getPhotoUrl() != null)
+            dataToSave.put("img_url",user.getPhotoUrl().toString());
 //        dataToSave.put("image",user !=null ? user.getAvatar : null);
 
         mDocRef.set(dataToSave).addOnCompleteListener(new OnCompleteListener<Void>() {

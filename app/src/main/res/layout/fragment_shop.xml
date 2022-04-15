@@ -26,6 +26,7 @@
                 android:layout_weight="1"
                 android:text="@string/categories"
                 android:textSize="20sp"
+                android:textColor="@color/black"
                 android:textStyle="bold" />
 
             <TextView
@@ -53,9 +54,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
-            android:text="Product"
+            android:text="Sản phẩm"
             android:textSize="20sp"
             android:textStyle="bold"
+            android:textColor="@color/black"
             android:layout_marginBottom="12dp"/>
 
         <LinearLayout
@@ -70,7 +72,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="4dp"
                 android:layout_weight="0.5"
-                android:text="Popular"
+                android:text="Độ phổ biến"
                 android:textSize="15sp"
                 android:textStyle="italic" />
 
@@ -81,7 +83,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="4dp"
                 android:layout_weight="0.5"
-                android:text="Rate"
+                android:text="Đánh giá"
                 android:textSize="15sp"
                 android:textStyle="italic" />
 
@@ -92,7 +94,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="4dp"
                 android:layout_weight="0.5"
-                android:text="Discount"
+                android:text="Giảm giá"
                 android:textSize="15sp"
                 android:textStyle="italic" />
 
@@ -103,7 +105,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="4dp"
                 android:layout_weight="0.5"
-                android:text="Price"
+                android:text="Giá"
                 android:textSize="15sp"
                 android:textStyle="italic" />
         </LinearLayout>

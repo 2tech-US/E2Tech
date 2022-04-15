@@ -21,17 +21,22 @@ import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
+import com.example.e2tech.Adapters.CommentAdapter;
+import com.example.e2tech.Models.CommentModel;
 import com.example.e2tech.Models.ProductModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
@@ -43,7 +48,9 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -72,14 +79,17 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
 
     Button btnAddToCart;
 
-    ProductModel product;
-
-    NavController navController;
+    RecyclerView commentRecycleView;
+    CommentAdapter commentAdapter;
+    List<CommentModel> commentModelList;
 
     private String productId;
     private String collection;
 
+
     private MainActivity mainActivity;
+    ProductModel product;
+    NavController navController;
 
     // Demo UI Purpose
 
@@ -114,7 +124,7 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
 
-        mainActivity = (MainActivity)getActivity();
+        mainActivity = (MainActivity) getActivity();
 
         fetchView(root);
 
@@ -142,6 +152,7 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
 
         FetchDataFromDatabase(collection, productId);
 
+        // forbidden code (animation zoom-in)
         Transition transition = TransitionInflater.from(requireContext())
                 .inflateTransition(R.transition.product_share_transition);
         setSharedElementEnterTransition(transition);
@@ -196,7 +207,6 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
                 }
             }
         });
-
 
 
     }
@@ -254,6 +264,12 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
         ivFavorite.setOnClickListener(this);
         tvCommentSeeAll.setOnClickListener(this);
         btnAddToCart.setOnClickListener(this);
+
+        commentModelList = new ArrayList<>();
+        commentRecycleView = root.findViewById(R.id.detail_usercomment_recyclerview);
+        commentRecycleView.setLayoutManager(new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false));
+        commentAdapter = new CommentAdapter(getActivity(), commentModelList);
+        commentRecycleView.setAdapter(commentAdapter);
     }
 
 
@@ -274,26 +290,40 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
                 }
             }
         });
-    }
+
+        db.collection("Products").document(productId).collection("comment").limit(2)
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot documentSnapshot : task.getResult()) {
+                            DocumentSnapshot.ServerTimestampBehavior behavior = DocumentSnapshot.ServerTimestampBehavior.ESTIMATE;
+
+                            CommentModel commentModel = documentSnapshot.toObject(CommentModel.class);
+                            commentModel.setCreatedAt((Timestamp) documentSnapshot.get("createAt", behavior));
+                            commentModelList.add(commentModel);
+                        }
+                        commentAdapter.notifyDataSetChanged();
+                    }
+                });
+}
 
 
     private void fetchViewByData(ProductModel product) {
         tvProductName.setText(product.getName());
         tvProductPrice.setText(product.getPrice() + " VNĐ");
-        tvProductDescription.setText(R.string.lorem_product_description);
+        if(product.getDescription() != null)
+            tvProductDescription.setText(product.getDescription());
         tvProductBrand.setText(product.getCompany());
         tvProductCategory.setText(product.getType());
 
 
-        if(mainActivity.getUserFavoriteProducts().contains(productId)){
+        if (mainActivity.getUserFavoriteProducts().contains(productId)) {
             ivFavorite.setColorFilter(Color.RED);
         }
-        else {
-            Log.v("FAVORITE",productId + " Not User Favorite Product");
-        }
+
         if (product.getNumberOfReview() != 0) {
             product.calculateRate();
-            tvProductRate.setText(Double.toString(product.getRating()) + '⭐' + " (" +product.getNumberOfReview() + ")" );
+            tvProductRate.setText(Double.toString(product.getRating()) + '⭐' + " (" + product.getNumberOfReview() + ")");
             rbProductRating.setRating((float) product.getRating());
         } else {
             tvProductRate.setText("Not Review");
@@ -325,7 +355,7 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View view) {
         Bundle bundle = new Bundle();
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.iv_product_favorite:
                 DocumentReference docRef = db.collection("Users").document(mAuth.getCurrentUser().getUid()).collection("Favorites")
                         .document(productId);
@@ -333,8 +363,8 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
                 docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                     @Override
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
-                        if(documentSnapshot.exists()) {
-                            Log.e("FAVORITE","Exist");
+                        if (documentSnapshot.exists()) {
+                            Log.e("FAVORITE", "Exist");
                             ivFavorite.setColorFilter(Color.GRAY);
 
                             docRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -349,8 +379,7 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
                                     Log.w("SAVE_FAVORITE", "Document was not deleted");
                                 }
                             });
-                        }
-                        else {
+                        } else {
                             ivFavorite.setColorFilter(Color.RED);
                             Map<String, Object> dataToSave = new HashMap<String, Object>();
 
@@ -378,7 +407,7 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
                 bundle.putString("productId", product.getId());
                 navController.navigate(R.id.action_detailFragment_to_commentFragment, bundle);
                 break;
-            case R.id .btn_add_to_cart:
+            case R.id.btn_add_to_cart:
                 addToCart();
                 break;
         }

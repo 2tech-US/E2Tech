@@ -67,6 +67,7 @@ public class HomeFragment extends Fragment {
 
 
     TextView tvSeeAll;
+    TextView tvFavorite;
     TextView tvSeeAllFavorite;
 
     NavController navController;
@@ -76,6 +77,7 @@ public class HomeFragment extends Fragment {
     ArrayList<ProductModel> favoriteList;
 
     MainActivity mainActivity;
+    Boolean firstTimeLoadDataBase;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -93,6 +95,13 @@ public class HomeFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        navController = NavHostFragment.findNavController(this);
+
+        mAuth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
+        currentUser = mAuth.getCurrentUser();
+
+        firstTimeLoadDataBase = true;
     }
 
     @Override
@@ -101,11 +110,7 @@ public class HomeFragment extends Fragment {
         // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.fragment_home, container, false);
 
-        navController = NavHostFragment.findNavController(this);
 
-        mAuth = FirebaseAuth.getInstance();
-        db = FirebaseFirestore.getInstance();
-         currentUser = mAuth.getCurrentUser();
         String email = currentUser.getEmail();
 
         bannerList = new ArrayList<>();
@@ -170,12 +175,90 @@ public class HomeFragment extends Fragment {
         });
 
         tvSeeAllFavorite = root.findViewById(R.id.home_see_all_favorite);
+        tvFavorite = root.findViewById(R.id.home_tv_favorite);
         tvSeeAllFavorite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 navController.navigate(R.id.action_homeFragment_to_shopFragment);
             }
         });
+
+
+        favoriteList = new ArrayList<>();
+        favoriteRecyclerView = root.findViewById(R.id.home_favorite_recycler);
+        favoriteRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), RecyclerView.HORIZONTAL, false));
+
+        favoriteAdapter = new PopularAdapter(getActivity(), favoriteList);
+        favoriteRecyclerView.setAdapter(favoriteAdapter);
+
+        if (firstTimeLoadDataBase) {
+            ArrayList<String> userFavoriteProducts = new ArrayList<>();
+            CollectionReference collectionReference = db.collection("Users").document(currentUser.getUid()).collection("Favorites");
+
+            collectionReference.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot documentSnapshot : task.getResult()) {
+                            String productId = documentSnapshot.getId();
+                            userFavoriteProducts.add(productId);
+                        }
+
+                        mainActivity = (MainActivity) getActivity();
+                        mainActivity.setUserFavoriteProducts(userFavoriteProducts);
+                        firstTimeLoadDataBase = false;
+                        if (!userFavoriteProducts.isEmpty()) {
+                            tvSeeAllFavorite.setVisibility(View.VISIBLE);
+                            tvFavorite.setVisibility(View.VISIBLE);
+
+                            db.collection("Products").whereIn(FieldPath.documentId(), userFavoriteProducts)
+                                    .get()
+                                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                            if (task.isSuccessful()) {
+                                                for (QueryDocumentSnapshot documentSnapshot : task.getResult()) {
+                                                    ProductModel productModel = documentSnapshot.toObject(ProductModel.class);
+                                                    String id = documentSnapshot.getId();
+                                                    productModel.setId(id);
+                                                    favoriteList.add(productModel);
+                                                }
+                                                favoriteAdapter.notifyDataSetChanged();
+                                            } else {
+                                                Toast.makeText(getActivity(), "Error" + task.getException(), Toast.LENGTH_SHORT).show();
+                                                Log.e("FIREBASE", "ERRROR" + task.getException());
+                                            }
+                                        }
+                                    });
+                        }
+                    }
+                }
+            });
+        } else {
+            if (!mainActivity.userFavoriteProducts.isEmpty()) {
+                tvSeeAllFavorite.setVisibility(View.VISIBLE);
+                tvFavorite.setVisibility(View.VISIBLE);
+
+                db.collection("Products").whereIn(FieldPath.documentId(), mainActivity.userFavoriteProducts)
+                        .get()
+                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    for (QueryDocumentSnapshot documentSnapshot : task.getResult()) {
+                                        ProductModel productModel = documentSnapshot.toObject(ProductModel.class);
+                                        String id = documentSnapshot.getId();
+                                        productModel.setId(id);
+                                        favoriteList.add(productModel);
+                                    }
+                                    favoriteAdapter.notifyDataSetChanged();
+                                } else {
+                                    Toast.makeText(getActivity(), "Error" + task.getException(), Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
+            }
+        }
 
         productList = new ArrayList<>();
         popularRecyclerView = root.findViewById(R.id.home_popular_recycler);
@@ -204,59 +287,6 @@ public class HomeFragment extends Fragment {
                     }
                 });
 
-
-        favoriteList = new ArrayList<>();
-        favoriteRecyclerView = root.findViewById(R.id.home_favorite_recycler);
-        favoriteRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), RecyclerView.HORIZONTAL, false));
-
-        favoriteAdapter = new PopularAdapter(getActivity(), favoriteList);
-        favoriteRecyclerView.setAdapter(favoriteAdapter);
-
-        ArrayList<String> userFavoriteProducts = new ArrayList<>();
-
-
-        CollectionReference collectionReference = db.collection("Users").document(currentUser.getUid()).collection("Favorites");
-
-        collectionReference.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
-                    for (QueryDocumentSnapshot documentSnapshot : task.getResult()) {
-                        String productId = documentSnapshot.getId();
-                        userFavoriteProducts.add(productId);
-                    }
-
-                    mainActivity = (MainActivity) getActivity();
-                    mainActivity.setUserFavoriteProducts(userFavoriteProducts);
-
-                    if (!userFavoriteProducts.isEmpty()) {
-                        db.collection("Products").whereIn(FieldPath.documentId(), userFavoriteProducts)
-                                .get()
-                                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                        if (task.isSuccessful()) {
-                                            for (QueryDocumentSnapshot documentSnapshot : task.getResult()) {
-                                                ProductModel productModel = documentSnapshot.toObject(ProductModel.class);
-                                                String id = documentSnapshot.getId();
-                                                productModel.setId(id);
-                                                favoriteList.add(productModel);
-                                            }
-                                            favoriteAdapter.notifyDataSetChanged();
-                                        } else {
-                                            Toast.makeText(getActivity(), "Error" + task.getException(), Toast.LENGTH_SHORT).show();
-                                            Log.e("FIREBASE", "ERRROR" + task.getException());
-                                        }
-                                    }
-                                });
-                    }
-
-
-                } else {
-                    Log.e("FIRESTORE", task.getException().toString());
-                }
-            }
-        });
 
         return root;
     }

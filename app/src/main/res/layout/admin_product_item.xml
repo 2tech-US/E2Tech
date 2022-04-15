@@ -25,7 +25,6 @@
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="10dp"
         android:layout_toRightOf="@id/img_admin_product_item_list_screen"
-        android:text="Product name"
         android:textStyle="bold" />
 
     <TextView
@@ -35,22 +34,22 @@
         android:layout_below="@id/tv_admin_product_name_list_screen"
         android:layout_marginHorizontal="10dp"
         android:layout_toRightOf="@id/img_admin_product_item_list_screen"
-        android:text="price" />
+        android:text="Giá: " />
 
     <TextView
         android:id="@+id/tv_admin_product_discount_list_screen"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="discount"
-        android:layout_toRightOf="@id/tv_admin_product_price_list_screen"
         android:layout_below="@id/tv_admin_product_name_list_screen"
-        android:layout_marginHorizontal="10dp"/>
+        android:layout_marginHorizontal="10dp"
+        android:layout_toRightOf="@id/tv_admin_product_price_list_screen"
+        android:text="Giảm: " />
 
     <TextView
         android:id="@+id/tv_admin_product_sold_list_screen"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
-        android:text="Sold: "
+        android:text="Đã bán: "
         android:layout_below="@id/tv_admin_product_price_list_screen"
         android:layout_marginHorizontal="10dp"
         android:layout_marginTop="5dp"
@@ -64,7 +63,7 @@
         android:layout_marginHorizontal="10dp"
         android:layout_marginTop="5dp"
         android:layout_toRightOf="@id/tv_admin_product_sold_list_screen"
-        android:text="Remain: " />
+        android:text="Còn lại: " />
 
     <View
         android:layout_width="match_parent"

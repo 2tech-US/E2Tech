@@ -6,12 +6,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.e2tech.Models.CommentModel;
 import com.example.e2tech.R;
 
@@ -48,6 +50,8 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
 
         String createAt = sfd.format(commentModelList.get(position).getCreatedAt().toDate());
         holder.tvCommentReviewDate.setText(createAt);
+        if(commentModelList.get((position)).getImg_url() != null)
+            Glide.with(context).load(commentModelList.get(position).getImg_url()).into(holder.ivCommentAvatar);
     }
 
     @Override
@@ -60,6 +64,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
         TextView tvCommentUserReview;
         TextView tvCommentReviewDate;
         RatingBar rbCommentRatingBar;
+        ImageView ivCommentAvatar;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -67,7 +72,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
             rbCommentRatingBar = itemView.findViewById(R.id.comment_ratingbar);
             tvCommentUserReview = itemView.findViewById(R.id.comment_tv_reviewcontent);
             tvCommentReviewDate = itemView.findViewById(R.id.comment_tv_date);
-
+            ivCommentAvatar = itemView.findViewById(R.id.iv_comment_userava);
         }
     }
 }

@@ -33,27 +33,16 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:textSize="10sp"
-                    android:textStyle="italic"
                     android:text="ID: SOOJFPFOJSOFJS"/>
 
-                <TextView
-                    android:id="@+id/tv_admin_order_item_date_list"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="right"
-                    android:text="01/01/2001"
-                    android:textSize="10sp"
-                    android:textStyle="italic"/>
             </LinearLayout>
 
 
+
             <TextView
-                android:id="@+id/tv_admin_order_item_names_list"
+                android:id="@+id/tv_admin_order_item_date_list"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="product and other name...."/>
+                android:layout_height="wrap_content"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -64,13 +53,13 @@
                     android:id="@+id/tv_admin_order_item_quantity_list"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Quantity: "/>
+                    android:text="Số lượng: "/>
 
                 <TextView
                     android:id="@+id/tv_admin_order_item_total_list"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Total: "
+                    android:text="Tổng: "
                     android:layout_marginLeft="40dp"/>
             </LinearLayout>
 
@@ -79,7 +68,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="12sp"
-                android:text="Address: "/>
+                android:text="Địa chỉ: "/>
 
 
         </LinearLayout>

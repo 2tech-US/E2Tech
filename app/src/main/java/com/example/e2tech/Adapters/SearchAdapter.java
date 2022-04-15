@@ -1,6 +1,7 @@
 package com.example.e2tech.Adapters;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,15 +11,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.e2tech.Models.ProductModel;
 import com.example.e2tech.R;
-import com.example.e2tech.SearchFragment;
 
 import java.util.ArrayList;
-import java.util.Locale;
 
 public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder> implements Filterable {
 
@@ -35,15 +35,29 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new SearchAdapter.ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.search_item, parent, false));
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.search_item, parent, false);
+        final SearchAdapter.ViewHolder holder = new SearchAdapter.ViewHolder(v);
+        return holder;
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.tvNameSearchItem.setText(listFilter.get(position).getName());
         holder.tvPrice.setText(Integer.toString(listFilter.get(position).getPrice()));
-
         Glide.with(context).load(listFilter.get(position).getImg_url()).into(holder.imgView);
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int position = holder.getAdapterPosition();
+                Bundle bundle = new Bundle();
+                bundle.putString("id", listFilter.get(position).getId());
+                bundle.putString("collection", "Products");
+                bundle.putString("img_url", listFilter.get(position).getImg_url());
+                Navigation.findNavController(view).navigate(R.id.detailFragment, bundle,
+                        null, null);
+            }
+        });
     }
 
     @Override

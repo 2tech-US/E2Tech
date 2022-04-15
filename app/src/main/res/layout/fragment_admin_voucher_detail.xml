@@ -7,7 +7,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_marginHorizontal="8dp">
 
         <ImageView
             android:id="@+id/img_admin_voucher_detail"
@@ -25,14 +26,14 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginHorizontal="10dp"
-                android:text="Select" />
+                android:text="Chọn ảnh" />
             <Button
                 android:id="@+id/btn_admin_update_image_voucher"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginHorizontal="10dp"
-                android:text="Update" />
+                android:text="Cập nhật ảnh" />
         </LinearLayout>
 
 
@@ -42,9 +43,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:textSize="20sp"
-            android:textStyle="bold"
             android:hint="Voucher code"
-            android:text="Voucher code"/>
+            android:text="Mã Voucher"/>
 
         <LinearLayout
             android:orientation="horizontal"
@@ -53,7 +53,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Discount: "/>
+                android:textColor="@color/black"
+                android:text="Giảm: "/>
             <EditText
                 android:id="@+id/edt_admin_voucher_detail_discount"
                 android:layout_width="wrap_content"
@@ -70,13 +71,14 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Description"/>
+            android:text="Mô tả"/>
 
         <EditText
             android:id="@+id/edt_admin_voucher_detail_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
+            android:textColor="@color/black"
             android:text="sashfia uhfiu iduhf iahdf sushfai diaufhs iuhaifu hhdhf uishfia iuhdi sh fuafausifuhaif isudhf iaudhfi u"
             android:gravity="start|top"
             android:inputType="textMultiLine" />
@@ -94,7 +96,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginHorizontal="8dp"
-                android:text="Update"/>
+                android:text="Cập nhật"/>
 
             <Button
                 android:id="@+id/btn_admin_voucher_detail_delete"
@@ -102,7 +104,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="8dp"
                 android:backgroundTint="@color/my_gray"
-                android:text="Delete"/>
+                android:text="Xóa"/>
 
         </LinearLayout>
 
