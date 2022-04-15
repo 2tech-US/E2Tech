@@ -45,7 +45,6 @@ public class AdminOrderAdapter extends RecyclerView.Adapter<AdminOrderAdapter.Vi
     @Override
     public void onBindViewHolder(@NonNull AdminOrderAdapter.ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         holder.tvID.setText(orders.get(position).getId());
-        holder.tvProductNames.setText(orders.get(position).getNameProducts());
         holder.tvAddress.setText("Địa chỉ: " + orders.get(position).getAddress());
         holder.tvTotal.setText("Tổng tiền: " + Integer.toString(orders.get(position).getTotal()));
         holder.tvQuantity.setText("Số lượng: " + Integer.toString(orders.get(position).getQuantity()));
@@ -75,7 +74,6 @@ public class AdminOrderAdapter extends RecyclerView.Adapter<AdminOrderAdapter.Vi
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            tvProductNames = itemView.findViewById(R.id.tv_admin_order_item_names_list);
             tvTotal = itemView.findViewById(R.id.tv_admin_order_item_total_list);
             tvDate = itemView.findViewById(R.id.tv_admin_order_item_date_list);
             tvAddress = itemView.findViewById(R.id.tv_admin_order_item_address_list);

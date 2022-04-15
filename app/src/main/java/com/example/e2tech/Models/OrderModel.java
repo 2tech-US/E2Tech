@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 public class OrderModel implements Serializable {
 
-    String receiverName, address, createAt, id, note, phone, status, orderBy, userName, nameProducts;
+    String image, receiverName, address, createAt, id, note, phone, status, orderBy, userName, nameProducts;
     int fee_ship, subTotal, total, quantity;
 
     public ArrayList<ProductModel> getProductList() {
@@ -79,6 +79,10 @@ public class OrderModel implements Serializable {
     public void setReceiverName(String receiverName) {
         this.receiverName = receiverName;
     }
+
+    public String getImage() { return image;}
+
+    public void setImage(String image) { this.image = image; }
 
     public String getAddress() {
         return address;
