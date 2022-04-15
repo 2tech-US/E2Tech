@@ -19,7 +19,7 @@
         android:drawableStart="@drawable/ic_baseline_search_24"
         android:drawableTint="@color/light_blue_900"
         android:paddingStart="8dp"
-        android:hint="Search here..."
+        android:hint="Tìm kiếm..."
         android:padding="8dp"
         android:drawablePadding="8dp"/>
 

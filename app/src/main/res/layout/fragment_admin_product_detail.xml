@@ -173,7 +173,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginHorizontal="8dp"
-                android:text="Update"/>
+                android:text="Cập nhật"/>
 
             <Button
                 android:id="@+id/btn_admin_product_detail_delete"
@@ -181,7 +181,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="8dp"
                 android:backgroundTint="@color/my_gray"
-                android:text="Delete"/>
+                android:text="Xóa"/>
 
         </LinearLayout>
 

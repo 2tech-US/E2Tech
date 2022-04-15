@@ -13,7 +13,6 @@
             android:id="@+id/tv_category_home"
             android:layout_width="130dp"
             android:layout_height="wrap_content"
-            android:text="place holder"
             android:textAlignment="center"
             android:padding="5dp"
             android:background="@color/light_blue_A200"/>

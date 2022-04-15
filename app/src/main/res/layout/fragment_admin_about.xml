@@ -50,7 +50,7 @@
             android:layout_height="65dp"
             android:layout_marginTop="10dp"
             app:icon="@drawable/ic_baseline_logout_24"
-            android:text="Log out"
+            android:text="Đăng xuất"
             android:layout_marginBottom="20dp"/>
 
     </LinearLayout>
