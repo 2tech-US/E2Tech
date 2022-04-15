@@ -142,7 +142,7 @@ public class MeFragment extends Fragment {
 //                    } else {
 //                        Glide.with(getActivity()).load(userProfile.getImg_url()).into(avatar);
 //                    }
-                    Glide.with(mainActivity).load(userProfile.getImg_url()).error(R.drawable.profile_pic).into(avatar);
+                    Glide.with(mainActivity.getApplicationContext()).load(userProfile.getImg_url()).error(R.drawable.profile_pic).into(avatar);
 
                 }
             }

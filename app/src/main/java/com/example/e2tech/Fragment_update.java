@@ -145,9 +145,9 @@ public class Fragment_update extends Fragment {
                     edtPhone.setHint(phone);
 
                     if(TextUtils.isEmpty(userProfile.getImg_url())) {
-                        Glide.with(mainActivity).load(R.drawable.profile_pic).into(avatar);
+                        Glide.with(mainActivity.getApplicationContext()).load(R.drawable.profile_pic).into(avatar);
                     } else {
-                        Glide.with(mainActivity).load(userProfile.getImg_url()).into(avatar);
+                        Glide.with(mainActivity.getApplicationContext()).load(userProfile.getImg_url()).into(avatar);
                     }
 
                     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
