@@ -103,14 +103,14 @@ public class AdminAddVoucherFragment extends Fragment {
                 }
 
                 if (TextUtils.isEmpty(discountStr)) {
-                    binding.edtAdminAddVoucherDiscount.setError("Discount value is empty!");
+                    binding.edtAdminAddVoucherDiscount.setError("Giá trị giảm giá đang trống");
                     binding.edtAdminAddVoucherDiscount.setFocusable(true);
                     return;
                 }
 
 
                 if (imgUrl.equals("")) {
-                    Toast.makeText(getActivity(), "Please select image first", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Vui lòng chọn ảnh trước", Toast.LENGTH_SHORT).show();
                 } else {
                     binding.adminAddVoucherProgressbar.setVisibility(View.VISIBLE);
                     voucher = new VoucherModel();
@@ -133,10 +133,10 @@ public class AdminAddVoucherFragment extends Fragment {
                                 public void onComplete(@NonNull Task<DocumentReference> task) {
                                     if (task.isSuccessful()) {
                                         binding.adminAddVoucherProgressbar.setVisibility(View.GONE);
-                                        Toast.makeText(getActivity(), "Add new voucher successfully!", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(getActivity(), "Thêm sản phẩm thành công", Toast.LENGTH_SHORT).show();
                                     } else {
                                         binding.adminAddVoucherProgressbar.setVisibility(View.GONE);
-                                        Toast.makeText(getActivity(), "Add new voucher failed!", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(getActivity(), "Thêm sản phẩm thất bại", Toast.LENGTH_SHORT).show();
                                     }
                                 }
                             });

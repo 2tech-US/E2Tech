@@ -368,7 +368,7 @@ public class ShopFragment extends Fragment implements View.OnClickListener {
 
                     } else {
                         Toast.makeText(getActivity(), "Error" + task.getException(), Toast.LENGTH_SHORT).show();
-                        Log.e("FIREBASE", "ERROR" + task.getException());
+//                        Log.e("FIREBASE", "ERROR" + task.getException());
                     }
                 });
     }

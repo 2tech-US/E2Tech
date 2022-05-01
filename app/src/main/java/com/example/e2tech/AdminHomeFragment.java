@@ -290,7 +290,7 @@ public class AdminHomeFragment extends Fragment {
                             }
                         } else {
                             Toast.makeText(getActivity(), "Error" + task.getException(), Toast.LENGTH_SHORT).show();
-                            Log.e("FIREBASE", "ERROR" + task.getException());
+//                            Log.e("FIREBASE", "ERROR" + task.getException());
                         }
                     }
                 });

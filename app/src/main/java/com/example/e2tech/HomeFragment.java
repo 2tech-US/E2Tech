@@ -226,7 +226,7 @@ public class HomeFragment extends Fragment {
                                                 favoriteAdapter.notifyDataSetChanged();
                                             } else {
                                                 Toast.makeText(getActivity(), "Error" + task.getException(), Toast.LENGTH_SHORT).show();
-                                                Log.e("FIREBASE", "ERRROR" + task.getException());
+//                                                Log.e("FIREBASE", "ERRROR" + task.getException());
                                             }
                                         }
                                     });
@@ -282,7 +282,7 @@ public class HomeFragment extends Fragment {
                             }
                         } else {
                             Toast.makeText(getActivity(), "Error" + task.getException(), Toast.LENGTH_SHORT).show();
-                            Log.e("FIREBASE", "ERROR" + task.getException());
+//                            Log.e("FIREBASE", "ERROR" + task.getException());
                         }
                     }
                 });

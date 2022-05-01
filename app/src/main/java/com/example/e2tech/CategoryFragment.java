@@ -96,7 +96,7 @@ public class CategoryFragment extends Fragment {
                                 String id = documentSnapshot.getId();
                                 categoryModel.setId(id);
 
-                                Log.v("CATEGORY","\n\n" +categoryModel.getName());
+//                                Log.v("CATEGORY","\n\n" +categoryModel.getName());
                                 categoryModelList.add(categoryModel);
                                 categoryAdapter.notifyDataSetChanged();
 

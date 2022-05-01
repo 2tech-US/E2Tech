@@ -103,7 +103,7 @@ public class ChangePassFragment extends Fragment {
                                             public void onSuccess(Object o) {
                                                 NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment);
                                                 navController.navigate(R.id.action_changePassFragment_to_meFragment);
-                                                Toast.makeText(getActivity(), "Update password successful!", Toast.LENGTH_SHORT).show();
+                                                Toast.makeText(getActivity(), "Cập nhật mật khẩu thành công", Toast.LENGTH_SHORT).show();
                                             }
                                         });
                             }
@@ -115,7 +115,7 @@ public class ChangePassFragment extends Fragment {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(getContext(), "Something wrong happened!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Lỗi", Toast.LENGTH_SHORT).show();
             }
         });
 

@@ -140,7 +140,7 @@ public class AdminProductDetail extends Fragment implements View.OnClickListener
                 if (imgUri != null) {
                     updateImage();
                 } else {
-                    Toast.makeText(getActivity(), "You must select image first", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity(), "Vui lòng chọn ảnh trước", Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -190,7 +190,7 @@ public class AdminProductDetail extends Fragment implements View.OnClickListener
                                 @Override
                                 public void onComplete(@NonNull Task task) {
                                     if (task.isComplete()) {
-                                        Toast.makeText(getActivity(), "Updated", Toast.LENGTH_LONG).show();
+                                        Toast.makeText(getActivity(), "Đã cập nhật thành công", Toast.LENGTH_LONG).show();
                                     } else {
                                         Toast.makeText(getActivity(), "Error" + task.getException(), Toast.LENGTH_LONG).show();
 
@@ -270,7 +270,7 @@ public class AdminProductDetail extends Fragment implements View.OnClickListener
             @Override
             public void onComplete(@NonNull Task task) {
                 if (task.isComplete()) {
-                    Toast.makeText(getActivity(), "Updated", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity(), "Đã cập nhật", Toast.LENGTH_LONG).show();
                 } else {
                     Toast.makeText(getActivity(), "Error" + task.getException(), Toast.LENGTH_LONG).show();
 

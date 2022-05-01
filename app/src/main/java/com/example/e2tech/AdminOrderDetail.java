@@ -154,7 +154,7 @@ public class AdminOrderDetail extends Fragment implements View.OnClickListener {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             tvStatus.setText(finalTrangThai);
-                            Toast.makeText(getActivity(), finalNextState, Toast.LENGTH_LONG).show();
+//                            Toast.makeText(getActivity(), finalNextState, Toast.LENGTH_LONG).show();
                             progressBar.setVisibility(View.GONE);
                             order.setStatus(finalNextState);
                             if (order.getStatus().equals("waiting")) {
