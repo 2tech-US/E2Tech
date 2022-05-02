@@ -155,14 +155,14 @@ public class ShopFragment extends Fragment implements View.OnClickListener {
 
 //        productRecycleView.setNestedScrollingEnabled(false);
 
-
+        mainActivity = (MainActivity)getActivity();
         if(getArguments() != null) {
             String category = getArguments().getString("collection");
+            mainActivity.toolbar.setTitle(category);
             queryProducts = db.collection("Products").whereEqualTo("type", category);
         } else {
             categoryRecyclerView.setVisibility(View.GONE);
             tvSeeAll.setVisibility(View.GONE);
-            mainActivity = (MainActivity)getActivity();
             ArrayList<String> userFavoriteProducts = mainActivity.getUserFavoriteProducts();
             queryProducts = db.collection("Products").whereIn(FieldPath.documentId(),userFavoriteProducts);
         }
