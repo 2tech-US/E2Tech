@@ -14,6 +14,7 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,8 +26,11 @@ import com.example.e2tech.Adapters.CartAdapter;
 import com.example.e2tech.Interface.OnCartItemChange;
 import com.example.e2tech.Models.CartModel;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
@@ -107,7 +111,7 @@ public class CartFragment extends Fragment implements OnCartItemChange {
         overToTalAmount.bringToFront();
 
         LocalBroadcastManager.getInstance(getActivity())
-                .registerReceiver(mMessageReceiver,new IntentFilter("MyTotalAmount"));
+                .registerReceiver(mMessageReceiver, new IntentFilter("MyTotalAmount"));
 
         cartModelList = new ArrayList<>();
         cartAdapter = new CartAdapter(getActivity(), cartModelList, this);
@@ -120,8 +124,8 @@ public class CartFragment extends Fragment implements OnCartItemChange {
                     for (DocumentSnapshot documentSnapshot : task.getResult().getDocuments()) {
                         CartModel cartModel = documentSnapshot.toObject(CartModel.class);
                         cartModelList.add(cartModel);
-                        cartAdapter.notifyDataSetChanged();
                     }
+                    cartAdapter.notifyDataSetChanged();
                 }
             }
         });
@@ -131,12 +135,45 @@ public class CartFragment extends Fragment implements OnCartItemChange {
             public void onClick(View v) {
                 if (cartModelList.size() > 0) {
 
-                    Bundle extras = new Bundle();
-                    extras.putSerializable("cartModelList", (Serializable) cartModelList);
-                    extras.putInt("totalBill", totalBill);
+                    List<String> listProductId = new ArrayList<>();
 
-                    NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment);
-                    navController.navigate(R.id.action_cartFragment_to_oderDetail, extras);
+                    for (CartModel cartItems : cartModelList)
+                        listProductId.add(cartItems.getProductId());
+
+
+                    db.runTransaction(
+                            transaction -> {
+                                for (int i = 0; i < listProductId.size(); i++) {
+                                    DocumentReference documentReference = db.collection("Products").document(listProductId.get(i));
+                                    DocumentSnapshot snapshot = transaction.get(documentReference);
+                                    Long remainStock = snapshot.getLong("remain");
+                                    String productName = snapshot.getString("name");
+                                    if (remainStock == null) {
+                                        throw new Error("Hệ thống gặp trục trặc");
+                                    }
+                                    if (remainStock < cartModelList.get(i).getTotalQuantity()) {
+                                        throw new Error(productName + " Đã Hết Hàng");
+                                    }
+                                }
+                                return null;
+                            }
+                    ).addOnSuccessListener(new OnSuccessListener<Object>() {
+
+                        @Override
+                        public void onSuccess(Object o) {
+                            Bundle extras = new Bundle();
+                            extras.putSerializable("cartModelList", (Serializable) cartModelList);
+                            extras.putInt("totalBill", totalBill);
+
+                            NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment);
+                            navController.navigate(R.id.action_cartFragment_to_oderDetail, extras);
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(getActivity(), "Sản phẩm " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 } else {
                     Toast.makeText(getActivity(), "Giỏ hàng đang trống", Toast.LENGTH_SHORT).show();
                 }

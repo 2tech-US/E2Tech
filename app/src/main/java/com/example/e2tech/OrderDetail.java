@@ -23,6 +23,7 @@ import com.example.e2tech.Models.UserModel;
 import com.example.e2tech.Models.VoucherModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -180,8 +181,8 @@ public class OrderDetail extends Fragment {
             }
         });
 
-        for(int i = 0 ; i < cartModelList.size();i++) {
-            Log.v("ProductId",cartModelList.get(i).getProductId());
+        for (int i = 0; i < cartModelList.size(); i++) {
+            Log.v("ProductId", cartModelList.get(i).getProductId());
         }
         return root;
     }
@@ -232,80 +233,85 @@ public class OrderDetail extends Fragment {
         progressDialog.setMessage("Placing order...");
         progressDialog.show();
 
-        List<ProductModel> productList = new ArrayList<>();
         List<String> listProductId = new ArrayList<>();
 
-        for(CartModel cartItems: cartModelList)
+        for (CartModel cartItems : cartModelList)
             listProductId.add(cartItems.getProductId());
 
 
-        if(cartModelList.size() != productList.size()) {
-            Toast.makeText(getContext(), "Đặt hàng thất bại", Toast.LENGTH_LONG).show();
-        }
-        try {
-            db.runTransaction(
-                    transaction -> {
-                        for(int i = 0 ; i < listProductId.size();i++) {
-                            DocumentReference documentReference = db.collection("Products").document(listProductId.get(i));
-                            DocumentSnapshot snapshot = transaction.get(documentReference);
-                            Long remainStock = snapshot.getLong("remain");
-                            String productName = snapshot.getString("name");
-                            if(remainStock < cartModelList.get(i).getTotalQuantity()) {
-                                throw new Error(productName + " Đã Hết Hàng");
-                            }
-                            long newRemainStock = remainStock - cartModelList.get(i).getTotalQuantity();
-                            Log.v("RemainStock",Long.toString(newRemainStock));
-                            transaction.update(documentReference,"remain",newRemainStock);
-                        }
-                        return null;
+        db.runTransaction(
+                transaction -> {
+                    List<DocumentSnapshot> documentSnapshots = new ArrayList<>();
+                    List<DocumentReference> documentReferences = new ArrayList<>();
+
+                    for (int i = 0; i < listProductId.size(); i++) {
+                        DocumentReference documentReference = db.collection("Products").document(listProductId.get(i));
+                        documentReferences.add(documentReference);
+                        DocumentSnapshot snapshot = transaction.get(documentReference);
+                        documentSnapshots.add(snapshot);
                     }
-            ).addOnCompleteListener(new OnCompleteListener<Object>() {
-                @Override
-                public void onComplete(@NonNull Task<Object> task) {
-                    String timestamp = String.valueOf(System.currentTimeMillis());
-
-                    HashMap<String, Object> hashMap = new HashMap<>();
-                    hashMap.put("id", timestamp);
-                    hashMap.put("address", address);
-                    hashMap.put("receiverName", name);
-                    hashMap.put("phone", phone);
-                    hashMap.put("createAt", timestamp);
-                    hashMap.put("status", "waiting");
-                    hashMap.put("total", totalBill);
-                    hashMap.put("orderBy", user.getUid());
-                    hashMap.put("note", note);
-                    hashMap.put("quantity", cartModelList.size());
-                    hashMap.put("username", username);
-                    // add to db
-                    db.collection("Orders").document(timestamp).set(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            for (CartModel cartModel : cartModelList) {
-                                db.collection("Orders").document(timestamp).collection("Items").document(cartModel.getProductId()).set(cartModel);
-                            }
-                            progressDialog.dismiss();
-                            Toast.makeText(getContext(), "Đặt hàng thành công", Toast.LENGTH_LONG).show();
+                    for (int i = 0; i < documentSnapshots.size(); i++) {
+                        DocumentReference documentReference = documentReferences.get(i);
+                        DocumentSnapshot snapshot = documentSnapshots.get(i);
+                        Long remainStock = snapshot.getLong("remain");
+                        String productName = snapshot.getString("name");
+                        if (remainStock == null) {
+                            throw new Error("Hệ thống gặp trục trặc");
                         }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            progressDialog.dismiss();
-                            Toast.makeText(getContext(), "Đặt hàng thất bại", Toast.LENGTH_LONG).show();
+                        if (remainStock < cartModelList.get(i).getTotalQuantity()) {
+                            throw new Error(productName + " Đã Hết Hàng");
                         }
-                    });
+                        long newRemainStock = remainStock - cartModelList.get(i).getTotalQuantity();
+                        Log.v("RemainStock", Long.toString(newRemainStock));
 
+                        transaction.update(documentReference, "remain", newRemainStock);
+                    }
+                    return null;
                 }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    progressDialog.dismiss();
-                    Toast.makeText(getContext(), "Đặt hàng thất bại," + e.getMessage(), Toast.LENGTH_LONG).show();
-                }
-            });
-        } catch (Error e) {
-            progressDialog.dismiss();
-            Toast.makeText(getContext(), "Đặt hàng thất bại," + e.getMessage(), Toast.LENGTH_LONG).show();
-        }
+        ).addOnSuccessListener(new OnSuccessListener<Object>() {
+
+            @Override
+            public void onSuccess(Object o) {
+                String timestamp = String.valueOf(System.currentTimeMillis());
+
+                HashMap<String, Object> hashMap = new HashMap<>();
+                hashMap.put("id", timestamp);
+                hashMap.put("address", address);
+                hashMap.put("receiverName", name);
+                hashMap.put("phone", phone);
+                hashMap.put("createAt", timestamp);
+                hashMap.put("status", "waiting");
+                hashMap.put("total", totalBill);
+                hashMap.put("orderBy", user.getUid());
+                hashMap.put("note", note);
+                hashMap.put("quantity", cartModelList.size());
+                hashMap.put("username", username);
+                // add to db
+                db.collection("Orders").document(timestamp).set(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        for (CartModel cartModel : cartModelList) {
+                            db.collection("Orders").document(timestamp).collection("Items").document(cartModel.getProductId()).set(cartModel);
+                        }
+                        progressDialog.dismiss();
+                        Toast.makeText(getContext(), "Đặt hàng thành công", Toast.LENGTH_LONG).show();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        progressDialog.dismiss();
+                        Toast.makeText(getContext(), "Đặt hàng thất bại", Toast.LENGTH_LONG).show();
+                    }
+                });
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                progressDialog.dismiss();
+                Toast.makeText(getContext(), "Đặt hàng thất bại," + e.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
+    }
 
 //
 //        String timestamp = String.valueOf(System.currentTimeMillis());
@@ -339,5 +345,4 @@ public class OrderDetail extends Fragment {
 //                Toast.makeText(getContext(), "Đặt hàng thất bại", Toast.LENGTH_LONG).show();
 //            }
 //        });
-    }
 }
