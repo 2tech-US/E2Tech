@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
     BottomNavigationView bottomNavigationView;
     NavController navController;
 
-    ArrayList<String> userFavoriteProducts;
+    ArrayList<String> userFavoriteProducts = new ArrayList<String>();
     FirebaseAuth mAuth;
     FirebaseUser currentUser;
     FirebaseFirestore db;

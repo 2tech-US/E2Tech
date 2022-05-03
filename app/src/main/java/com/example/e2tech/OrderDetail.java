@@ -98,7 +98,7 @@ public class OrderDetail extends Fragment {
         }
 
         progressDialog = new ProgressDialog(getActivity());
-        progressDialog.setTitle("Please wait");
+        progressDialog.setTitle("Vui lòng chờ");
         progressDialog.setCanceledOnTouchOutside(false);
     }
 
@@ -230,7 +230,7 @@ public class OrderDetail extends Fragment {
     }
 
     private void submitOrder(String name, String phone, String address, String note) {
-        progressDialog.setMessage("Placing order...");
+        progressDialog.setMessage("Đang đặt hàng...");
         progressDialog.show();
 
         List<String> listProductId = new ArrayList<>();
@@ -265,6 +265,10 @@ public class OrderDetail extends Fragment {
                         Log.v("RemainStock", Long.toString(newRemainStock));
 
                         transaction.update(documentReference, "remain", newRemainStock);
+
+                        long numberSold = snapshot.getLong("numberSold");
+                        Log.d("numberSold", Long.toString(numberSold));
+                        transaction.update(documentReference, "numberSold", numberSold + 1);
                     }
                     return null;
                 }
