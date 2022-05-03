@@ -333,7 +333,11 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
         if (product.getRemain() == 0) {
             tvProductAvailable.setTextColor(Color.RED);
             tvProductAvailable.setText("Out Stock");
-        } else tvProductAvailable.setText("In Stock");
+            btnAddToCart.setEnabled(false);
+        } else {
+            tvProductAvailable.setText("In Stock");
+            btnAddToCart.setEnabled(true);
+        }
 
 //        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(product.getName());
 

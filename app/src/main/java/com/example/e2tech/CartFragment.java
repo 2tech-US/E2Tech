@@ -171,7 +171,7 @@ public class CartFragment extends Fragment implements OnCartItemChange {
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(getActivity(), "Sản phẩm " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getActivity(), "Sản phẩm " + e.getMessage().substring(16), Toast.LENGTH_SHORT).show();
                         }
                     });
                 } else {

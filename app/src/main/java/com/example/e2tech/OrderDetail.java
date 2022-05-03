@@ -261,14 +261,18 @@ public class OrderDetail extends Fragment {
                         if (remainStock < cartModelList.get(i).getTotalQuantity()) {
                             throw new Error(productName + " Đã Hết Hàng");
                         }
+                        long numberOfSold = 0;
+                        if(snapshot.contains("numberOfSold")) {
+                            numberOfSold =  snapshot.getLong("numberOfSold");
+                        }
                         long newRemainStock = remainStock - cartModelList.get(i).getTotalQuantity();
                         Log.v("RemainStock", Long.toString(newRemainStock));
 
-                        transaction.update(documentReference, "remain", newRemainStock);
+                        HashMap<String,Object> updateData = new HashMap<>();
+                        updateData.put("remain",newRemainStock);
+                        updateData.put("numberSold",numberOfSold+1);
 
-                        long numberSold = snapshot.getLong("numberSold");
-                        Log.d("numberSold", Long.toString(numberSold));
-                        transaction.update(documentReference, "numberSold", numberSold + 1);
+                        transaction.update(documentReference, updateData);
                     }
                     return null;
                 }
@@ -312,7 +316,7 @@ public class OrderDetail extends Fragment {
             @Override
             public void onFailure(@NonNull Exception e) {
                 progressDialog.dismiss();
-                Toast.makeText(getContext(), "Đặt hàng thất bại," + e.getMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(), "Đặt hàng thất bại," + e.getMessage().substring(16), Toast.LENGTH_LONG).show();
             }
         });
     }
